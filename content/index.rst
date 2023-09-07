@@ -26,7 +26,8 @@ NordΙQuEst brings together a consortium of seven partners from five Nordic and 
    :caption: Day 1
 
    qc-overview
-
+   digital-qc
+   tutorial-1
 
 .. toctree::
    :maxdepth: 1
