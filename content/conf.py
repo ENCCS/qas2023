@@ -17,11 +17,11 @@
 
 # -- Project information -----------------------------------------------------
 
-project = "LESSON NAME"
-copyright = "2021, The contributors"
+project = "Quantum Autumn School 2023"
+copyright = "2023, The contributors"
 author = "The contributors"
 github_user = "ENCCS"
-github_repo_name = ""  # auto-detected from dirname if blank
+github_repo_name = "qas2023"  # auto-detected from dirname if blank
 github_version = "main"
 conf_py_path = "/content/"  # with leading and trailing slash
 
