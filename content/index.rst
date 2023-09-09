@@ -1,5 +1,5 @@
-LESSON NAME
-===========
+Quantum Autumn School 2023
+==========================
 
 Recent developments in quantum technology are bringing the world closer to a new technological revolution – the advent of usable quantum computers able to provide enormous acceleration to important computational tasks. In coming years, quantum computing is expected to have a significant impact on many areas of research that can utilise computational modelling. 
 Indeed, significant efforts and investments are currently underway in Europe to `bolster skills and capacity within quantum computing <https://enccs.se/news/2023/06/european-hpc-quantum-computing-infrastructure/>`__.
@@ -33,12 +33,22 @@ NordΙQuEst brings together a consortium of seven partners from five Nordic and 
    :maxdepth: 1
    :caption: Day 2
 
-
+   hpc-qc
+   software-stack
+   hybrid-classical-quantum
+   tutorial-2
+   tutorial-3
 
 .. toctree::
    :maxdepth: 1
    :caption: Day 3
 
+   hybrid-quantum-chemistry
+   hybrid-finance
+   hybrid-life-science
+   tutorial-4
+   tutorial-5
+   tutorial-6
 
 
 .. toctree::

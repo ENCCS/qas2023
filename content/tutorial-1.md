@@ -1,1 +1,1 @@
-# Tutorial 1 - digital quantum computing
+# Tutorial 1 - Digital Quantum Computing
