@@ -27,7 +27,9 @@ NordΙQuEst brings together a consortium of seven partners from five Nordic and 
 
    qc-overview
    digital-qc
-   tutorial-1
+   notebooks/E1_qc-1.ipynb
+   notebooks/E1_qc-2.ipynb
+   notebooks/E1_qc-3.ipynb
 
 .. toctree::
    :maxdepth: 1
