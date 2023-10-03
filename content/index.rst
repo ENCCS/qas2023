@@ -38,8 +38,8 @@ NordΙQuEst brings together a consortium of seven partners from five Nordic and 
    hpc-qc
    software-stack
    hybrid-classical-quantum
-   tutorial-2
-   tutorial-3
+   notebooks/intro-to-helmi-cirq.ipynb
+   notebooks/intro-to-helmi-qiskit.ipynb
 
 .. toctree::
    :maxdepth: 1
