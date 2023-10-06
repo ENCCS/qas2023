@@ -1,1 +1,1 @@
-# Tutorial - Quantum Life Science
+# Tutorial - Quantum Chemistry
