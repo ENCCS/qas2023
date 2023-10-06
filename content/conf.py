@@ -39,12 +39,20 @@ extensions = [
     "sphinx.ext.todo",
 ]
 
+
 # Settings for myst_nb:
+myst_enable_extensions = ["dollarmath",
+                          "amsmath",
+                          "html_image",
+#                          "myst_dmath_double_inline"
+                          ]
+source_suffix = {".rst": "restructuredtext", ".ipynb": "myst-nb", ".myst": "myst-nb"}
+
 # https://myst-nb.readthedocs.io/en/latest/use/execute.html#triggering-notebook-execution
-# jupyter_execute_notebooks = "off"
+jupyter_execute_notebooks = "off"
 # jupyter_execute_notebooks = "auto"   # *only* execute if at least one output is missing.
 # jupyter_execute_notebooks = "force"
-jupyter_execute_notebooks = "cache"
+#jupyter_execute_notebooks = "cache"
 
 # Add any paths that contain templates here, relative to this directory.
 # templates_path = ['_templates']
