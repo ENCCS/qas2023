@@ -52,14 +52,12 @@ NordΙQuEst brings together a consortium of seven partners from five Nordic and 
    tutorial-5
    tutorial-6
 
-
 .. toctree::
    :maxdepth: 1
-   :caption: Reference
+   :caption: About
 
-   quick-reference
-   guide
-
+   All ENCCS lessons <https://enccs.se/lessons/>
+   About ENCCS <https://enccs.se/>
 
 
 .. _learner-personas:
