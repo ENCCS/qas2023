@@ -20,6 +20,8 @@ NordΙQuEst brings together a consortium of seven partners from five Nordic and 
    :maxdepth: 1
    :caption: Setup
 
+   setup
+
 
 .. toctree::
    :maxdepth: 1
