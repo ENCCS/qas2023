@@ -12,16 +12,16 @@ Please follow the installation instructions on https://docs.conda.io/en/latest/m
 
 Make sure that both Python and conda are correctly installed:
 
-```bash
+```console
 $ python --version
 $ # should give something like Python 3.9.7
 $ conda --version
 $ # should give something like conda 4.10.2
 ```
 
-With conda installed, install the required dependencies by running for example:
+When the autumn school starts, you will receive an environment file which you can use to install a local software environment on your computer using the command:
 
-```bash
+```console
 $ conda env create -f environment.yml
 ```
 
