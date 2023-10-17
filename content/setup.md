@@ -40,7 +40,7 @@ Students and instructors can log in with either their CSC account or HAKA federa
 *The Quantum Autumn School application. It can be launched by clicking the launch button.*
 
 
-![QAS2023 notebooks page](img/csc_notebooks_3.png)
+![QAS2023 notebooks page](img/csc_notebooks_1.png)
 *Once launched the application screen should look like this. The notebooks folder contains notebooks from the [Github](https://github.com/ENCCS/qas2023) page. To view the rest of the course contents view the `qas2023` folder.*
 
 ### Data persistance 
