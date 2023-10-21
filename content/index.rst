@@ -42,6 +42,7 @@ NordΙQuEst brings together a consortium of seven partners from five Nordic and 
    hybrid-classical-quantum
    notebooks/intro-to-helmi-qiskit.ipynb
    notebooks/Qubit_Spectroscopy_Analysis.ipynb
+   notebooks/Notebook_maxcut_Qas2023.ipynb
 
 .. toctree::
    :maxdepth: 1
