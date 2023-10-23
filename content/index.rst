@@ -53,7 +53,7 @@ NordΙQuEst brings together a consortium of seven partners from five Nordic and 
    hybrid-life-science
    tutorial-4
    tutorial-5
-   tutorial-6
+   tutorial-life-science
 
 .. toctree::
    :maxdepth: 1
