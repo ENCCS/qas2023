@@ -1,1 +1,0 @@
-# Tutorial - Quantum Chemistry
