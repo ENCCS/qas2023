@@ -14,17 +14,25 @@ Make sure that both Python and conda are correctly installed:
 
 ```console
 $ python --version
-$ # should give something like Python 3.9.7
+$ # should give something like Python 3.10.13
 $ conda --version
-$ # should give something like conda 4.10.2
+$ # should give something like conda 23.7.2
 ```
 
-When the autumn school starts, you will receive an environment file which you can use to install a local software environment on your computer using the command:
+A `requirements.txt` file is provided which contains all of the python packages to install a local software environment on your computer. Using this a `conda` environment can be created using the command:
 
 ```console
-$ conda env create -f environment.yml
+$ conda create --name qas2023 -y python=3.10 pip
 ```
 
+Which creates a new conda environment with Python 3.10 and `pip`. You can then activate it and install the python packages:
+
+```console
+$ conda activate qas2023
+$ pip install -r requirements.txt
+```
+
+You can download the `requirements.txt` [here](requirements.txt).
 
 ## [Notebooks.csc.fi](notebooks.rahtiapp.fi)
 
