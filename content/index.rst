@@ -53,6 +53,7 @@ NordΙQuEst brings together a consortium of seven partners from five Nordic and 
    hybrid-life-science
    notebooks/E2_VQE-H2.ipynb
    notebooks/Workshop-ADAPT.ipynb
+   notebooks/QF.ipynb
    tutorial-5
    tutorial-life-science
 
