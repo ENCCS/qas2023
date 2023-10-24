@@ -1,6 +1,6 @@
 # Setup
 
-Students can follow along with the course notebooks either on their laptop or via [notebooks.csc.fi](notebooks.rahtiapp.fi).
+Students can follow along with the course notebooks either on their laptop or via [notebooks.csc.fi](https://notebooks.rahtiapp.fi/welcome).
 
 ## Locally with your laptop
 
@@ -8,7 +8,7 @@ All of the course contents can be followed along locally on your laptop. Each tu
 
 If you already have a preferred way to manage Python versions and libraries, you can stick to that. If not, we recommend that you install Python3 and all libraries using [`miniconda`](https://docs.conda.io/en/latest/miniconda.html) a free minimal installer for the package, dependency and environment manager for [`conda`](https://docs.conda.io/en/latest/index.html>).
 
-Please follow the installation instructions on https://docs.conda.io/en/latest/miniconda.html to install Miniconda3.
+Please follow the installation instructions on [https://docs.conda.io/en/latest/miniconda.html](https://docs.conda.io/en/latest/miniconda.html) to install Miniconda3.
 
 Make sure that both Python and conda are correctly installed:
 
@@ -34,7 +34,7 @@ $ pip install -r requirements.txt
 
 You can download the `requirements.txt` [here](requirements.txt).
 
-## [Notebooks.csc.fi](notebooks.rahtiapp.fi)
+## [Notebooks.csc.fi](https://notebooks.rahtiapp.fi/welcome)
 
 CSC's notebooks platform provides a preconfigured python environment and jupyter-lab server for running all of the jupyter notebooks shown in this course. **No setup is required** to run the notebooks. User documentation on the notebooks platform can be found [here](https://docs.csc.fi/cloud/csc_notebooks/guide_for_students/).
 
