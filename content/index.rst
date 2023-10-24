@@ -51,7 +51,8 @@ NordΙQuEst brings together a consortium of seven partners from five Nordic and 
    hybrid-quantum-chemistry
    hybrid-finance
    hybrid-life-science
-   tutorial-4
+   notebooks/E2_VQE-H2.ipynb
+   notebooks/Workshop-ADAPT.ipynb
    tutorial-5
    tutorial-life-science
 
