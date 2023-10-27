@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>State generation tutorial &mdash; Quantum Autumn School 2023  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/togglebutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx_lesson.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx_rtd_theme_ext_color_contrast.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/overrides.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script src="../../_static/minipres.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="Tutorial - Quantum Finance" href="../../tutorial-5/" />
+    <link rel="prev" title="Use case: Quantum chemistry" href="../E2_VQE-H2/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../" class="icon icon-home">
+            Quantum Autumn School 2023
+              <img src="../../_static/ENCCS.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../setup/">Setup</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 1</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../qc-overview/">Physical Approaches to Quantum Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../digital-qc/">Introduction to Digital Quantum Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-1/">Tutorial - Quantum programming I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-2/">Tutorial - Quantum programming II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-3/">Tutorial - Quantum programming III</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 2</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../hpc-qc/">HPC-QC integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software-stack/">QC software stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-classical-quantum/">Hybrid Classical/Quantum Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro-to-helmi-qiskit/">Tutorial - Introduction to Helmi with qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Qubit_Spectroscopy_Analysis/">Qubit Spectroscopy Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Notebook_maxcut_Qas2023/">Tutorial - Quantum Alternating Operator Ansatz</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 3</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-quantum-chemistry/">Hybrid Algorithms - Use Cases for Quantum Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-finance/">Hybrid Algorithms - Use Cases for Quantum Finance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-life-science/">Hybrid Algorithms - Use Cases for Quantum Life Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E2_VQE-H2/"><strong>Use case: Quantum chemistry</strong></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">State generation tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#set-logging-levels">Set logging levels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#select-molecule-and-obtain-fermionic-hamiltonian">Select molecule and obtain fermionic hamiltonian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#choose-a-qubit-converter-and-map-hamiltonian">Choose a qubit converter and map Hamiltonian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#initialise-penalty-operators">Initialise penalty operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#choose-operator-pool">Choose operator pool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#initialize-ansatz">Initialize Ansatz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#choose-optimizer-method-and-optimizer-object">Choose optimizer method and optimizer object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#initialize-riemannian-flow">Initialize Riemannian flow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#run-adapt-algorithm">Run ADAPT algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#transpile-and-draw-ansatz">Transpile and draw Ansatz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#plot-stats-from-simulation">Plot stats from simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial-5/">Tutorial - Quantum Finance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial-life-science/">Tutorial - Protein Folding with QAOA</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://enccs.se/lessons/">All ENCCS lessons</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://enccs.se/">About ENCCS</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../">Quantum Autumn School 2023</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">State generation tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/qas2023/blob/main/content/notebooks/Workshop-ADAPT.ipynb" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="state-generation-tutorial">
+<h1>State generation tutorial<a class="headerlink" href="#state-generation-tutorial" title="Permalink to this heading"></a></h1>
+<p>The key feature of ADAPT-VQE is that the circuit is built adaptively for the problem at hand, instead of having a fixed ansatz structure.</p>
+<p>At iteration <span class="math notranslate nohighlight">\(n\)</span>, the ansatz construction step in ADAPT-VQE adds a unitary operator <span class="math notranslate nohighlight">\(e^{\theta_i P_i}\)</span> to the current circuit <span class="math notranslate nohighlight">\(| \psi^{(n-1)} (\vec{\theta}^{(n-1)}) \rangle\)</span>, so that the resulting circuit prepares the state:</p>
+<div class="math notranslate nohighlight">
+\[| \psi^{(n)} (\vec{\theta}^{(n)})  \rangle = e^{\theta_i P_i} | \psi^{(n-1)} (\vec{\theta}^{(n-1)}) \rangle,\]</div>
+<p>where <span class="math notranslate nohighlight">\(\vec{\theta}^{(n)}\)</span> indicates the set of <span class="math notranslate nohighlight">\(n\)</span> parameters in the ansatz at iteration <span class="math notranslate nohighlight">\(n\)</span>.</p>
+<p>The operator <span class="math notranslate nohighlight">\(P_i\)</span> is chosen from a <strong>pool of operators</strong> that is defined beforehand.
+To determine which element should be chosen from the pool, one needs to perform a series of measurements for each of them, which results in the measurement overhead mentioned in the lecture.</p>
+<p>Once the operator is added, the new variational circuit,</p>
+<div class="math notranslate nohighlight">
+\[\ket{\psi^{(n)} (\vec{\theta}^{(n)})} = \prod\limits_{i = 1}^n e^{\theta_i P_i} \ket{\psi^{(0)}},\]</div>
+<p>where <span class="math notranslate nohighlight">\(| \psi^{(0)} \rangle\)</span> is an initial reference state (usually the Hartree-Fock state), is variationally optimised with respect to the set of parameters <span class="math notranslate nohighlight">\(\vec{\theta}^{(n)}\)</span>.</p>
+<p>For more theory, refer to the following articles.</p>
+<ul class="simple">
+<li><p>Original ADAPT: https://www.nature.com/articles/s41467-019-10988-2</p></li>
+<li><p>q-ADAPT: https://link.aps.org/doi/10.1103/PRXQuantum.2.020310</p></li>
+<li><p>QEB: https://arxiv.org/abs/2011.10540</p></li>
+<li><p>AIM-ADAPT: https://arxiv.org/abs/2212.09719</p></li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="set-logging-levels">
+<h1>Set logging levels<a class="headerlink" href="#set-logging-levels" title="Permalink to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span>
+    <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%(asctime)s</span><span class="s2">:</span><span class="si">%(filename)s</span><span class="s2">:</span><span class="si">%(levelname)s</span><span class="s2">:</span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span>
+<span class="p">)</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;aurora&quot;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="select-molecule-and-obtain-fermionic-hamiltonian">
+<h1>Select molecule and obtain fermionic hamiltonian<a class="headerlink" href="#select-molecule-and-obtain-fermionic-hamiltonian" title="Permalink to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">aurora.chemistry.eos.eos_pyscf</span> <span class="kn">import</span> <span class="n">EOSpyscf</span> <span class="k">as</span> <span class="n">eos</span>
+<span class="kn">from</span> <span class="nn">aurora.chemistry.eos.utils</span> <span class="kn">import</span> <span class="n">get_qiskit_esp</span>
+<span class="kn">from</span> <span class="nn">aurora.utils</span> <span class="kn">import</span> <span class="n">from_qiskit_operator</span><span class="p">,</span> <span class="n">to_qiskit_operator</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>First we need to choose the molecule and get Hamiltonian. The fermionic hamiltonian is</p>
+<div class="math notranslate nohighlight">
+\[H = \sum_{p, q} h_{p q} a_q^{\dagger} a_p+\frac{1}{2} \sum_{p, q, r, s} h_{p q r s} a_p^{\dagger} a_q^{\dagger} a_s a_r,\]</div>
+<p>where <span class="math notranslate nohighlight">\(a_p^{\dagger}\)</span> and <span class="math notranslate nohighlight">\(a_p\)</span> are the fermionic creation and annihilation operators, <span class="math notranslate nohighlight">\( h_{p q}\)</span> and <span class="math notranslate nohighlight">\(h_{p q r s}\)</span> are one- and two-electron integrals, and <span class="math notranslate nohighlight">\(p,q,r\)</span> and <span class="math notranslate nohighlight">\(s\)</span> are spin-orbital indices. The Hamiltonian can be obtained trough the EOS package in Aurora as shown in the next cell.</p>
+<p>The following function encodes data for a few example molecules. Just call it with the  desired <code class="docutils literal notranslate"><span class="pre">molecule_name</span></code> and run the cell. No need to understand the details.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_molecule</span><span class="p">(</span><span class="n">molecule_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;H4&quot;</span><span class="p">,</span> <span class="n">basis</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;sto3g&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">eos</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    
+    <span class="k">match</span> <span class="n">molecule_name</span><span class="p">:</span>
+        <span class="k">case</span> <span class="s2">&quot;H2&quot;</span><span class="p">:</span>
+            <span class="n">bond_distance</span> <span class="o">=</span> <span class="mf">0.75</span>
+    
+            <span class="n">mymol</span> <span class="o">=</span> <span class="n">eos</span><span class="p">(</span>
+                <span class="n">atoms</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;H 0 0 0; H 0 0 </span><span class="si">{</span><span class="n">bond_distance</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">basis</span><span class="o">=</span><span class="n">basis</span><span class="p">,</span>
+                <span class="n">charge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">spin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="p">)</span>
+    
+            <span class="n">num_particles</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">num_active_orbitals</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="n">num_inactive_orbitals</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">case</span> <span class="s2">&quot;H4&quot;</span><span class="p">:</span>
+            <span class="n">bond_distance</span> <span class="o">=</span> <span class="mf">1.5</span>
+    
+            <span class="n">mymol</span> <span class="o">=</span> <span class="n">eos</span><span class="p">(</span>
+                <span class="n">atoms</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;H 0 0 0; H 0 0 </span><span class="si">{</span><span class="n">bond_distance</span><span class="si">}</span><span class="s2">; H 0 0 </span><span class="si">{</span><span class="n">bond_distance</span><span class="o">*</span><span class="mi">2</span><span class="si">}</span><span class="s2">; H 0 0 </span><span class="si">{</span><span class="n">bond_distance</span><span class="o">*</span><span class="mi">3</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">basis</span><span class="o">=</span><span class="n">basis</span><span class="p">,</span>
+                <span class="n">charge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">spin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="p">)</span>
+    
+            <span class="n">num_particles</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">num_active_orbitals</span> <span class="o">=</span> <span class="mi">4</span>
+            <span class="n">num_inactive_orbitals</span> <span class="o">=</span> <span class="mi">0</span>
+    
+        <span class="k">case</span> <span class="s2">&quot;H4-square&quot;</span><span class="p">:</span>
+            <span class="n">bond_distance</span> <span class="o">=</span> <span class="mf">2.0</span>
+    
+            <span class="n">mymol</span> <span class="o">=</span> <span class="n">eos</span><span class="p">(</span>
+                <span class="n">atoms</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;H 0 0 0; H 0 0 </span><span class="si">{</span><span class="n">bond_distance</span><span class="si">}</span><span class="s2">; H 0 </span><span class="si">{</span><span class="n">bond_distance</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">bond_distance</span><span class="si">}</span><span class="s2">; H 0 </span><span class="si">{</span><span class="n">bond_distance</span><span class="si">}</span><span class="s2"> 0&quot;</span><span class="p">,</span>
+                <span class="n">basis</span><span class="o">=</span><span class="n">basis</span><span class="p">,</span>
+                <span class="n">charge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">spin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="p">)</span>
+    
+            <span class="n">num_particles</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">num_active_orbitals</span> <span class="o">=</span> <span class="mi">4</span>
+            <span class="n">num_inactive_orbitals</span> <span class="o">=</span> <span class="mi">0</span>
+    
+        <span class="k">case</span> <span class="s2">&quot;H5&quot;</span><span class="p">:</span>
+            <span class="n">bond_distance</span> <span class="o">=</span> <span class="mf">1.5</span>
+    
+            <span class="n">mymol</span> <span class="o">=</span> <span class="n">eos</span><span class="p">(</span>
+                <span class="n">atoms</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;H 0 0 0; H 0 0 </span><span class="si">{</span><span class="n">bond_distance</span><span class="si">}</span><span class="s2">; H 0 0 </span><span class="si">{</span><span class="n">bond_distance</span><span class="o">*</span><span class="mi">2</span><span class="si">}</span><span class="s2">; H 0 0 </span><span class="si">{</span><span class="n">bond_distance</span><span class="o">*</span><span class="mi">3</span><span class="si">}</span><span class="s2">; H 0 0 </span><span class="si">{</span><span class="n">bond_distance</span><span class="o">*</span><span class="mi">4</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">basis</span><span class="o">=</span><span class="n">basis</span><span class="p">,</span>
+                <span class="n">charge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">spin</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="p">)</span>
+    
+            <span class="n">num_particles</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">num_active_orbitals</span> <span class="o">=</span> <span class="mi">5</span>
+            <span class="n">num_inactive_orbitals</span> <span class="o">=</span> <span class="mi">0</span>
+            
+        <span class="k">case</span> <span class="s2">&quot;N2&quot;</span><span class="p">:</span>
+            <span class="n">bond_distance</span> <span class="o">=</span> <span class="mf">1.089</span>
+    
+            <span class="n">mymol</span> <span class="o">=</span> <span class="n">eos</span><span class="p">(</span><span class="n">atoms</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;N 0 0 0; N 0 0 </span><span class="si">{</span><span class="n">bond_distance</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">basis</span><span class="o">=</span><span class="n">basis</span><span class="p">,</span> <span class="n">charge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">spin</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    
+            <span class="n">num_particles</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="n">num_active_orbitals</span> <span class="o">=</span> <span class="mi">6</span>
+            <span class="n">num_inactive_orbitals</span> <span class="o">=</span> <span class="kc">None</span>
+    
+        <span class="k">case</span> <span class="s2">&quot;LiH&quot;</span><span class="p">:</span>
+            <span class="n">bond_distance</span> <span class="o">=</span> <span class="mf">1.5</span>
+    
+            <span class="n">mymol</span> <span class="o">=</span> <span class="n">eos</span><span class="p">(</span><span class="n">atoms</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Li 0 0 0; H 0 0 </span><span class="si">{</span><span class="n">bond_distance</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">basis</span><span class="o">=</span><span class="n">basis</span><span class="p">,</span> <span class="n">charge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">spin</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    
+            <span class="n">num_particles</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">num_active_orbitals</span> <span class="o">=</span> <span class="mi">5</span>
+            <span class="n">num_inactive_orbitals</span> <span class="o">=</span> <span class="mi">0</span>
+    
+        <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Molecule </span><span class="si">{</span><span class="n">molecule_name</span><span class="si">}</span><span class="s2"> unrecognized.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">mymol</span><span class="p">,</span> <span class="n">num_particles</span><span class="p">,</span> <span class="n">num_active_orbitals</span><span class="p">,</span> <span class="n">num_inactive_orbitals</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mymol</span><span class="p">,</span> <span class="n">num_particles</span><span class="p">,</span> <span class="n">num_active_orbitals</span><span class="p">,</span> <span class="n">num_inactive_orbitals</span> <span class="o">=</span> <span class="n">get_molecule</span><span class="p">(</span><span class="s2">&quot;H4&quot;</span><span class="p">,</span> <span class="s2">&quot;sto3g&quot;</span><span class="p">)</span>
+<span class="c1"># Setup Hartree-Fock problem and run it</span>
+<span class="n">mymol</span><span class="o">.</span><span class="n">set_scf</span><span class="p">()</span>
+<span class="c1"># Get SCF object</span>
+<span class="n">myscf</span> <span class="o">=</span> <span class="n">mymol</span><span class="o">.</span><span class="n">get_scf</span><span class="p">()</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Electronic energy: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">myscf</span><span class="o">.</span><span class="n">energy_elec</span><span class="p">())</span>
+
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Hartree-Fock occupation numbers: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">myscf</span><span class="o">.</span><span class="n">mo_occ</span><span class="p">)</span>
+
+
+<span class="c1"># Setup CAS problem and run it</span>
+
+<span class="n">mymol</span><span class="o">.</span><span class="n">set_cas</span><span class="p">(</span>
+    <span class="n">myscf</span><span class="p">,</span>
+    <span class="n">nisht</span><span class="o">=</span><span class="n">num_inactive_orbitals</span><span class="p">,</span>
+    <span class="n">nasht</span><span class="o">=</span><span class="n">num_active_orbitals</span><span class="p">,</span>
+    <span class="n">nalpha</span><span class="o">=</span><span class="n">num_particles</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">nbeta</span><span class="o">=</span><span class="n">num_particles</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">optimize_orbitals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="c1"># Run CAS object</span>
+<span class="n">mycas</span> <span class="o">=</span> <span class="n">mymol</span><span class="o">.</span><span class="n">run_cas</span><span class="p">()</span>
+
+<span class="n">prob</span> <span class="o">=</span> <span class="n">get_qiskit_esp</span><span class="p">(</span>
+    <span class="n">mymol</span><span class="o">.</span><span class="n">get_active_h1</span><span class="p">(),</span>
+    <span class="n">mymol</span><span class="o">.</span><span class="n">get_active_h2</span><span class="p">(),</span>
+    <span class="n">myscf</span><span class="o">.</span><span class="n">energy_elec</span><span class="p">(),</span>
+    <span class="n">num_active_orbitals</span><span class="p">,</span>
+    <span class="nb">sum</span><span class="p">(</span><span class="n">num_particles</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="c1"># Get fermionic hamiltonian</span>
+<span class="n">qc_ham_qiskit</span> <span class="o">=</span> <span class="n">prob</span><span class="o">.</span><span class="n">hamiltonian</span><span class="o">.</span><span class="n">second_q_op</span><span class="p">()</span>
+
+<span class="c1"># Get the exact electronic energy</span>
+<span class="n">exact_energy</span> <span class="o">=</span> <span class="n">mymol</span><span class="o">.</span><span class="n">get_etot</span><span class="p">()</span> <span class="o">-</span> <span class="n">mymol</span><span class="o">.</span><span class="n">get_ecore</span><span class="p">()</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Exact energy: </span><span class="si">%20.14f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exact_energy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="choose-a-qubit-converter-and-map-hamiltonian">
+<h1>Choose a qubit converter and map Hamiltonian<a class="headerlink" href="#choose-a-qubit-converter-and-map-hamiltonian" title="Permalink to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit_nature.second_q.mappers</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">JordanWignerMapper</span><span class="p">,</span>
+    <span class="n">QubitConverter</span><span class="p">,</span>
+    <span class="n">BravyiKitaevMapper</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">aurora.mappers.neven</span> <span class="kn">import</span> <span class="n">NevenMapper</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mapper options: JordanWignerMapper(), BravyiKitaevMapper(), ParityMapper(), NevenMapper()</span>
+<span class="n">qubit_converter</span> <span class="o">=</span> <span class="n">QubitConverter</span><span class="p">(</span><span class="n">mapper</span><span class="o">=</span><span class="n">JordanWignerMapper</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert fermionic Hamiltonian to qubit space</span>
+<span class="n">hamiltonian_qiskit</span> <span class="o">=</span> <span class="n">qubit_converter</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">qc_ham_qiskit</span><span class="p">,</span> <span class="n">num_particles</span><span class="o">=</span><span class="n">num_particles</span><span class="p">)</span>
+<span class="n">num_qubits</span> <span class="o">=</span> <span class="n">hamiltonian_qiskit</span><span class="o">.</span><span class="n">num_qubits</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Number of qubits: </span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">)</span>
+
+<span class="c1"># Transform Qiskit operator into an Aurora operator (dictionary)</span>
+<span class="n">hamiltonian</span> <span class="o">=</span> <span class="n">from_qiskit_operator</span><span class="p">(</span><span class="n">hamiltonian_qiskit</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="initialise-penalty-operators">
+<h1>Initialise penalty operators<a class="headerlink" href="#initialise-penalty-operators" title="Permalink to this heading"></a></h1>
+<p>Can be added as a penalty to the hamiltonian, or given to RiemannianFlow as additional operators to be measured</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">aurora.state.operators</span> <span class="kn">import</span> <span class="n">spin2_error_operator</span><span class="p">,</span> <span class="n">number_error_operator</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set correct spin-2 and particle number values</span>
+<span class="n">spin2_value</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">number_value</span> <span class="o">=</span> <span class="mi">4</span>
+
+<span class="n">spin_penalty</span> <span class="o">=</span> <span class="n">spin2_error_operator</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span>
+    <span class="n">spin2_value</span><span class="o">=</span><span class="n">spin2_value</span><span class="p">,</span>
+    <span class="n">qubit_converter</span><span class="o">=</span><span class="n">qubit_converter</span><span class="p">,</span>
+    <span class="n">num_particles</span><span class="o">=</span><span class="n">num_particles</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">num_penalty</span> <span class="o">=</span> <span class="n">number_error_operator</span><span class="p">(</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span>
+    <span class="n">number_value</span><span class="o">=</span><span class="n">number_value</span><span class="p">,</span>
+    <span class="n">qubit_converter</span><span class="o">=</span><span class="n">qubit_converter</span><span class="p">,</span>
+    <span class="n">num_particles</span><span class="o">=</span><span class="n">num_particles</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="choose-operator-pool">
+<h1>Choose operator pool<a class="headerlink" href="#choose-operator-pool" title="Permalink to this heading"></a></h1>
+<p>Options include <code class="docutils literal notranslate"><span class="pre">[fermionic',</span> <span class="pre">'fermionic_spin',</span> <span class="pre">'QEB',</span> <span class="pre">'q-ADAPT',</span> <span class="pre">'2-pool',</span> <span class="pre">'s-UPS',</span> <span class="pre">'minimal_complete_z-chain',</span> <span class="pre">'minimal_complete_2-qubit',</span> <span class="pre">'pauli_pool']</span></code></p>
+<p>The original ADAPT pool consists of spin-complemented fermionic single and double excitations as follows:</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{P} =
+\{ \tau_{p_{\alpha}}^{q_{\alpha}} + \tau_{p_{\beta}}^{q_{\beta}}, \tau_{r_{\alpha} s_{\alpha}}^{p_{\alpha} q_{\alpha}} + \tau_{r_{\beta} s_{\beta}}^{p_{\beta} q_{\beta}},
+\tau_{r_{\alpha} s_{\beta}}^{p_{\alpha} q_{\beta}} + 
+\tau_{r_{\beta} s_{\alpha}}^{p_{\beta} q_{\alpha}}\},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{\tau}_p^q = a_q^{\dagger} a_p-a_p^{\dagger} a_q\)</span> and <span class="math notranslate nohighlight">\(\hat{\tau}_{r s}^{p q} = a_p^{\dagger} a_q^{\dagger} a_r a_s-a_s^{\dagger} a_r^{\dagger} a_q a_p\)</span> and <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> indices indicate the spin orientation of the spin-orbital. Spin-complemented operators conserve particle number and spin symmetries (although Trotterisation of the operators can break spin symmetry).</p>
+<p>A spin-dependent version of the fermionic pool is following:</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{P}_{spin} =
+\{ \tau_{p_{\alpha}}^{q_{\alpha}}, \tau_{p_{\beta}}^{q_{\beta}}, \tau_{r_{\alpha} s_{\alpha}}^{p_{\alpha} q_{\alpha}}, \tau_{r_{\beta} s_{\beta}}^{p_{\beta} q_{\beta}},
+\tau_{r_{\alpha} s_{\beta}}^{p_{\alpha} q_{\beta}},
+\tau_{r_{\beta} s_{\alpha}}^{p_{\beta} q_{\alpha}}\},
+\]</div>
+<p>This pool conserves <span class="math notranslate nohighlight">\(S_z\)</span> and <span class="math notranslate nohighlight">\(N\)</span> symmetries but can break the <span class="math notranslate nohighlight">\(S^2\)</span> symmetry.</p>
+<p>A Qubit Excitation Based (QEB) pool is a fermionic pool in Jordan-Wigner mapping where the Z-string (that keep track of fermionic anti-symmetries) are removed. It is a more hardware efficient pool for all-to-all connectivity devices, but the Z-string removal does have an increasing effect on the convergence.</p>
+<p>A q-ADAPT pool is formed by mapping a spin-dependent fermionic pool (or QEB pool) into qubit space, <span class="math notranslate nohighlight">\(\tau \mapsto \sum_k c_k S_k\)</span>, with <span class="math notranslate nohighlight">\(\tau \in \mathcal{P}\)</span> and <span class="math notranslate nohighlight">\(S_k \in \{ \mathbb{I}, X, Y, Z \}^{\otimes N}\)</span>, and splitting the resulting operators into separate terms. This creates the qubit-ADAPT pool, defined in qubits space in terms of the operators <span class="math notranslate nohighlight">\(P_k = i S_k\)</span>. q-ADAPT pool breaks particle number and spin symmetries.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">aurora.state.operators</span> <span class="kn">import</span> <span class="n">get_operator_pool</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">operator_pool</span> <span class="o">=</span> <span class="n">get_operator_pool</span><span class="p">(</span>
+    <span class="n">operator_type</span><span class="o">=</span><span class="s2">&quot;fermionic_spin&quot;</span><span class="p">,</span>  <span class="c1"># Set the operator type here</span>
+    <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">,</span>
+    <span class="n">qubit_converter</span><span class="o">=</span><span class="n">qubit_converter</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Num operators: </span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">operator_pool</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Print elements from the operator pool. Each element is a tuple where 1st element is the operator and 2nd is the gate</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">operator_pool</span><span class="o">.</span><span class="n">_pool</span><span class="p">[</span><span class="mi">25</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="initialize-ansatz">
+<h1>Initialize Ansatz<a class="headerlink" href="#initialize-ansatz" title="Permalink to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">aurora.state.utils</span> <span class="kn">import</span> <span class="n">estimate_operator_exact</span>
+<span class="kn">from</span> <span class="nn">aurora.state.constructors</span> <span class="kn">import</span> <span class="n">hartree_fock_ansatz</span>
+<span class="kn">from</span> <span class="nn">aurora.state.converters.qiskit_converter</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ansatz_to_qiskit_circuit</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize in HF state</span>
+<span class="n">ansatz</span> <span class="o">=</span> <span class="n">hartree_fock_ansatz</span><span class="p">(</span>
+    <span class="n">num_spatial_orbitals</span><span class="o">=</span><span class="n">num_qubits</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">num_particles</span><span class="o">=</span><span class="n">num_particles</span><span class="p">,</span>
+    <span class="n">mapper</span><span class="o">=</span><span class="n">JordanWignerMapper</span><span class="p">(),</span>  <span class="c1"># BravyiKitaevMapper(), ParityMapper(), NevenMapper()</span>
+<span class="p">)</span>
+
+<span class="c1"># Measure HF energy</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Initial energy: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">estimate_operator_exact</span><span class="p">(</span><span class="n">ansatz</span><span class="p">,</span> <span class="n">hamiltonian</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="choose-optimizer-method-and-optimizer-object">
+<h1>Choose optimizer method and optimizer object<a class="headerlink" href="#choose-optimizer-method-and-optimizer-object" title="Permalink to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit.algorithms.optimizers</span> <span class="kn">import</span> <span class="n">COBYLA</span><span class="p">,</span> <span class="n">L_BFGS_B</span><span class="p">,</span> <span class="n">SLSQP</span><span class="p">,</span> <span class="n">SPSA</span><span class="p">,</span> <span class="n">GradientDescent</span>
+<span class="kn">from</span> <span class="nn">aurora.state.optimizers</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">OptimizerStatevector</span><span class="p">,</span>
+    <span class="n">OptimizerPOVMs</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Choose the method</span>
+
+<span class="n">optimizer_method</span> <span class="o">=</span> <span class="n">L_BFGS_B</span><span class="p">(</span><span class="n">maxfun</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;disp&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;gtol&quot;</span><span class="p">:</span> <span class="mf">1e-5</span><span class="p">})</span>
+<span class="c1"># optimizer_method = &quot;BFGS&quot;</span>
+<span class="c1"># optimizer_method = COBYLA(maxiter=1000, disp=True)</span>
+<span class="c1"># optimizer_method = SPSA()</span>
+<span class="c1"># optimizer_method = GradientDescent(maxiter=10)</span>
+
+<span class="c1"># Choose the object</span>
+
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">OptimizerStatevector</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">optimizer_method</span><span class="p">)</span>
+<span class="c1"># optimizer = OptimizerPOVMs(optimizer=optimizer_method)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="initialize-riemannian-flow">
+<h1>Initialize Riemannian flow<a class="headerlink" href="#initialize-riemannian-flow" title="Permalink to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">aurora.state.constructors</span> <span class="kn">import</span> <span class="n">RiemannianFlow</span>
+<span class="kn">from</span> <span class="nn">aurora.measurement.estimator.local_povm_estimator</span> <span class="kn">import</span> <span class="n">LocalPOVMEstimator</span>
+<span class="kn">from</span> <span class="nn">aurora.measurement.povm.local_dilation_povm</span> <span class="kn">import</span> <span class="n">LocalDilationPOVM</span>
+<span class="kn">from</span> <span class="nn">aurora.measurement.povm.joint_povm</span> <span class="kn">import</span> <span class="n">JointPOVM</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Initialize JointPOVM if working with measurements</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">povm_list</span> <span class="o">=</span> <span class="n">JointPOVM</span><span class="p">(</span><span class="n">LocalDilationPOVM</span><span class="p">(),</span> <span class="n">num_qubits</span><span class="o">=</span><span class="n">num_qubits</span><span class="p">)</span>
+<span class="n">estimator</span> <span class="o">=</span> <span class="n">LocalPOVMEstimator</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">povm</span><span class="o">.</span><span class="n">effects</span> <span class="k">for</span> <span class="n">povm</span> <span class="ow">in</span> <span class="n">povm_list</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Choose statevector or povm measurements. Input JointPOVM and Estimator if POVMs are used.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialise RiemannianFlow object. Choose measurement type and pass POVMs and Estimator if working with measurements</span>
+
+<span class="n">riemannian_flow</span> <span class="o">=</span> <span class="n">RiemannianFlow</span><span class="p">(</span>
+    <span class="n">ansatz</span><span class="o">=</span><span class="n">ansatz</span><span class="p">,</span>
+    <span class="n">hamiltonian</span><span class="o">=</span><span class="n">hamiltonian</span><span class="p">,</span>
+    <span class="n">operator_pool</span><span class="o">=</span><span class="n">operator_pool</span><span class="p">,</span>
+    <span class="n">additional_operators</span><span class="o">=</span><span class="p">[</span><span class="n">spin_penalty</span><span class="p">,</span> <span class="n">num_penalty</span><span class="p">],</span>
+    <span class="n">optimizer</span><span class="o">=</span><span class="n">optimizer</span><span class="p">,</span>
+    <span class="n">measurement_type</span><span class="o">=</span><span class="s2">&quot;statevector&quot;</span><span class="p">,</span>
+    <span class="n">optimization_type</span><span class="o">=</span><span class="s2">&quot;statevector&quot;</span><span class="p">,</span>
+    <span class="c1"># povm_list=povm_list,</span>
+    <span class="c1"># estimator=estimator,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="run-adapt-algorithm">
+<h1>Run ADAPT algorithm<a class="headerlink" href="#run-adapt-algorithm" title="Permalink to this heading"></a></h1>
+<p>The operator selection can be done in many ways.
+Ideally, the aim is to add gates that have maximum effect in taking the state towards the ground state of the system.
+A heuristic to this end is based on the gradient of the energy with respect to the parameter in the unitary generated by operator <span class="math notranslate nohighlight">\(P_i\)</span> when the parameter value is set to zero, which can be calculated by evaluating the commutator of <span class="math notranslate nohighlight">\(P_i\)</span> with the Hamiltonian,</p>
+<div class="math notranslate nohighlight">
+\[ \left.\frac{\partial E}{\partial \theta_i}\right|_{\theta_i=0} =\left.\left[\frac{\partial}{\partial \theta_i}\left\langle\psi^{(n)}\left|e^{-\theta_i P_i} H e^{\theta_i P_i}\right| \psi^{(n)}\right\rangle\right]\right|_{\theta_i=0} 
+=\left\langle\psi^{(n)}\left|\left[H, P_i\right]\right| \psi^{(n)}\right\rangle \]</div>
+<p>Once the gradients for all the operators <span class="math notranslate nohighlight">\(P_i\)</span> in the pool have been obtained, the operator with the highest absolute value is added to the ansatz. This selection criterion is named <code class="docutils literal notranslate"><span class="pre">&quot;gradient&quot;</span></code>.</p>
+<p>Another alternative is to pick the operator that, when optimized, lowers the energy the most. This selection criterion is named <code class="docutils literal notranslate"><span class="pre">&quot;rotoselect&quot;</span></code> and currently works only for q-ADAPT operators.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">riemannian_flow</span><span class="o">.</span><span class="n">adaptively_add_gates</span><span class="p">(</span>
+    <span class="n">max_iters</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>  <span class="c1"># Max iterations before terminating</span>
+    <span class="n">gates_per_iteration</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># Gates added per iteration</span>
+    <span class="n">optimization_frequency</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># How many iterations before optimizing</span>
+    <span class="n">selection_criterion</span><span class="o">=</span><span class="s2">&quot;gradient&quot;</span><span class="p">,</span>
+    <span class="n">abort_threshold</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>  <span class="c1"># Abort when total gradient of operator pool below this</span>
+    <span class="n">reference_abort_threshold</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>  <span class="c1"># Abort when this close to reference value</span>
+    <span class="n">reference_value</span><span class="o">=</span><span class="n">exact_energy</span><span class="p">,</span>  <span class="c1"># The reference value for aborting</span>
+    <span class="c1"># shots = 2000000, # Shots for executions with povms</span>
+    <span class="n">print_statevector</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Print statevector</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="transpile-and-draw-ansatz">
+<h1>Transpile and draw Ansatz<a class="headerlink" href="#transpile-and-draw-ansatz" title="Permalink to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">aurora.state.custom_transpilers</span> <span class="kn">import</span> <span class="n">qiskit_transpiler</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">transpiler</span> <span class="o">=</span> <span class="n">qiskit_transpiler</span><span class="p">()</span>
+<span class="n">ansatz_to_qiskit_circuit</span><span class="p">(</span><span class="n">transpiler</span><span class="o">.</span><span class="n">transpile</span><span class="p">(</span><span class="n">ansatz</span><span class="p">))</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="plot-stats-from-simulation">
+<h1>Plot stats from simulation<a class="headerlink" href="#plot-stats-from-simulation" title="Permalink to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Energy vs iterations</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">riemannian_flow</span><span class="o">.</span><span class="n">energies</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="n">operator_pool</span><span class="o">.</span><span class="n">operator_type</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">exact_energy</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Energy&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Iterations&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">mymol</span><span class="o">.</span><span class="n">atoms</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Error to exact energy vs iterations in log plot</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">riemannian_flow</span><span class="o">.</span><span class="n">energies</span> <span class="o">-</span> <span class="n">exact_energy</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="n">operator_pool</span><span class="o">.</span><span class="n">operator_type</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Iterations&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">mymol</span><span class="o">.</span><span class="n">atoms</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Error vs CNOT count</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">riemannian_flow</span><span class="o">.</span><span class="n">cnot_counts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">riemannian_flow</span><span class="o">.</span><span class="n">energies</span> <span class="o">-</span> <span class="n">exact_energy</span><span class="p">),</span>
+    <span class="n">label</span><span class="o">=</span><span class="n">operator_pool</span><span class="o">.</span><span class="n">operator_type</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;CNOTs&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">mymol</span><span class="o">.</span><span class="n">atoms</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>First penalty term (spin-2 error) vs iterations</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">riemannian_flow</span><span class="o">.</span><span class="n">additional_operator_estimations</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">label</span><span class="o">=</span><span class="n">operator_pool</span><span class="o">.</span><span class="n">operator_type</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Spin Error&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Iterations&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">mymol</span><span class="o">.</span><span class="n">atoms</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Second penalty term (number error) vs iterations</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">riemannian_flow</span><span class="o">.</span><span class="n">additional_operator_estimations</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">label</span><span class="o">=</span><span class="n">operator_pool</span><span class="o">.</span><span class="n">operator_type</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Number Error&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Iterations&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">mymol</span><span class="o">.</span><span class="n">atoms</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../E2_VQE-H2/" class="btn btn-neutral float-left" title="Use case: Quantum chemistry" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../tutorial-5/" class="btn btn-neutral float-right" title="Tutorial - Quantum Finance" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, The contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

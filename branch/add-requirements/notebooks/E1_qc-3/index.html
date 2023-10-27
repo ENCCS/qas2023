@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial - Quantum programming III &mdash; Quantum Autumn School 2023  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/togglebutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx_lesson.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx_rtd_theme_ext_color_contrast.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/overrides.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script src="../../_static/minipres.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="HPC-QC integration" href="../../hpc-qc/" />
+    <link rel="prev" title="Tutorial - Quantum programming II" href="../E1_qc-2/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../" class="icon icon-home">
+            Quantum Autumn School 2023
+              <img src="../../_static/ENCCS.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../setup/">Setup</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 1</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../qc-overview/">Physical Approaches to Quantum Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../digital-qc/">Introduction to Digital Quantum Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-1/">Tutorial - Quantum programming I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-2/">Tutorial - Quantum programming II</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial - Quantum programming III</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#practice-session-3"><strong>Practice session 3</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#quantum-teleportation"><strong>Quantum teleportation</strong></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#preparation-create-shared-entangled-state"><strong>Preparation: create shared entangled state</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#teleportation-step-1"><strong>Teleportation: step 1</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#teleportation-step-2"><strong>Teleportation: step 2</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#teleportation-step-3"><strong>Teleportation: step 3</strong></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#theoretical-explanation"><strong>Theoretical explanation</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 2</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../hpc-qc/">HPC-QC integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software-stack/">QC software stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-classical-quantum/">Hybrid Classical/Quantum Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro-to-helmi-qiskit/">Tutorial - Introduction to Helmi with qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Qubit_Spectroscopy_Analysis/">Qubit Spectroscopy Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Notebook_maxcut_Qas2023/">Tutorial - Quantum Alternating Operator Ansatz</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 3</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-quantum-chemistry/">Hybrid Algorithms - Use Cases for Quantum Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-finance/">Hybrid Algorithms - Use Cases for Quantum Finance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-life-science/">Hybrid Algorithms - Use Cases for Quantum Life Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial-4/">Tutorial - Quantum Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial-5/">Tutorial - Quantum Finance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial-life-science/">Tutorial - Protein Folding with QAOA</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://enccs.se/lessons/">All ENCCS lessons</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://enccs.se/">About ENCCS</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../">Quantum Autumn School 2023</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tutorial - Quantum programming III</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/qas2023/blob/main/content/notebooks/E1_qc-3.ipynb" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="tutorial-quantum-programming-iii">
+<h1>Tutorial - Quantum programming III<a class="headerlink" href="#tutorial-quantum-programming-iii" title="Permalink to this heading"></a></h1>
+<p><span class="math notranslate nohighlight">\(\renewcommand{\bra}[1]{\langle#1|}\)</span>
+<span class="math notranslate nohighlight">\(\renewcommand{\ket}[1]{|#1\rangle}\)</span></p>
+<section id="practice-session-3">
+<h2><strong>Practice session 3</strong><a class="headerlink" href="#practice-session-3" title="Permalink to this heading"></a></h2>
+<p>In this session, we are going to focus on quantum teleportation.</p>
+<section id="quantum-teleportation">
+<h3><strong>Quantum teleportation</strong><a class="headerlink" href="#quantum-teleportation" title="Permalink to this heading"></a></h3>
+<p>What is quantum teleportation? It is the notion that one can send quantum information—a quantum state—over to another party using entangled states. Let us first look at the protocol and then discuss why it is a big deal.</p>
+<p>Suppose two agents, usually called Alice and Bob, share a two particle entangled state. Each has one particle and the total state of the two particle system is a Bell state. Suppose next that Alice has yet another particle in her possession: a single copy of a qubit in some generic state <span class="math notranslate nohighlight">\(\ket{\psi} = \alpha \ket{0} + \beta \ket{1}\)</span> that she does not know exactly, and she wants to transfer this (unknown) state to Bob. What does this mean, how could Alice send the state to Bob? It can mean many things. For instance:</p>
+<ol class="arabic simple">
+<li><p>Alice might physically transport the qubit (the particle) to Bob.</p></li>
+<li><p>Alice could make a copy of the qubit and physically transport the copy (the particle) to Bob.</p></li>
+<li><p>Alice could find out what is the state of the qubit and send information of the <em>qubit state</em> to Bob. Bob can then prepare that state in the lab. No particle is physically transported between the parties.</p></li>
+</ol>
+<p>The first sense is not interesting, it is not new.</p>
+<p>The second is also not interesting; but it turns out it is actually impossible in the quantum world. There is a fundamental theorem about quantum states: one cannot copy an arbitrary quantum state (so-called <em>no cloning theorem</em>). This is a striking result since copying a state is something we frequently rely on in the classical world. For instance, the routine statement <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">b</span></code> in a programming language where one assigns the value of <code class="docutils literal notranslate"><span class="pre">b</span></code> to <code class="docutils literal notranslate"><span class="pre">a</span></code> can mean that the value of <code class="docutils literal notranslate"><span class="pre">a</span></code> is copied over to <code class="docutils literal notranslate"><span class="pre">b</span></code>.</p>
+<p>The third sense is in the direction of what we would like to achieve. Alas, it fails because of the no cloning theorem. If Alice wanted to know what is the state, she would need to make many copies of the qubit, make many measurements and collect statistics to learn what the exact state is. However, even if this were the case—even if Alice had many copies of the qubit—it would not be a good idea since characterizing the state precisely requires sending a lot of classical information because the coefficients <span class="math notranslate nohighlight">\(\alpha, \beta\)</span> take values in a continuous space.</p>
+<p>It turns out there is a fourth way:</p>
+<ol class="arabic simple" start="4">
+<li><p>Alice uses <em>quantum teleportation</em>.</p></li>
+</ol>
+<p>Alice can use the entangled states she shares with Bob to <em>transfer the state of the single qubit over to Bob’s particle</em>! This is why it’s called teleportation: the original state in Alice’s possession is lost and Bob’s particle will be in the state <span class="math notranslate nohighlight">\(\ket{\psi}\)</span>. It does involve sending two bits of classical information, but the overhead is tiny. This is a truly quantum feat; it is impossible in the classical world. Note also that:</p>
+<ul class="simple">
+<li><p>no physical particles are transported from Alice to Bob,</p></li>
+<li><p>Alice will not know the state <span class="math notranslate nohighlight">\(\ket{\psi}\)</span>.</p></li>
+</ul>
+<p>How does this work in detail?</p>
+<section id="preparation-create-shared-entangled-state">
+<h4><strong>Preparation: create shared entangled state</strong><a class="headerlink" href="#preparation-create-shared-entangled-state" title="Permalink to this heading"></a></h4>
+<p>Alice and Bob need to share a two-qubit entangled state, we allocate qubits <span class="math notranslate nohighlight">\(\ket{q_2 q_1}\)</span> for this. The unknown state <span class="math notranslate nohighlight">\(\ket{\psi}\)</span> that Alice wants to send to Bob is the state of qubit <span class="math notranslate nohighlight">\(\ket{q_0}\)</span>. The total initial state of the system is</p>
+<div class="math notranslate nohighlight">
+\[
+\ket{q_2 q_1 q_0}.
+\]</div>
+<p>We assume initially <span class="math notranslate nohighlight">\(\ket{q_2 q_1} = \ket{00}\)</span> and use our entangling circuit from the previous session to create a Bell state for Alice and Bob.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Aer</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># coefficients of uknown state Alice sends to Bob</span>
+<span class="n">unknown_state</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="mi">4</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">3.</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)]</span>
+
+<span class="c1"># create quantum circuit</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">unknown_state</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>                          <span class="c1"># entangle Alice and Bob qubits</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>                      <span class="c1">#</span>
+
+<span class="c1"># run</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">save_statevector</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>  <span class="c1"># run circuit, get results</span>
+
+<span class="c1"># draw the circuit</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s2">&quot;mpl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/0d98ff2788c0643f0c89fe1e37bea3570c212db58cab404a672553b13e35e5b1.png" src="../../_images/0d98ff2788c0643f0c89fe1e37bea3570c212db58cab404a672553b13e35e5b1.png" />
+</div>
+</div>
+</section>
+<section id="teleportation-step-1">
+<h4><strong>Teleportation: step 1</strong><a class="headerlink" href="#teleportation-step-1" title="Permalink to this heading"></a></h4>
+<p>Alice applies the CNOT gate to her two qubits, where the control is the unknown state <span class="math notranslate nohighlight">\(\ket{\psi}\)</span> of qubit <span class="math notranslate nohighlight">\(q_0\)</span>. She then applies Hadamard to the unknown state.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Aer</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># coefficients of uknown state Alice sends to Bob</span>
+<span class="n">unknown_state</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="mi">4</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">3.</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)]</span>
+
+<span class="c1"># create quantum circuit</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">unknown_state</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>                          <span class="c1"># entangle Alice and Bob qubits</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>                      <span class="c1">#</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                      <span class="c1"># Alice performs ops on her qubits</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># run</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">save_statevector</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>  <span class="c1"># run circuit, get results</span>
+
+<span class="c1"># draw the circuit</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s2">&quot;mpl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/30eb0006a17e3c62886801a90079fd5168746069be0b7b797be302bba29a9b40.png" src="../../_images/30eb0006a17e3c62886801a90079fd5168746069be0b7b797be302bba29a9b40.png" />
+</div>
+</div>
+<p>Note we also added a barrier after the first, entangling sub-circuit to visually separate the steps.</p>
+</section>
+<section id="teleportation-step-2">
+<h4><strong>Teleportation: step 2</strong><a class="headerlink" href="#teleportation-step-2" title="Permalink to this heading"></a></h4>
+<p>Alice measures her two qubits, the result being a string of two bits, either <span class="math notranslate nohighlight">\(00, 01, 10\)</span> or <span class="math notranslate nohighlight">\(11\)</span>. She then sends the bitstring to Bob.</p>
+<p>We want to store the measurement results in classical bits. For this purpose, we need to add two classical bits to the circuit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Aer</span>
+<span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">ClassicalRegister</span><span class="p">,</span> <span class="n">QuantumRegister</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># coefficients of uknown state Alice sends to Bob</span>
+<span class="n">unknown_state</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="mi">4</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">3.</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)]</span>
+
+<span class="c1"># create quantum circuit</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">c0</span> <span class="o">=</span> <span class="n">ClassicalRegister</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c0&quot;</span><span class="p">)</span>
+<span class="n">c1</span> <span class="o">=</span> <span class="n">ClassicalRegister</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c1&quot;</span><span class="p">)</span>
+
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">c0</span><span class="p">,</span> <span class="n">c1</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">unknown_state</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>                          <span class="c1"># entangle Alice and Bob qubits</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>                      <span class="c1">#</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                      <span class="c1"># Alice performs on her qubits</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c0</span><span class="p">)</span>             <span class="c1"># Alice measures her qubits</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c1</span><span class="p">)</span>
+
+<span class="c1"># run</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">save_statevector</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>  <span class="c1"># run circuit, get results</span>
+
+<span class="c1"># draw the circuit</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s2">&quot;mpl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/648ffaf4d59e31db9b7e8e84205a85ad600cb2f00e9fae11de52f2c5eb531395.png" src="../../_images/648ffaf4d59e31db9b7e8e84205a85ad600cb2f00e9fae11de52f2c5eb531395.png" />
+</div>
+</div>
+</section>
+<section id="teleportation-step-3">
+<h4><strong>Teleportation: step 3</strong><a class="headerlink" href="#teleportation-step-3" title="Permalink to this heading"></a></h4>
+<p>Bob receives the measurement bitstring from Alice and applies the following protocol. If the bitstring is:</p>
+<ol class="arabic simple">
+<li><p>00 — nothing to do.</p></li>
+<li><p>01 — apply <code class="docutils literal notranslate"><span class="pre">x()</span></code> gate to his qubit.</p></li>
+<li><p>10 — apply <code class="docutils literal notranslate"><span class="pre">z()</span></code> gate to his qubit.</p></li>
+<li><p>11 — apply <code class="docutils literal notranslate"><span class="pre">x()</span></code>, then <code class="docutils literal notranslate"><span class="pre">z()</span></code> gate to his qubit.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Aer</span>
+<span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">ClassicalRegister</span><span class="p">,</span> <span class="n">QuantumRegister</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># coefficients of uknown state Alice sends to Bob</span>
+<span class="n">unknown_state</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="mi">4</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">3.</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)]</span>
+
+<span class="c1"># create quantum circuit</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">c0</span> <span class="o">=</span> <span class="n">ClassicalRegister</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c0&quot;</span><span class="p">)</span>
+<span class="n">c1</span> <span class="o">=</span> <span class="n">ClassicalRegister</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c1&quot;</span><span class="p">)</span>
+
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">c0</span><span class="p">,</span> <span class="n">c1</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">unknown_state</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>                          <span class="c1"># entangle Alice and Bob qubits</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>                      <span class="c1">#</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                      <span class="c1"># Alice performs on her qubits</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c0</span><span class="p">)</span>             <span class="c1"># Alice measures her qubits</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c1</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+
+<span class="c1"># ctrl gates</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">z</span><span class="p">(</span><span class="n">q</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">c_if</span><span class="p">(</span><span class="n">c0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># run</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">save_statevector</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>  <span class="c1"># run circuit, get results</span>
+
+<span class="c1"># final state</span>
+<span class="n">final_state</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">()</span>
+
+<span class="c1"># draw the circuit</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s2">&quot;mpl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/b764fb29d31b9b7a42f187870fbf3b89440e8ceb7de229a279ae1767d93f7e2b.png" src="../../_images/b764fb29d31b9b7a42f187870fbf3b89440e8ceb7de229a279ae1767d93f7e2b.png" />
+</div>
+</div>
+<p>At the end of this circuit the state of Bob’s qubit <span class="math notranslate nohighlight">\(\ket{q_2}\)</span> is in the state <span class="math notranslate nohighlight">\(\ket{\psi}\)</span> that Alice has at the beginning of the circuit. Let us verify this by plotting the initial uknown state as well as the final state on the Bloch sphere.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit.visualization</span> <span class="kn">import</span> <span class="n">plot_bloch_multivector</span>
+
+<span class="c1"># initial uknkown state</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Initial unknown state =&quot;</span><span class="p">,</span> <span class="n">unknown_state</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="n">plot_bloch_multivector</span><span class="p">(</span><span class="n">unknown_state</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initial unknown state = [0.5, 0.8660254037844386]
+</pre></div>
+</div>
+<img alt="../../_images/c925bdca9f83f4e519350ea5758108a4f2d780a42fe403f044166cb34ab52d4e.png" src="../../_images/c925bdca9f83f4e519350ea5758108a4f2d780a42fe403f044166cb34ab52d4e.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit.visualization</span> <span class="kn">import</span> <span class="n">plot_bloch_multivector</span>
+
+<span class="c1"># final state</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Final state =&quot;</span><span class="p">,</span> <span class="n">final_state</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="n">plot_bloch_multivector</span><span class="p">(</span><span class="n">final_state</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Final state = Statevector([ 0.       +0.00000000e+00j,  0.5      +0.00000000e+00j,
+              0.       +0.00000000e+00j, -0.       +0.00000000e+00j,
+             -0.       +0.00000000e+00j,  0.8660254-1.06057524e-16j,
+             -0.       +0.00000000e+00j, -0.       +0.00000000e+00j],
+            dims=(2, 2, 2))
+</pre></div>
+</div>
+<img alt="../../_images/8059c1f7e450bd25bf0d5cdf3cd2adb8dfac176a07010915402a930bfcfe747c.png" src="../../_images/8059c1f7e450bd25bf0d5cdf3cd2adb8dfac176a07010915402a930bfcfe747c.png" />
+</div>
+</div>
+<p>We see that the Alice’s initial <code class="docutils literal notranslate"><span class="pre">uknown_state</span></code> is exactly the state of Bob’s final qubit <span class="math notranslate nohighlight">\(\ket{q_2}\)</span>—the teleportation protocol worked!</p>
+<p>Also, note that Alice’s original initial state (in <code class="docutils literal notranslate"><span class="pre">qubit</span> <span class="pre">0</span></code>) is lost in the final total state of the whole system. This confirms one cannot clone a quantum state. Both qubits in Alice’s possession are either <span class="math notranslate nohighlight">\(\ket{0}\)</span> or <span class="math notranslate nohighlight">\(\ket{1}\)</span> as a result of measurement that Alice performed. The states of <code class="docutils literal notranslate"><span class="pre">qubit</span> <span class="pre">0</span></code> and <code class="docutils literal notranslate"><span class="pre">qubit</span> <span class="pre">1</span></code> show which bitstring was applied on Bob’s side.</p>
+<blockquote>
+<div><p><strong>Exercise 1</strong>. In the above code, change the initial state to some random qubit state. Note that the state needs to be normalized. Run the code, plot the initial and final states to convince yourself that the teleportation protocol worked.</p>
+</div></blockquote>
+</section>
+<section id="theoretical-explanation">
+<h4><strong>Theoretical explanation</strong><a class="headerlink" href="#theoretical-explanation" title="Permalink to this heading"></a></h4>
+<p>Now that we have seen that quantum teleportation works in practice, let us discuss the theoretical explanation.</p>
+<p><strong>Preparation</strong>. Before starting the protocol, in ‘Preparation: create shared entangled state’ we created an entangled pair of particles in the Bell state</p>
+<div class="math notranslate nohighlight">
+\[
+\ket{\beta_{00}} = \frac{\ket{00} + \ket{11}}{\sqrt{2}}
+\]</div>
+<p>where one particle is in Alice’s and the other in Bob’s possession. Alice also has another particle whose state <span class="math notranslate nohighlight">\(\ket{\psi} = \alpha\ket{0} + \beta\ket{1}\)</span> is not known to her, and whose state she wants to teleport. The total state of the system at the end of preparation is given by</p>
+<div class="amsmath math notranslate nohighlight" id="equation-13f16ee1-4318-49a7-abc8-633633995f4d">
+<span class="eqno">(1)<a class="headerlink" href="#equation-13f16ee1-4318-49a7-abc8-633633995f4d" title="Permalink to this equation"></a></span>\[\begin{align}
+\ket{\Psi_1} &amp;= \ket{\psi}\ket{\beta_{00}} \\
+&amp;= \frac{1}{\sqrt{2}}\left[ \alpha \ket{0} \left( \ket{00} + \ket{11} \right) + \beta \ket{1} \left( \ket{00} + \ket{11} \right) \right].
+\end{align}\]</div>
+<p><strong>Step 1</strong>. As the first step of the teleportation protocol, we apply the CNOT gate where the control gate is Alice’s particle in state <span class="math notranslate nohighlight">\(\ket{\psi}\)</span>. As a result, the total state is</p>
+<div class="math notranslate nohighlight">
+\[
+\ket{\Psi_2} = 
+\frac{1}{\sqrt{2}}\left[ \alpha \ket{0} \left( \ket{00} + \ket{11} \right) + \beta \ket{1} \left( \ket{10} + \ket{01} \right) \right]
+\]</div>
+<p>Next we apply the Hadamard gate to the Alice’s qubit in the unknown state. The state becomes</p>
+<div class="amsmath math notranslate nohighlight" id="equation-8e54a967-d284-4f91-8426-6b969ea3f8bd">
+<span class="eqno">(2)<a class="headerlink" href="#equation-8e54a967-d284-4f91-8426-6b969ea3f8bd" title="Permalink to this equation"></a></span>\[\begin{align}
+\ket{\Psi_3} &amp;= 
+\frac{1}{\sqrt{2}}\left[ \alpha \left( \frac{\ket{0} + \ket{1}}{\sqrt{2}} \right) \left( \ket{00} + \ket{11} \right) + \beta \left( \frac{\ket{0} - \ket{1}}{\sqrt{2}} \right) \left( \ket{10} + \ket{01} \right) \right] 
+\\
+&amp;= 
+\frac{1}{2}\left[ \alpha \left( \ket{0} + \ket{1} \right) \left( \ket{00} + \ket{11} \right) + \beta \left( \ket{0} - \ket{1} \right) \left( \ket{10} + \ket{01} \right) \right] 
+\end{align}\]</div>
+<p>We can re-write this expression to better see the structure we are going to use in the next step. This does not change the state, we are just re-organizing it,</p>
+<div class="amsmath math notranslate nohighlight" id="equation-73e3f95b-2461-4388-afe6-4765b6b869e3">
+<span class="eqno">(3)<a class="headerlink" href="#equation-73e3f95b-2461-4388-afe6-4765b6b869e3" title="Permalink to this equation"></a></span>\[\begin{align}
+\ket{\Psi_3} = 
+\frac{1}{2} &amp;\left[ \ket{00} \left( \alpha\ket{0} + \beta\ket{1} \right) + 
+\ket{01} \left( \alpha\ket{1} + \beta\ket{0} \right) \right. \\
++&amp;\left. \ket{10} \left( \alpha\ket{0} - \beta\ket{1} \right) + 
+\ket{11} \left( \alpha\ket{1} - \beta\ket{0} \right) \right].
+\end{align}\]</div>
+<p><strong>Step 2</strong>. Alice measures her two (leftmost) qubits, getting one of the four outcomes, <span class="math notranslate nohighlight">\(00, 01, 10\)</span> or <span class="math notranslate nohighlight">\(11\)</span>. These correspond to the four states <span class="math notranslate nohighlight">\(\ket{00}, \ket{01}, \ket{10}\)</span> or <span class="math notranslate nohighlight">\(\ket{11}\)</span>. As a result of the measurement, the total state <span class="math notranslate nohighlight">\(\ket{\Psi_3}\)</span> will collapse to one of the following four cases:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-af273187-6917-4465-ae74-59a10bccac7c">
+<span class="eqno">(4)<a class="headerlink" href="#equation-af273187-6917-4465-ae74-59a10bccac7c" title="Permalink to this equation"></a></span>\[\begin{align}
+00 &amp;\rightarrow  \ket{\Psi_4} = \ket{00} \left( \alpha\ket{0} + \beta\ket{1} \right), \\
+01 &amp;\rightarrow  \ket{\Psi_4} = \ket{01} \left( \alpha\ket{1} + \beta\ket{0} \right), \\ 
+10 &amp;\rightarrow  \ket{\Psi_4} = \ket{10} \left( \alpha\ket{0} - \beta\ket{1} \right), \\
+11 &amp;\rightarrow  \ket{\Psi_4} = \ket{11} \left( \alpha\ket{1} - \beta\ket{0} \right).
+\end{align}\]</div>
+<p><strong>Step 3</strong>. Alice will send the measurement result, the bitstring <span class="math notranslate nohighlight">\(\ket{00}, \ket{01}, \ket{10}\)</span> or <span class="math notranslate nohighlight">\(\ket{11}\)</span> to Bob, which helps Bob to post-process the state and bring it to the original state that Alice had at the beginning. The post-processing transformation is <span class="math notranslate nohighlight">\(Z^{m_0} X^{m_1}\)</span> where <span class="math notranslate nohighlight">\(m_0\)</span> and <span class="math notranslate nohighlight">\(m_1\)</span> are Alice’s measurement results of qubits <span class="math notranslate nohighlight">\(q0\)</span> and <span class="math notranslate nohighlight">\(q1\)</span>.</p>
+<p>For instance, suppose the measurement result was <span class="math notranslate nohighlight">\(m_0 = 0\)</span> and <span class="math notranslate nohighlight">\(m_1 = 1\)</span>. Then the state in Bob’s possession is <span class="math notranslate nohighlight">\(\alpha\ket{1} + \beta\ket{0}\)</span> and he needs to apply transformation <span class="math notranslate nohighlight">\(X\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+X \left( \alpha\ket{1} + \beta\ket{0} \right) = \alpha\ket{0} + \beta\ket{1}
+\]</div>
+<p>getting the exact state that Alice had in the beginning. Try work out the other cases and convince yourself that the protocol works.</p>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../E1_qc-2/" class="btn btn-neutral float-left" title="Tutorial - Quantum programming II" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../hpc-qc/" class="btn btn-neutral float-right" title="HPC-QC integration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, The contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

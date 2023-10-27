@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial: Protein Folding with Quantum Approximate Optimization Algorithm (QAOA) &mdash; Quantum Autumn School 2023  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/togglebutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx_lesson.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx_rtd_theme_ext_color_contrast.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/overrides.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script src="../../_static/minipres.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script data-domain="enccs.github.io/qas2023" defer="defer" src="https://plausible.io/js/script.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../" class="icon icon-home">
+            Quantum Autumn School 2023
+              <img src="../../_static/ENCCS.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../setup/">Setup</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 1</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../qc-overview/">Physical Approaches to Quantum Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../digital-qc/">Introduction to Digital Quantum Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-1/">Tutorial - Quantum programming I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-2/">Tutorial - Quantum programming II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-3/">Tutorial - Quantum programming III</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 2</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../hpc-qc/">HPC-QC integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software-stack/">QC software stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-classical-quantum/">Hybrid Classical/Quantum Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro-to-helmi-qiskit/">Tutorial - Introduction to Helmi with qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Qubit_Spectroscopy_Analysis/">Tutorial - Qubit Spectroscopy Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Notebook_maxcut_Qas2023/">Tutorial - Quantum Alternating Operator Ansatz</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 3</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-quantum-chemistry/">Hybrid Algorithms - Use Cases for Quantum Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-finance/">Hybrid Algorithms - Use Cases for Quantum Finance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-life-science/">Hybrid Algorithms - Use Cases for Quantum Life Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E2_VQE-H2/">Tutorial - Quantum chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/">Tutorial - Adaptive State Preparation Techniques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QF/">Tutorial - Quantum support vector regression for disability insurance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutotial_HPCoordinateBasedLattice_noDependencies/">Tutorial: Protein Folding with Quantum Approximate Optimization Algorithm (QAOA)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://enccs.se/lessons/">All ENCCS lessons</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://enccs.se/">About ENCCS</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../">Quantum Autumn School 2023</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tutorial: Protein Folding with Quantum Approximate Optimization Algorithm (QAOA)</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/qas2023/blob/main/content/notebooks/Tutotial_HPCoordinateBasedLattice.ipynb" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="tutorial-protein-folding-with-quantum-approximate-optimization-algorithm-qaoa">
+<h1>Tutorial: Protein Folding with Quantum Approximate Optimization Algorithm (QAOA)<a class="headerlink" href="#tutorial-protein-folding-with-quantum-approximate-optimization-algorithm-qaoa" title="Permalink to this heading"></a></h1>
+<p>by: Hanna Linn, WACQT Chalmers
+GitHub repository with all dependencies: https://github.com/PotatisMaster/TutorialQAOAProteinFolding</p>
+<p>This tutorial walks through performing protein folding of the hydrophobic-polar lattice model in two dimensions using Quantum Approximate Optimization Algorithm (QAOA).</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h2>
+<p>In this tutorial, we start by defining our amino acid sequence of what we want to fold together with a lattice grid on which we want to fold our sequence. We then define an energy function that, given a folding (placement) of the sequence on the grid, gives us a potential. The goal is to find the folding with the lowest potential, called the native state of the amino acid sequence. We usually have more than one native state, all with the same energy. The process can be defined as an optimisation:</p>
+<p>Given an energy function, <span class="math notranslate nohighlight">\(E(x)\)</span>, and a folding <span class="math notranslate nohighlight">\(x\)</span>:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-57e546ec-e3d2-4fbf-b2d0-0538b638bc23">
+<span class="eqno">(1)<a class="headerlink" href="#equation-57e546ec-e3d2-4fbf-b2d0-0538b638bc23" title="Permalink to this equation"></a></span>\[\begin{equation}
+\begin{array}{ll&#64;{}ll}
+\text{minimise}  &amp; E(x) &amp;\\
+\text{subject to}&amp; x \in F, &amp; &amp;
+\end{array}
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(F\)</span> is the feasible solution set of the problem, i.e., all <span class="math notranslate nohighlight">\( x \in F\)</span> translates to physically possible protein folding.</p>
+<p>For details of the energy function used in this tutorial, please see Irbäck et al. 2022:
+https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.4.043013</p>
+<p>Here, we aim to do the optimisation with the Quantum Approximate Optimization Algorithm (QAOA) using Pennylane https://pennylane.ai/qml/demos/tutorial_qaoa_intro</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># These two lines make sure that the </span>
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+
+<span class="kn">import</span> <span class="nn">pennylane</span> <span class="k">as</span> <span class="nn">qml</span>
+<span class="kn">from</span> <span class="nn">pennylane</span> <span class="kn">import</span> <span class="n">qaoa</span>
+<span class="kn">from</span> <span class="nn">pennylane</span> <span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">hamiltonian</span> <span class="kn">import</span> <span class="n">protein_folding_hamiltonian</span>
+<span class="kn">from</span> <span class="nn">CoordinateBased_HPLatticeClass</span> <span class="kn">import</span> <span class="n">CoordinateBased_HPLattice</span>
+<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="protein-model">
+<h2>Protein model<a class="headerlink" href="#protein-model" title="Permalink to this heading"></a></h2>
+<p>The HP-lattice model in two dimensions has two types of beads: H for hydrophobic and P for polar. We can make an instance of the model by defining the sequence with 1 for H and 0 for P and a lattice grid size.</p>
+<p>The model is described in detail in Sec II. “Methods” part B “Binary quadratic model for HP lattice proteins – QUBO encoding” in Irbäck et al. 2022.
+https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.4.043013</p>
+<p>The energy function can be defined as:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-4cbb7524-6813-49db-9f7b-6fef9de41d8c">
+<span class="eqno">(2)<a class="headerlink" href="#equation-4cbb7524-6813-49db-9f7b-6fef9de41d8c" title="Permalink to this equation"></a></span>\[\begin{equation}
+    E = E_{HP} + \sum_{i=1}^3 \lambda_i E_i,
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(E_{HP}\)</span> is the energy term for the HP model and the terms <span class="math notranslate nohighlight">\(E_1\)</span>, <span class="math notranslate nohighlight">\(E_2\)</span> and <span class="math notranslate nohighlight">\(E_3\)</span> are constraint energies with the penalty vector <span class="math notranslate nohighlight">\(\lambda_i,\ i=1,2,3\)</span> controlling the strength of the constraints.</p>
+<div class="amsmath math notranslate nohighlight" id="equation-7923e20c-c21e-47af-a0fb-cef118ab4cbc">
+<span class="eqno">(3)<a class="headerlink" href="#equation-7923e20c-c21e-47af-a0fb-cef118ab4cbc" title="Permalink to this equation"></a></span>\[\begin{equation}
+    E_{HP} = - \sum_{|f-f'|&gt;1}C(h_f, h_f') \sum_{(s,s')}\sigma_s^f\sigma_{s'}^{f'}
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-be936750-0613-42cb-8231-2b13c94ab9f5">
+<span class="eqno">(4)<a class="headerlink" href="#equation-be936750-0613-42cb-8231-2b13c94ab9f5" title="Permalink to this equation"></a></span>\[\begin{equation}
+    C(h_f,h_{f'}) =     \begin{cases}
+      1, &amp; \text{if } h_f = h_{f'} = \text{H}, \\
+      0, &amp; \text{otherwise}.
+    \end{cases} 
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-dad4e806-9f5b-4335-90ce-8cc6c4308217">
+<span class="eqno">(5)<a class="headerlink" href="#equation-dad4e806-9f5b-4335-90ce-8cc6c4308217" title="Permalink to this equation"></a></span>\[\begin{equation}
+    E_1 = \sum_f \left(\sum_s\sigma_s^f-1\right)^2 + \left\{ \text{same for odd parity} \right\}
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-0c27cba3-a5af-4a72-aebd-7e6ce1147d6b">
+<span class="eqno">(6)<a class="headerlink" href="#equation-0c27cba3-a5af-4a72-aebd-7e6ce1147d6b" title="Permalink to this equation"></a></span>\[\begin{equation}
+    E_2 = \frac{1}{2} \sum_{f_1 \not = f_2} \sum_s \sigma_s^f\sum_{||s'-s||&gt;1} \sigma_{s'}^{f+1} + \left\{ \text{same for odd parity} \right\}
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-49f5f623-b224-4242-85e6-3e8b7b21968c">
+<span class="eqno">(7)<a class="headerlink" href="#equation-49f5f623-b224-4242-85e6-3e8b7b21968c" title="Permalink to this equation"></a></span>\[\begin{equation}
+\begin{split}
+    E_3 =&amp; \sum_{1 \leq f&lt;N} \sum_s \sigma_s^f \sum_{||s'-s||&gt;1} \sigma_{s'}^{f+1} \\
+    &amp; + \left\{ \text{same with odd/even parity interchanged} \right\},
+\end{split}
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma_s^f\)</span> to describe the location of the even beads. The index <span class="math notranslate nohighlight">\(f\)</span> is the beads and <span class="math notranslate nohighlight">\(s\)</span> is the sites (’ are the odd beads and sites). The <span class="math notranslate nohighlight">\(\sigma_s^f=1\)</span> if bead <span class="math notranslate nohighlight">\(f\)</span> is located on site <span class="math notranslate nohighlight">\(s\)</span>, and <span class="math notranslate nohighlight">\(\sigma_s^f=0\)</span> otherwise, same for odds. The sites and beads are divided into odds and even to reduce the number of bits required from the number of amino acids times the area of the grid to half.</p>
+<p>The terms in the energy function can be clumped together to one-body energy <span class="math notranslate nohighlight">\(O_i\)</span>, and two-body interaction <span class="math notranslate nohighlight">\(T_{ij}\)</span>, the pairwise interaction potentials.
+The energy function to optimize can be written as</p>
+<div class="amsmath math notranslate nohighlight" id="equation-f54725b4-e760-4057-b105-513943931060">
+<span class="eqno">(8)<a class="headerlink" href="#equation-f54725b4-e760-4057-b105-513943931060" title="Permalink to this equation"></a></span>\[\begin{equation}
+    E(x) = \underbrace{\sum^N_{i=1} O_i x_i}_\text{one-body} + \underbrace{\sum^{N-1}_{i=1}\sum^N_{j=i+1} T_{ij}x_ix_j}_\text{two-body},
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(x_i\)</span> is a bitstring representing the folding on the lattice. <span class="math notranslate nohighlight">\(x_1\)</span> is the choise, 1 for yes and 0 for no, of putting the first amino acid on position (0,0) on the grid.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make an instance for the protein</span>
+<span class="n">sequence</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="c1">#HPPH</span>
+<span class="n">L1</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">L2</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="n">lambda_vector</span> <span class="o">=</span> <span class="p">(</span><span class="mf">2.1</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span> <span class="c1"># see Fig.2 in Irbäck et al.</span>
+
+<span class="n">protein</span> <span class="o">=</span> <span class="n">CoordinateBased_HPLattice</span><span class="p">((</span><span class="n">L1</span><span class="p">,</span> <span class="n">L2</span><span class="p">),</span> <span class="n">sequence</span> <span class="o">=</span> <span class="n">sequence</span><span class="p">,</span> <span class="n">lambda_vector</span> <span class="o">=</span> <span class="n">lambda_vector</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">protein</span><span class="p">)</span>
+<span class="n">protein</span><span class="o">.</span><span class="n">calc_solution_sets</span><span class="p">()</span>
+<span class="n">feasible_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">protein</span><span class="o">.</span><span class="n">feasible_set</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;What all bits are, on the format ((x,y)-coordninate on the grid, which index of the sequence): &#39;</span><span class="p">,</span> <span class="n">protein</span><span class="o">.</span><span class="n">get_bit_names</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The number of bits needed to encode one folding: &#39;</span><span class="p">,</span> <span class="n">protein</span><span class="o">.</span><span class="n">num_bits</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The quotient of size of feasible set compared to the total solution set:&#39;</span><span class="p">,</span> <span class="n">protein</span><span class="o">.</span><span class="n">get_feasible_percentage</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>O:
+[-2.1, -2.1, -2.1, -2.1, -2.1, -2.1, -2.1, -2.1, -2.1, -2.1, -2.1, -2.1]
+T:
+[[ 0.   4.2  4.2  0.   0.   3.   2.4  0.   0.  -1.  -1.   0. ]
+ [ 4.2  0.   4.2  0.   0.   0.   0.   2.4  0.  -1.  -1.  -1. ]
+ [ 4.2  4.2  0.   3.   0.   0.   0.   0.   2.4  0.  -1.  -1. ]
+ [ 0.   0.   3.   0.   4.2  4.2  0.   0.   3.   2.4  0.   0. ]
+ [ 0.   0.   0.   4.2  0.   4.2  0.   0.   0.   0.   2.4  0. ]
+ [ 3.   0.   0.   4.2  4.2  0.   3.   0.   0.   0.   0.   2.4]
+ [ 2.4  0.   0.   0.   0.   3.   0.   4.2  4.2  0.   0.   3. ]
+ [ 0.   2.4  0.   0.   0.   0.   4.2  0.   4.2  0.   0.   0. ]
+ [ 0.   0.   2.4  3.   0.   0.   4.2  4.2  0.   3.   0.   0. ]
+ [-1.  -1.   0.   2.4  0.   0.   0.   0.   3.   0.   4.2  4.2]
+ [-1.  -1.  -1.   0.   2.4  0.   0.   0.   0.   4.2  0.   4.2]
+ [ 0.  -1.  -1.   0.   0.   2.4  3.   0.   0.   4.2  4.2  0. ]]
+
+What all bits are, on the format ((x,y)-coordninate on the grid, which index of the sequence):  [((0, 0), 0), ((1, 1), 0), ((2, 0), 0), ((0, 1), 1), ((1, 0), 1), ((2, 1), 1), ((0, 0), 2), ((1, 1), 2), ((2, 0), 2), ((0, 1), 3), ((1, 0), 3), ((2, 1), 3)] 
+
+The number of bits needed to encode one folding:  12 
+
+The quotient of size of feasible set compared to the total solution set: 0.341796875 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Draw the protein</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;First solution in the feasible solution set: &#39;</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="kc">True</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">False</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">feasible_set</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">protein</span><span class="o">.</span><span class="n">get_bit_names</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="p">])</span>
+
+<span class="n">protein</span><span class="o">.</span><span class="n">viz_lattice</span><span class="p">(</span><span class="n">feasible_set</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>First solution in the feasible solution set: 
+[((0, 0), 0), ((0, 1), 1), ((1, 1), 2), ((1, 0), 3)]
+</pre></div>
+</div>
+<img alt="../../_images/71beded2e3ef5857a7663957c7cbcf2d86682c42bdc1710f6c3a6cdac56204f6.png" src="../../_images/71beded2e3ef5857a7663957c7cbcf2d86682c42bdc1710f6c3a6cdac56204f6.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Draw all proteins in feasible solution set</span>
+<span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">feasible_set</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+    <span class="n">protein</span><span class="o">.</span><span class="n">viz_lattice</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/71beded2e3ef5857a7663957c7cbcf2d86682c42bdc1710f6c3a6cdac56204f6.png" src="../../_images/71beded2e3ef5857a7663957c7cbcf2d86682c42bdc1710f6c3a6cdac56204f6.png" />
+<img alt="../../_images/1fa92c18d2de6cddd4d508192645a9004336003657eb1709560cd80d9b614d8b.png" src="../../_images/1fa92c18d2de6cddd4d508192645a9004336003657eb1709560cd80d9b614d8b.png" />
+<img alt="../../_images/d9412cd6277e69245bbf42f280b008623a35871503a4ddb42c1934802f457d2c.png" src="../../_images/d9412cd6277e69245bbf42f280b008623a35871503a4ddb42c1934802f457d2c.png" />
+<img alt="../../_images/63e1906472d56c118e7deaba1c18d32376681e1dc454f807a6e6b5e1500e2567.png" src="../../_images/63e1906472d56c118e7deaba1c18d32376681e1dc454f807a6e6b5e1500e2567.png" />
+<img alt="../../_images/b6bb4f6104945df1f4a8adf0436052c0fc2fc3d0e78e05a8a40a3806b2304ba3.png" src="../../_images/b6bb4f6104945df1f4a8adf0436052c0fc2fc3d0e78e05a8a40a3806b2304ba3.png" />
+<img alt="../../_images/36af0749fe554e7df94fa36f09c8091d32fb4715c2105d82197c3b60dbd1808f.png" src="../../_images/36af0749fe554e7df94fa36f09c8091d32fb4715c2105d82197c3b60dbd1808f.png" />
+<img alt="../../_images/98d3ae9158ef75179615fcd867aa28977a932604b14953dabdd116b43351ebb9.png" src="../../_images/98d3ae9158ef75179615fcd867aa28977a932604b14953dabdd116b43351ebb9.png" />
+<img alt="../../_images/60f66acf47b1c13ad66289c7c1560aefcba18577b371e0db5ad0bff3c0b7604c.png" src="../../_images/60f66acf47b1c13ad66289c7c1560aefcba18577b371e0db5ad0bff3c0b7604c.png" />
+<img alt="../../_images/1d2fc0b967f41c729c9def0b590e948aa222770ba9b185531d4b0a42a0ebddef.png" src="../../_images/1d2fc0b967f41c729c9def0b590e948aa222770ba9b185531d4b0a42a0ebddef.png" />
+<img alt="../../_images/a65a7ca6aab242c6e81ddfd50e3e030f412c69eadc846e115e1f37630ee2685a.png" src="../../_images/a65a7ca6aab242c6e81ddfd50e3e030f412c69eadc846e115e1f37630ee2685a.png" />
+<img alt="../../_images/e91303e4796466d7fc64edf50efe479222326e34b50ee0e828df01559d618036.png" src="../../_images/e91303e4796466d7fc64edf50efe479222326e34b50ee0e828df01559d618036.png" />
+<img alt="../../_images/3c590e7081bab1581aec50b673f6ee69a1ea77f6d0553a1542ee98aefd3cb403.png" src="../../_images/3c590e7081bab1581aec50b673f6ee69a1ea77f6d0553a1542ee98aefd3cb403.png" />
+<img alt="../../_images/60c0349f32673340082f9a9883eff5e0e7032bac4ae023c98b79ceccf655dbdc.png" src="../../_images/60c0349f32673340082f9a9883eff5e0e7032bac4ae023c98b79ceccf655dbdc.png" />
+<img alt="../../_images/d1966285d180e5cafbc44b3cd0c83fd4888a34d93a97cf2ecef81476863f3987.png" src="../../_images/d1966285d180e5cafbc44b3cd0c83fd4888a34d93a97cf2ecef81476863f3987.png" />
+</div>
+</div>
+</section>
+<section id="quantum-approximate-optimization-algorithm-qaoa">
+<h2>Quantum Approximate Optimization Algorithm (QAOA)<a class="headerlink" href="#quantum-approximate-optimization-algorithm-qaoa" title="Permalink to this heading"></a></h2>
+<div class="math notranslate nohighlight">
+\[\newcommand{\ket}[1]{\left|{#1}\right\rangle}\]</div>
+<div class="math notranslate nohighlight">
+\[\newcommand{\bra}[1]{\left\langle{#1}\right|}\]</div>
+<div class="math notranslate nohighlight">
+\[\newcommand{\braket}[2]{\left\langle{#1}\middle|{#2}\right\rangle}\]</div>
+<p>In QAOA, the circuit is done in a sequence of depth <span class="math notranslate nohighlight">\(p\)</span>:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-9a8c7d66-dd6f-4b57-89a8-b140186b66a5">
+<span class="eqno">(9)<a class="headerlink" href="#equation-9a8c7d66-dd6f-4b57-89a8-b140186b66a5" title="Permalink to this equation"></a></span>\[\begin{equation}
+    \begin{split}
+        \ket{\psi_p(\gamma, \beta)} = &amp; e^{-i\beta_p H_{mixer}} e^{-i\gamma_p H_{\text{cost}}}\\
+        &amp;... e^{-i\beta_1 H_{mixer}} e^{-i\gamma_1 H_{\text{cost}}} \ket{\psi_{\text{init.}}},
+    \end{split}
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\gamma\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> are vectors of parameters to optimise by a classical computer so that the probability of measuring the optimal state is high.</p>
+<p>The function to optimise is often the expectation value</p>
+<div class="amsmath math notranslate nohighlight" id="equation-a13f2ac7-918c-4779-9a69-7b57319e40df">
+<span class="eqno">(10)<a class="headerlink" href="#equation-a13f2ac7-918c-4779-9a69-7b57319e40df" title="Permalink to this equation"></a></span>\[\begin{equation}
+    C_{\text{obj.}} = \bra{\psi_p(\gamma, \beta)}H_{cost}\ket{\psi_p(\gamma, \beta)},
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(C_{\text{obj.}}\)</span> is the energy function in our case.
+If we get the lowest expectation value, we should get the answer with the lowest energy.</p>
+<p>For details on how to run QAOA in Pennylane: https://pennylane.ai/qml/demos/tutorial_qaoa_intro</p>
+<section id="protein-instance-into-cost-hamiltonian">
+<h3>Protein instance into cost Hamiltonian<a class="headerlink" href="#protein-instance-into-cost-hamiltonian" title="Permalink to this heading"></a></h3>
+<p>Here, we create a cost Hamiltonian from the protein by translating the binary variables <span class="math notranslate nohighlight">\(x_i=\{0,1\}\)</span> to spin <span class="math notranslate nohighlight">\(q_i=\{1,-1\}\)</span> for the qubits. We end up with a problem on the form of an Ising Hamiltonian:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-ae47fd4e-eb65-4215-8baa-4542a121b7f3">
+<span class="eqno">(11)<a class="headerlink" href="#equation-ae47fd4e-eb65-4215-8baa-4542a121b7f3" title="Permalink to this equation"></a></span>\[\begin{equation}
+    H_{\text{cost}} = \sum_i h_i \sigma_i^z + \sum_{ij} J_{ij} \sigma_i^z \sigma_j^z,
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(h_i\)</span> are the field constants applied to qubit <span class="math notranslate nohighlight">\(i\)</span> translated from the one-body energies, <span class="math notranslate nohighlight">\(J_{ij}\)</span> are the two-body interaction constants between qubit <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> translated from the two-body energies and <span class="math notranslate nohighlight">\(\sigma^z\)</span> is the Pauli operator in the <span class="math notranslate nohighlight">\(z\)</span>-direction.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make into Hamiltonian</span>
+<span class="n">H_cost</span> <span class="o">=</span> <span class="n">protein_folding_hamiltonian</span><span class="p">(</span><span class="n">protein</span><span class="p">)</span>
+<span class="n">num_qubits</span> <span class="o">=</span> <span class="n">protein</span><span class="o">.</span><span class="n">num_bits</span>
+<span class="n">qubits</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">protein</span><span class="o">.</span><span class="n">num_bits</span><span class="p">)</span> <span class="c1"># naming the qubits</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;H_cost:</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">H_cost</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>H_cost:
+  (-3.1500000000000004) [Z6]
++ (-3.1500000000000004) [Z8]
++ (-3.15) [Z3]
++ (-3.15) [Z5]
++ (-1.9) [Z9]
++ (-1.9) [Z11]
++ (-1.9) [Z0]
++ (-1.9) [Z2]
++ (-1.65) [Z7]
++ (-1.65) [Z4]
++ (-0.8999999999999999) [Z10]
++ (-0.8999999999999999) [Z1]
++ (-0.25) [Z0 Z9]
++ (-0.25) [Z0 Z10]
++ (-0.25) [Z1 Z9]
++ (-0.25) [Z1 Z10]
++ (-0.25) [Z1 Z11]
++ (-0.25) [Z2 Z10]
++ (-0.25) [Z2 Z11]
++ (0.0) [Z0 Z3]
++ (0.0) [Z0 Z4]
++ (0.0) [Z0 Z7]
++ (0.0) [Z0 Z8]
++ (0.0) [Z0 Z11]
++ (0.0) [Z1 Z3]
++ (0.0) [Z1 Z4]
++ (0.0) [Z1 Z5]
++ (0.0) [Z1 Z6]
++ (0.0) [Z1 Z8]
++ (0.0) [Z2 Z4]
++ (0.0) [Z2 Z5]
++ (0.0) [Z2 Z6]
++ (0.0) [Z2 Z7]
++ (0.0) [Z2 Z9]
++ (0.0) [Z3 Z6]
++ (0.0) [Z3 Z7]
++ (0.0) [Z3 Z10]
++ (0.0) [Z3 Z11]
++ (0.0) [Z4 Z6]
++ (0.0) [Z4 Z7]
++ (0.0) [Z4 Z8]
++ (0.0) [Z4 Z9]
++ (0.0) [Z4 Z11]
++ (0.0) [Z5 Z7]
++ (0.0) [Z5 Z8]
++ (0.0) [Z5 Z9]
++ (0.0) [Z5 Z10]
++ (0.0) [Z6 Z9]
++ (0.0) [Z6 Z10]
++ (0.0) [Z7 Z9]
++ (0.0) [Z7 Z10]
++ (0.0) [Z7 Z11]
++ (0.0) [Z8 Z10]
++ (0.0) [Z8 Z11]
++ (0.6) [Z0 Z6]
++ (0.6) [Z1 Z7]
++ (0.6) [Z2 Z8]
++ (0.6) [Z3 Z9]
++ (0.6) [Z4 Z10]
++ (0.6) [Z5 Z11]
++ (0.75) [Z0 Z5]
++ (0.75) [Z2 Z3]
++ (0.75) [Z3 Z8]
++ (0.75) [Z5 Z6]
++ (0.75) [Z6 Z11]
++ (0.75) [Z8 Z9]
++ (1.05) [Z0 Z1]
++ (1.05) [Z0 Z2]
++ (1.05) [Z1 Z2]
++ (1.05) [Z3 Z4]
++ (1.05) [Z3 Z5]
++ (1.05) [Z4 Z5]
++ (1.05) [Z6 Z7]
++ (1.05) [Z6 Z8]
++ (1.05) [Z7 Z8]
++ (1.05) [Z9 Z10]
++ (1.05) [Z9 Z11]
++ (1.05) [Z10 Z11]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="ground-state-of-the-cost-hamiltonian">
+<h3>Ground state of the cost Hamiltonian<a class="headerlink" href="#ground-state-of-the-cost-hamiltonian" title="Permalink to this heading"></a></h3>
+<p>The native states of the protein are the ground states of the cost Hamiltonian. We need it to benchmark our algorithm’s performance.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ground_energy</span><span class="p">,</span> <span class="n">ground_states_index</span> <span class="o">=</span> <span class="n">get_ground_states_i</span><span class="p">(</span><span class="n">feasible_set</span><span class="p">,</span> <span class="n">H_cost</span><span class="p">)</span> <span class="c1"># get the ground states</span>
+
+<span class="c1"># This function is cheating! It is an extensive search through all solutions to find the one with the lowest energy.</span>
+<span class="c1"># But we use it for benchmarking our algorithm on small problem instances.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Ground energy: &#39;</span><span class="p">,</span> <span class="n">ground_energy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ground energy:  -15.75
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="we-also-need-a-mixer-hamiltonian-for-our-qaoa">
+<h3>We also need a mixer Hamiltonian for our QAOA<a class="headerlink" href="#we-also-need-a-mixer-hamiltonian-for-our-qaoa" title="Permalink to this heading"></a></h3>
+<p>Pennylane has a command to get a simple X-mixer:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-8da6d8b5-04a7-4e6b-b24e-43c18e4f3211">
+<span class="eqno">(12)<a class="headerlink" href="#equation-8da6d8b5-04a7-4e6b-b24e-43c18e4f3211" title="Permalink to this equation"></a></span>\[\begin{equation}
+    H_{\text{mixer}} = \sum_i \sigma_i^x.
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma^x\)</span> is the Pauli operator in the <span class="math notranslate nohighlight">\(x\)</span>-direction.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">H_mixer</span> <span class="o">=</span> <span class="n">qaoa</span><span class="o">.</span><span class="n">x_mixer</span><span class="p">(</span><span class="n">qubits</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;H_mixer:</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">H_mixer</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>H_mixer:
+  (1) [X0]
++ (1) [X1]
++ (1) [X2]
++ (1) [X3]
++ (1) [X4]
++ (1) [X5]
++ (1) [X6]
++ (1) [X7]
++ (1) [X8]
++ (1) [X9]
++ (1) [X10]
++ (1) [X11]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="using-pennylane-to-build-the-qaoa-circuit">
+<h3>Using Pennylane to build the QAOA circuit<a class="headerlink" href="#using-pennylane-to-build-the-qaoa-circuit" title="Permalink to this heading"></a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dev</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;default.qubit&#39;</span><span class="p">,</span> <span class="n">wires</span> <span class="o">=</span> <span class="n">qubits</span><span class="p">)</span>
+
+<span class="c1"># Put the Mixer and Cost Hamiltonians in a layer so that we can repeat it</span>
+<span class="k">def</span> <span class="nf">qaoa_layer</span><span class="p">(</span><span class="n">gamma</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+    <span class="n">qaoa</span><span class="o">.</span><span class="n">cost_layer</span><span class="p">(</span><span class="n">gamma</span><span class="p">,</span> <span class="n">H_cost</span><span class="p">)</span>
+    <span class="n">qaoa</span><span class="o">.</span><span class="n">mixer_layer</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">H_mixer</span><span class="p">)</span>
+    
+<span class="c1"># Then repeat it in a circuit with starting in a super position of all bitstrings</span>
+<span class="k">def</span> <span class="nf">circuit</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>     <span class="c1"># Gamma and Beta values can be put together to be an array of parameters</span>
+    <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">qubits</span><span class="p">:</span>     <span class="c1"># To start in a superposition we place a Hadamard on all qubits</span>
+        <span class="n">qml</span><span class="o">.</span><span class="n">Hadamard</span><span class="p">(</span><span class="n">wires</span> <span class="o">=</span> <span class="n">q</span><span class="p">)</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">layer</span><span class="p">(</span><span class="n">qaoa_layer</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># Repeats our layer p=len(params[0]) times.</span>
+
+<span class="c1"># If we add a expectation value we get a cost function for average cost of the cost Hamiltonian for given parameters</span>
+<span class="nd">@qml</span><span class="o">.</span><span class="n">qnode</span><span class="p">(</span><span class="n">dev</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">average_cost</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="n">circuit</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">qml</span><span class="o">.</span><span class="n">expval</span><span class="p">(</span><span class="n">H_cost</span><span class="p">)</span>
+
+<span class="c1"># Let&#39;s test it! Only one layer.</span>
+<span class="n">zero_parameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">]])</span> <span class="c1"># Gamma and Beta both set to 0.</span>
+<span class="n">half_parameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">],[</span><span class="mf">0.5</span><span class="p">]])</span>  <span class="c1"># Gamma and Beta both set to 0.5.</span>
+
+<span class="c1">#print(&#39;Average cost with gamma=0 and beta=0:\n&#39;, average_cost(zero_parameters))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Average cost with gamma=0.5 and beta=0.5:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">average_cost</span><span class="p">(</span><span class="n">half_parameters</span><span class="p">))</span>
+
+<span class="c1"># Draw our circuit</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">qml</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">average_cost</span><span class="p">,</span> <span class="n">expansion_strategy</span> <span class="o">=</span> <span class="s1">&#39;device&#39;</span><span class="p">)(</span><span class="n">zero_parameters</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Average cost with gamma=0.5 and beta=0.5:
+ 1.142734828865597
+
+ 0: ──H─╭RZZ(0.00)─╭RZZ(0.00)──RZ(-0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)
+ 1: ──H─╰RZZ(0.00)─│─────────────────────│──────────│──────────│──────────│──────────│─────────
+ 2: ──H────────────╰RZZ(0.00)────────────│──────────│──────────│──────────│──────────│─────────
+ 3: ──H──RZ(-0.00)───────────────────────╰RZZ(0.00)─│──────────│──────────│──────────│─────────
+ 4: ──H─────────────────────────────────────────────╰RZZ(0.00)─│──────────│──────────│─────────
+ 5: ──H──RZ(-0.00)─────────────────────────────────────────────╰RZZ(0.00)─│──────────│─────────
+ 6: ──H──RZ(-0.00)────────────────────────────────────────────────────────╰RZZ(0.00)─│─────────
+ 7: ──H──RZ(-0.00)───────────────────────────────────────────────────────────────────╰RZZ(0.00)
+ 8: ──H──RZ(-0.00)─────────────────────────────────────────────────────────────────────────────
+ 9: ──H──RZ(-0.00)─────────────────────────────────────────────────────────────────────────────
+10: ──H──RZ(-0.00)─────────────────────────────────────────────────────────────────────────────
+11: ──H──RZ(-0.00)─────────────────────────────────────────────────────────────────────────────
+
+──╭RZZ(0.00)─╭RZZ(-0.00)─╭RZZ(-0.00)─╭RZZ(0.00)──RX(0.00)──────────────────────────────────
+──│──────────│───────────│───────────│──────────╭RZZ(0.00)──RZ(-0.00)─╭RZZ(0.00)─╭RZZ(0.00)
+──│──────────│───────────│───────────│──────────╰RZZ(0.00)──RZ(-0.00)─│──────────│─────────
+──│──────────│───────────│───────────│────────────────────────────────╰RZZ(0.00)─│─────────
+──│──────────│───────────│───────────│───────────────────────────────────────────╰RZZ(0.00)
+──│──────────│───────────│───────────│─────────────────────────────────────────────────────
+──│──────────│───────────│───────────│─────────────────────────────────────────────────────
+──│──────────│───────────│───────────│─────────────────────────────────────────────────────
+──╰RZZ(0.00)─│───────────│───────────│─────────────────────────────────────────────────────
+─────────────╰RZZ(-0.00)─│───────────│─────────────────────────────────────────────────────
+─────────────────────────╰RZZ(-0.00)─│─────────────────────────────────────────────────────
+─────────────────────────────────────╰RZZ(0.00)────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────────────────
+──╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(-0.00)─╭RZZ(-0.00)─╭RZZ(-0.00)──RX(0.00)─
+──│──────────│──────────│──────────│──────────│───────────│───────────│───────────╭RZZ(0.00)
+──│──────────│──────────│──────────│──────────│───────────│───────────│───────────╰RZZ(0.00)
+──│──────────│──────────│──────────│──────────│───────────│───────────│─────────────────────
+──╰RZZ(0.00)─│──────────│──────────│──────────│───────────│───────────│─────────────────────
+─────────────╰RZZ(0.00)─│──────────│──────────│───────────│───────────│─────────────────────
+────────────────────────╰RZZ(0.00)─│──────────│───────────│───────────│─────────────────────
+───────────────────────────────────╰RZZ(0.00)─│───────────│───────────│─────────────────────
+──────────────────────────────────────────────╰RZZ(-0.00)─│───────────│─────────────────────
+──────────────────────────────────────────────────────────╰RZZ(-0.00)─│─────────────────────
+──────────────────────────────────────────────────────────────────────╰RZZ(-0.00)───────────
+
+───────────────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────────────────────────────────────────────────────────────────
+──╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(-0.00)─╭RZZ(-0.00)
+──│──────────│──────────│──────────│──────────│──────────│──────────│───────────│──────────
+──╰RZZ(0.00)─│──────────│──────────│──────────│──────────│──────────│───────────│──────────
+─────────────╰RZZ(0.00)─│──────────│──────────│──────────│──────────│───────────│──────────
+────────────────────────╰RZZ(0.00)─│──────────│──────────│──────────│───────────│──────────
+───────────────────────────────────╰RZZ(0.00)─│──────────│──────────│───────────│──────────
+──────────────────────────────────────────────╰RZZ(0.00)─│──────────│───────────│──────────
+─────────────────────────────────────────────────────────╰RZZ(0.00)─│───────────│──────────
+────────────────────────────────────────────────────────────────────╰RZZ(-0.00)─│──────────
+────────────────────────────────────────────────────────────────────────────────╰RZZ(-0.00)
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────────────────────────────────────────────
+───RX(0.00)─────────────────────────────────────────────────────────────────────────────────────────
+──╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)──RX(0.00)─
+──╰RZZ(0.00)─│──────────│──────────│──────────│──────────│──────────│──────────│──────────╭RZZ(0.00)
+─────────────╰RZZ(0.00)─│──────────│──────────│──────────│──────────│──────────│──────────╰RZZ(0.00)
+────────────────────────╰RZZ(0.00)─│──────────│──────────│──────────│──────────│────────────────────
+───────────────────────────────────╰RZZ(0.00)─│──────────│──────────│──────────│────────────────────
+──────────────────────────────────────────────╰RZZ(0.00)─│──────────│──────────│────────────────────
+─────────────────────────────────────────────────────────╰RZZ(0.00)─│──────────│────────────────────
+────────────────────────────────────────────────────────────────────╰RZZ(0.00)─│────────────────────
+───────────────────────────────────────────────────────────────────────────────╰RZZ(0.00)───────────
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────────────────────────────────────────────
+───RZ(-0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)──RX(0.00)────────────
+─────────────│──────────│──────────│──────────│──────────│──────────│──────────╭RZZ(0.00)─╭RZZ(0.00)
+─────────────╰RZZ(0.00)─│──────────│──────────│──────────│──────────│──────────╰RZZ(0.00)─│─────────
+────────────────────────╰RZZ(0.00)─│──────────│──────────│──────────│─────────────────────╰RZZ(0.00)
+───────────────────────────────────╰RZZ(0.00)─│──────────│──────────│───────────────────────────────
+──────────────────────────────────────────────╰RZZ(0.00)─│──────────│───────────────────────────────
+─────────────────────────────────────────────────────────╰RZZ(0.00)─│───────────────────────────────
+────────────────────────────────────────────────────────────────────╰RZZ(0.00)──────────────────────
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────────────────────────────────────────────
+──╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)──RX(0.00)─────────────────────────────────────────────
+──│──────────│──────────│──────────│──────────╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)
+──│──────────│──────────│──────────│──────────╰RZZ(0.00)─│──────────│──────────│──────────│─────────
+──╰RZZ(0.00)─│──────────│──────────│─────────────────────╰RZZ(0.00)─│──────────│──────────│─────────
+─────────────╰RZZ(0.00)─│──────────│────────────────────────────────╰RZZ(0.00)─│──────────│─────────
+────────────────────────╰RZZ(0.00)─│───────────────────────────────────────────╰RZZ(0.00)─│─────────
+───────────────────────────────────╰RZZ(0.00)─────────────────────────────────────────────╰RZZ(0.00)
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────────────────────────────────────────────
+───RX(0.00)─────────────────────────────────────────────────────────────────────────────────────────
+──╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)──RX(0.00)─────────────────────────────────────────────
+──╰RZZ(0.00)─│──────────│──────────│──────────╭RZZ(0.00)─╭RZZ(0.00)─╭RZZ(0.00)──RX(0.00)────────────
+─────────────╰RZZ(0.00)─│──────────│──────────╰RZZ(0.00)─│──────────│──────────╭RZZ(0.00)─╭RZZ(0.00)
+────────────────────────╰RZZ(0.00)─│─────────────────────╰RZZ(0.00)─│──────────╰RZZ(0.00)─│─────────
+───────────────────────────────────╰RZZ(0.00)───────────────────────╰RZZ(0.00)────────────╰RZZ(0.00)
+
+───────────────────────┤ ╭&lt;𝓗&gt;
+───────────────────────┤ ├&lt;𝓗&gt;
+───────────────────────┤ ├&lt;𝓗&gt;
+───────────────────────┤ ├&lt;𝓗&gt;
+───────────────────────┤ ├&lt;𝓗&gt;
+───────────────────────┤ ├&lt;𝓗&gt;
+───────────────────────┤ ├&lt;𝓗&gt;
+───────────────────────┤ ├&lt;𝓗&gt;
+───────────────────────┤ ├&lt;𝓗&gt;
+───RX(0.00)────────────┤ ├&lt;𝓗&gt;
+──╭RZZ(0.00)──RX(0.00)─┤ ├&lt;𝓗&gt;
+──╰RZZ(0.00)──RX(0.00)─┤ ╰&lt;𝓗&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="optimisation-of-the-circuit-parameters-with-a-gradient-descent">
+<h2>Optimisation of the circuit parameters with a gradient descent<a class="headerlink" href="#optimisation-of-the-circuit-parameters-with-a-gradient-descent" title="Permalink to this heading"></a></h2>
+<p>We walk in parameter space to find the best parameters to get a high probability for the low energy states.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define which optimiser we want to use, AdamOptimizer() is another option</span>
+<span class="n">optimiser</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">GradientDescentOptimizer</span><span class="p">()</span>
+
+<span class="c1"># How many steps are we taking</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="mi">20</span> 
+
+<span class="c1"># Naive initial parameters</span>
+<span class="n">initial_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]],</span> <span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Number of layers in our circuit</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="c1"># Vectors for saving the information</span>
+<span class="n">cost_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span>
+<span class="n">cost_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">average_cost</span><span class="p">(</span><span class="n">initial_params</span><span class="p">)</span>
+<span class="n">params_vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">steps</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
+
+<span class="c1"># Loop for performing the optimisation</span>
+<span class="n">params</span> <span class="o">=</span> <span class="n">initial_params</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">steps</span><span class="p">):</span>
+    <span class="n">params_vector</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span>
+    <span class="n">params</span><span class="p">,</span> <span class="n">cost_</span> <span class="o">=</span> <span class="n">optimiser</span><span class="o">.</span><span class="n">step_and_cost</span><span class="p">(</span><span class="n">average_cost</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+    <span class="n">cost_vector</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">cost_</span>
+
+<span class="c1"># How did we do?</span>
+<span class="n">best_params_optimisation</span> <span class="o">=</span> <span class="n">params</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Optimal parameters after gradient descent:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">best_params_optimisation</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Average cost for the best parameters:&#39;</span><span class="p">,</span> <span class="n">average_cost</span><span class="p">(</span><span class="n">best_params_optimisation</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Compared to the ground energy: &#39;</span><span class="p">,</span> <span class="n">ground_energy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimal parameters after gradient descent:
+ [[0.58036313 0.20126803]
+ [0.40120566 0.48723116]]
+
+Average cost for the best parameters: -1.4518091105793292
+Compared to the ground energy:  -15.75
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s plot that</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;seaborn&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cost_vector</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Steps&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Average cost&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Optimisation of $\gamma$ and $\beta$&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_15952/2123675139.py:2: MatplotlibDeprecationWarning: The seaborn styles shipped by Matplotlib are deprecated since 3.6, as they no longer correspond to the styles shipped by seaborn. However, they will remain available as &#39;seaborn-v0_8-&lt;style&gt;&#39;. Alternatively, directly use the seaborn API instead.
+  plt.style.use(&quot;seaborn&quot;)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Optimisation of $\\gamma$ and $\\beta$&#39;)
+</pre></div>
+</div>
+<img alt="../../_images/f7158b5cce14283759c68ef3cc3962b119e2bde62fea36cc86d19862cef651b6.png" src="../../_images/f7158b5cce14283759c68ef3cc3962b119e2bde62fea36cc86d19862cef651b6.png" />
+</div>
+</div>
+<section id="evaluation-of-optimisation-of-cirquit-parameters">
+<h3>Evaluation of optimisation of cirquit parameters<a class="headerlink" href="#evaluation-of-optimisation-of-cirquit-parameters" title="Permalink to this heading"></a></h3>
+<p>We can see that the average cost of the circuit is lower than for the initial parameters. However, what does that mean for our protein? We want to ensure the probability to find the best fold is as high as possible.</p>
+<p>Success probability or Overlap with solution:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-93868138-5a3b-4928-96cf-d6b52ccc04bf">
+<span class="eqno">(13)<a class="headerlink" href="#equation-93868138-5a3b-4928-96cf-d6b52ccc04bf" title="Permalink to this equation"></a></span>\[\begin{equation}
+    SP(\gamma, \beta) = |\braket{x_{best}}{\gamma, \beta}|^2
+\end{equation}\]</div>
+<p>which is the probability of measuring the solution given the parameters <span class="math notranslate nohighlight">\(\gamma, \beta\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># A function for obtaining the probability of measuring the different foldings</span>
+<span class="c1"># in the end of the circuit given a set of parameters</span>
+<span class="nd">@qml</span><span class="o">.</span><span class="n">qnode</span><span class="p">(</span><span class="n">dev</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">probability_circuit</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="n">circuit</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">qml</span><span class="o">.</span><span class="n">probs</span><span class="p">(</span><span class="n">wires</span> <span class="o">=</span> <span class="n">qubits</span><span class="p">)</span>
+
+
+<span class="n">probs</span> <span class="o">=</span> <span class="n">probability_circuit</span><span class="p">(</span><span class="n">best_params_optimisation</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Success probability: &#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="n">ground_states_index</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Success probability:  0.002879248552801237
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot all solutions with a probability over a threshhold (to not over crowd the graph)</span>
+<span class="c1"># The color of the graph is the classical energy of the solution/fold.</span>
+<span class="c1"># A ground state will have a green label.</span>
+
+<span class="c1"># If the there are no solutions with a probability over the threshhold we don&#39;t get a graph.</span>
+<span class="n">plot_probs_with_energy</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">,</span> <span class="n">H_cost</span><span class="p">,</span> <span class="n">ground_states_index</span><span class="p">,</span> <span class="n">threshhold</span> <span class="o">=</span> <span class="mf">0.002</span><span class="p">)</span> <span class="c1"># plot probability over bitstrings</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Figure size 800x550 with 0 Axes&gt;
+</pre></div>
+</div>
+<img alt="../../_images/099bbea07ebdae72fbfeb84047b4ce4344cae8ad8c413a248d699a815633a4bd.png" src="../../_images/099bbea07ebdae72fbfeb84047b4ce4344cae8ad8c413a248d699a815633a4bd.png" />
+</div>
+</div>
+<p>Only one or two layers of the circuit will not perform very good.</p>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="here-follows-a-different-ways-to-get-a-better-success-probability">
+<h1>Here follows a different ways to get a better success probability<a class="headerlink" href="#here-follows-a-different-ways-to-get-a-better-success-probability" title="Permalink to this heading"></a></h1>
+<p>You can choose to continue tweeking above code to give better answers or to explore other suggestions for optimisation.</p>
+<section id="changing-to-a-smarter-mixer-hamiltonian">
+<h2>Changing to a smarter mixer Hamiltonian<a class="headerlink" href="#changing-to-a-smarter-mixer-hamiltonian" title="Permalink to this heading"></a></h2>
+<p>We can put one constraint in the mixer part of the QAOA algorithm.
+See Hadfield et al. 2019: https://www.mdpi.com/1999-4893/12/2/34</p>
+<p>The XY-mixer smarter mixer that uses the clusters of the positions on the grids deleting one constraint, by keeping the Hamming distance of the clusters.</p>
+<div class="amsmath math notranslate nohighlight" id="equation-1a0e9662-bc2d-4099-a3b0-f3a0630d6127">
+<span class="eqno">(14)<a class="headerlink" href="#equation-1a0e9662-bc2d-4099-a3b0-f3a0630d6127" title="Permalink to this equation"></a></span>\[\begin{equation}
+    H_{XY-mixer} = \frac{1}{2} \sum_{i,j \in E(G)} (\sigma^x_i \sigma^x_j + \sigma^y_i \sigma^y_j),
+\end{equation}\]</div>
+<p>where the sum is over the edges in the graph <span class="math notranslate nohighlight">\(G\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Here is documentation https://docs.pennylane.ai/en/stable/code/api/pennylane.qaoa.mixers.xy_mixer.html</span>
+<span class="c1"># protein.Dn is the graph you need</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="optimisation-of-the-circuit-parameters-with-grid-search">
+<h2>Optimisation of the circuit parameters with grid search<a class="headerlink" href="#optimisation-of-the-circuit-parameters-with-grid-search" title="Permalink to this heading"></a></h2>
+<p>Try all the parameters and save the best one. Not a great way to find the best parameters, but if we get them for p=1, then we may interpolate to a good initial guess for higher p.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Grid search</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">start_gamma</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+<span class="n">stop_gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+<span class="n">num_points_gamma</span> <span class="o">=</span> <span class="mi">5</span> <span class="c1"># the more points the better answer, but the longer the wait</span>
+
+<span class="n">start_beta</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+<span class="n">stop_beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+<span class="n">num_points_beta</span> <span class="o">=</span> <span class="mi">5</span> <span class="c1"># the more points the better answer, but the longer the wait</span>
+
+<span class="c1"># Gamma</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start_gamma</span><span class="p">,</span> <span class="n">stop_gamma</span><span class="p">,</span> <span class="n">num_points_gamma</span><span class="p">)</span>
+<span class="c1"># Beta</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start_beta</span><span class="p">,</span> <span class="n">stop_beta</span><span class="p">,</span> <span class="n">num_points_beta</span><span class="p">)</span>
+
+<span class="n">grid_search_params</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="n">grid_search</span><span class="p">(</span><span class="n">start_gamma</span><span class="p">,</span>
+					<span class="n">stop_gamma</span><span class="p">,</span>
+					<span class="n">num_points_gamma</span><span class="p">,</span>
+					<span class="n">start_beta</span><span class="p">,</span>
+					<span class="n">stop_beta</span><span class="p">,</span>
+					<span class="n">num_points_beta</span><span class="p">,</span>
+					<span class="n">average_cost</span><span class="p">,</span>
+					<span class="n">above</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+					<span class="n">save</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/hannlinn/miniconda3/envs/tutorialproteinenv/lib/python3.11/site-packages/IPython/core/events.py:93: UserWarning: constrained_layout not applied because axes sizes collapsed to zero.  Try making figure larger or axes decorations smaller.
+  func(*args, **kwargs)
+</pre></div>
+</div>
+<img alt="../../_images/226ee7e36ffde9f62c8627ab619c04fc950297c58a1b7f808b187c8207908c61.png" src="../../_images/226ee7e36ffde9f62c8627ab619c04fc950297c58a1b7f808b187c8207908c61.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># More plotting, from above</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">_</span><span class="o">=</span> <span class="n">get_batch_array</span><span class="p">(</span><span class="n">start_gamma</span><span class="p">,</span>
+					<span class="n">stop_gamma</span><span class="p">,</span>
+					<span class="n">num_points_gamma</span><span class="p">,</span>
+					<span class="n">start_beta</span><span class="p">,</span>
+					<span class="n">stop_beta</span><span class="p">,</span>
+					<span class="n">num_points_beta</span><span class="p">)</span>
+                
+<span class="n">plot_grid_search</span><span class="p">(</span><span class="n">X</span><span class="p">,</span>
+					<span class="n">Y</span><span class="p">,</span>
+					<span class="n">Z</span><span class="p">,</span>
+					<span class="n">i</span><span class="p">,</span>
+					<span class="n">above</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+					<span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+					<span class="n">save</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Is the grid search better?</span>
+<span class="n">probs</span> <span class="o">=</span> <span class="n">probability_circuit</span><span class="p">(</span><span class="n">grid_search_params</span><span class="p">)</span>
+
+<span class="n">plot_probs_with_energy</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">,</span> <span class="n">H_cost</span><span class="p">,</span> <span class="n">ground_states_index</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Success probability of grid search: &#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="n">ground_states_index</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="interpolate-parameters">
+<h3>Interpolate parameters<a class="headerlink" href="#interpolate-parameters" title="Permalink to this heading"></a></h3>
+<p>For more details see Appendix B part 1. “Interpolation-based strategy” Lukin et al. 2020: https://journals.aps.org/prx/abstract/10.1103/PhysRevX.10.021067</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Interpolate parameters to get next parameters to optimise over</span>
+
+<span class="n">interpolated_params</span> <span class="o">=</span> <span class="n">interpolate_params</span><span class="p">(</span><span class="n">grid_search_params</span><span class="p">,</span> <span class="n">save</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">only_last</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">probs</span> <span class="o">=</span> <span class="n">probability_circuit</span><span class="p">(</span><span class="n">interpolated_params</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Success probability of interpolated annealing parameters: &#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="n">ground_states_index</span><span class="p">]))</span>
+
+<span class="c1"># You can also interpolate from an optimisation run.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Grid search for p=2.</span>
+<span class="c1"># Takes a long time so this cell may be skipped.</span>
+
+<span class="c1"># Will build a 4-dimensional vector and go though all values getting the heurustic functions result.</span>
+<span class="c1"># Then return the best parameters [0], and the tensor with the values [1].</span>
+<span class="n">params_p2</span> <span class="o">=</span> <span class="n">vec_grid_search_p2</span><span class="p">(</span><span class="n">start_gamma</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+						<span class="n">stop_gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+						<span class="n">num_points_gamma</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="c1"># keep in mind that a value over 10 will take forever</span>
+						<span class="n">start_beta</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+						<span class="n">stop_beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+						<span class="n">num_points_beta</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="c1"># keep in mind that a value over 10 will take forever</span>
+						<span class="n">heuristic</span> <span class="o">=</span> <span class="n">average_cost</span><span class="p">,</span>
+						<span class="n">vmap</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">probs</span> <span class="o">=</span> <span class="n">probability_circuit</span><span class="p">(</span><span class="n">params_p2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Success probability of grid search p=2: &#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="n">ground_states_index</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Interpolate from best parameters for p=2 to p=3.</span>
+
+<span class="n">params_p3</span> <span class="o">=</span> <span class="n">interpolate_params</span><span class="p">(</span><span class="n">params_p2</span><span class="p">,</span> <span class="n">save</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">only_last</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">probs</span> <span class="o">=</span> <span class="n">probability_circuit</span><span class="p">(</span><span class="n">params_p3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Success probability of grid search p=3: &#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="n">ground_states_index</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="optimisation-of-the-circuit-parameters-with-quantum-annealing-initialisation">
+<h2>Optimisation of the circuit parameters with quantum annealing initialisation<a class="headerlink" href="#optimisation-of-the-circuit-parameters-with-quantum-annealing-initialisation" title="Permalink to this heading"></a></h2>
+<p>We can warm start the search for the best parameters by taking inspiration from quantum annealing.
+Read more here: https://quantum-journal.org/papers/q-2021-07-01-491/</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">annealing_params</span> <span class="o">=</span> <span class="n">get_annealing_params</span><span class="p">(</span><span class="n">annealing_time</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> 
+                                        <span class="n">p</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> 
+                                        <span class="n">linear</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> 
+                                        <span class="n">cosine</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                                        <span class="n">sine</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                                        <span class="n">save</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                                        <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">probs</span> <span class="o">=</span> <span class="n">probability_circuit</span><span class="p">(</span><span class="n">annealing_params</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Success probability of annealing parameters: &#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="n">ground_states_i</span><span class="p">]))</span>
+<span class="c1">#plot_probs_with_energy(probs, num_qubits, H_cost, ground_states_i) # plot probability over bitstrings</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Is the annealing parameters better better?</span>
+<span class="n">plot_probs_with_energy</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">num_qubits</span><span class="p">,</span> <span class="n">H_cost</span><span class="p">,</span> <span class="n">ground_states_i</span><span class="p">,</span> <span class="n">threshhold</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="jax-and-jit">
+<h2>JAX and JIT<a class="headerlink" href="#jax-and-jit" title="Permalink to this heading"></a></h2>
+<p>Read more here: https://jax.readthedocs.io/en/latest/jax-101/02-jitting.html</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use JAX and JIT packages to speed up the process. Calls for extensive installations.</span>
+<span class="c1"># JIT is just-in-time compilation and will only work with small instances. If the number of qubits is 18 or more then the allocation of memory will complain.</span>
+<span class="c1"># JAX work the fastest on a GPU, but still faster using vmap on the CPU.</span>
+
+<span class="c1"># In order to run the just in time compilation and JAX, we need another qnode device.</span>
+<span class="c1"># This wrapper function will do the job.</span>
+<span class="k">def</span> <span class="nf">jax_average_cost</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Cost function with average cost of the state as metric.</span>
+<span class="sd">    Jax version to be used with batches.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1">#@jit</span>
+    <span class="nd">@qml</span><span class="o">.</span><span class="n">qnode</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="n">interface</span> <span class="o">=</span> <span class="s1">&#39;jax&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_average_cost</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+        <span class="n">circuit</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">qml</span><span class="o">.</span><span class="n">expval</span><span class="p">(</span><span class="n">H_cost</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_average_cost</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+
+<span class="n">params_p2</span> <span class="o">=</span> <span class="n">vec_grid_search_p2</span><span class="p">(</span><span class="n">start_gamma</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+						<span class="n">stop_gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+						<span class="n">num_points_gamma</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="c1"># keep in mind that a value over 10 will take forever</span>
+						<span class="n">start_beta</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+						<span class="n">stop_beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+						<span class="n">num_points_beta</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+						<span class="n">heuristic</span><span class="o">=</span> <span class="n">jax_average_cost</span><span class="p">,</span>
+						<span class="n">vmap</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">probs</span> <span class="o">=</span> <span class="n">probability_circuit</span><span class="p">(</span><span class="n">params_p2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Success probability of grid search p=2: &#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="n">ground_states_i</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># JAX for p=1.</span>
+
+<span class="n">grid_search_params</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="n">grid_search</span><span class="p">(</span><span class="n">start_gamma</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+						<span class="n">stop_gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+						<span class="n">num_points_gamma</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span> <span class="c1"># keep in mind that a value over 10 will take forever</span>
+						<span class="n">start_beta</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+						<span class="n">stop_beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+						<span class="n">num_points_beta</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+						<span class="n">heuristic</span><span class="o">=</span> <span class="n">jax_average_cost</span><span class="p">,</span>
+						<span class="n">vmap</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="n">above</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                        <span class="n">save</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">grid_search_params</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, The contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

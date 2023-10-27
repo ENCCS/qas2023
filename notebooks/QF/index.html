@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial - Quantum support vector regression for disability insurance &mdash; Quantum Autumn School 2023  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/togglebutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx_lesson.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx_rtd_theme_ext_color_contrast.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/overrides.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script src="../../_static/minipres.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script data-domain="enccs.github.io/qas2023" defer="defer" src="https://plausible.io/js/script.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="Tutorial: Protein Folding with Quantum Approximate Optimization Algorithm (QAOA)" href="../Tutotial_HPCoordinateBasedLattice_noDependencies/" />
+    <link rel="prev" title="Tutorial - Adaptive State Preparation Techniques" href="../Workshop-ADAPT/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../" class="icon icon-home">
+            Quantum Autumn School 2023
+              <img src="../../_static/ENCCS.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../setup/">Setup</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 1</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../qc-overview/">Physical Approaches to Quantum Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../digital-qc/">Introduction to Digital Quantum Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-1/">Tutorial - Quantum programming I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-2/">Tutorial - Quantum programming II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-3/">Tutorial - Quantum programming III</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 2</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../hpc-qc/">HPC-QC integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software-stack/">QC software stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-classical-quantum/">Hybrid Classical/Quantum Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro-to-helmi-qiskit/">Tutorial - Introduction to Helmi with qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Qubit_Spectroscopy_Analysis/">Tutorial - Qubit Spectroscopy Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Notebook_maxcut_Qas2023/">Tutorial - Quantum Alternating Operator Ansatz</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 3</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-quantum-chemistry/">Hybrid Algorithms - Use Cases for Quantum Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-finance/">Hybrid Algorithms - Use Cases for Quantum Finance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-life-science/">Hybrid Algorithms - Use Cases for Quantum Life Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E2_VQE-H2/">Tutorial - Quantum chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/">Tutorial - Adaptive State Preparation Techniques</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial - Quantum support vector regression for disability insurance</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#transform-and-inspect-data">Transform and inspect data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exercise-1">Exercise 1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hints">Hints</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#exercise-2-residuals">Exercise 2: Residuals</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Hints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#we-used-the-statevector-simulator-and-now-we-ll-run-it-on-helmi">We used the statevector simulator and now we’ll run it on Helmi.</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#exercise-3-implement-and-visualize-a-quantum-feature-map">Exercise 3: Implement and Visualize a Quantum Feature Map</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#task-1-implement-the-feature-map">Task 1: Implement the Feature Map</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#task-2-visualize-the-circuit">Task 2: Visualize the Circuit</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#test-code">TEST CODE</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutotial_HPCoordinateBasedLattice_noDependencies/">Tutorial: Protein Folding with Quantum Approximate Optimization Algorithm (QAOA)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://enccs.se/lessons/">All ENCCS lessons</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://enccs.se/">About ENCCS</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../">Quantum Autumn School 2023</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tutorial - Quantum support vector regression for disability insurance</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/qas2023/blob/main/content/notebooks/QF.ipynb" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="tutorial-quantum-support-vector-regression-for-disability-insurance">
+<h1>Tutorial - Quantum support vector regression for disability insurance<a class="headerlink" href="#tutorial-quantum-support-vector-regression-for-disability-insurance" title="Permalink to this heading"></a></h1>
+<p>B. Djehiche and B. Löfdahl – KTH, Department of Mathematics / SEB –
+Risks 2021, 9(12), 216; https://doi.org/10.3390/risks9120216</p>
+<p>Hands-on assistance: https://enccs.se/anastasiia-andriievska</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># install necessary packages via pip</span>
+<span class="c1"># import the packages</span>
+<span class="kn">from</span> <span class="nn">qiskit_iqm</span> <span class="kn">import</span> <span class="n">IQMProvider</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">QuantumRegister</span><span class="p">,</span> <span class="n">execute</span><span class="p">,</span> <span class="n">transpile</span>
+<span class="kn">from</span> <span class="nn">qiskit.visualization</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">pylatexenc</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">Aer</span><span class="p">,</span> <span class="n">execute</span>
+<span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">QuantumRegister</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">,</span> <span class="n">ParameterVector</span>
+<span class="kn">from</span> <span class="nn">qiskit_machine_learning.kernels</span> <span class="kn">import</span> <span class="n">QuantumKernel</span>
+<span class="kn">from</span> <span class="nn">qiskit.utils</span> <span class="kn">import</span> <span class="n">QuantumInstance</span>
+<span class="kn">from</span> <span class="nn">qiskit.tools.monitor</span> <span class="kn">import</span> <span class="n">job_monitor</span>
+<span class="kn">from</span> <span class="nn">qiskit.tools.jupyter</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">qiskit.visualization</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="c1">#from ibm_quantum_widgets import *</span>
+<span class="kn">import</span> <span class="nn">qiskit.quantum_info</span> <span class="k">as</span> <span class="nn">qi</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVR</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">qiskit</span>
+<span class="n">qiskit</span><span class="o">.</span><span class="n">__version__</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;0.25.2&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>First, we create some dummy data. The x-variable holds the available data. x[1] represents gender (0 or 1). x[2] represents age, normalized to the [0,1] interval. The y-variable is the value that we seek to model. It represents the logistic transition probability between two states. The w-variable represents the weight that we assign to each data point.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nsamp</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="p">[[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">x</span><span class="o">/</span><span class="n">nsamp</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsamp</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[[</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">x</span><span class="o">/</span><span class="n">nsamp</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsamp</span><span class="p">)]</span> <span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">4.5</span> <span class="o">+</span> <span class="mf">0.2</span><span class="o">*</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mf">0.2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">()</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span><span class="p">])</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">y</span><span class="p">))</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="mi">200</span> <span class="o">+</span> <span class="mi">600</span><span class="o">*</span><span class="n">xj</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mf">0.7</span><span class="p">)</span> <span class="k">if</span> <span class="n">xj</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">0.7</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="mi">800</span> <span class="o">-</span> <span class="mi">300</span><span class="o">*</span><span class="p">(</span><span class="n">xj</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mf">0.7</span><span class="p">)</span><span class="o">/</span><span class="mf">0.3</span><span class="p">)</span> <span class="k">for</span> <span class="n">xj</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="p">[</span><span class="n">nj</span><span class="o">*</span><span class="n">pj</span> <span class="k">for</span> <span class="n">nj</span><span class="p">,</span><span class="n">pj</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">p</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can use the Pandas library to create a DataFrame and then save it as a CSV file, which support column headers. This will create a CSV file with each column labeled as ‘gender’, ‘age group (normalized)’, ‘population size’, and ‘number of transitions’ respectively. The index=False argument is used to prevent pandas from writing row indices into the file.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a DataFrame</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;gender&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span><span class="p">],</span>
+    <span class="s1">&#39;age group (normalized)&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span><span class="p">],</span>
+    <span class="s1">&#39;population size&#39;</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span>
+    <span class="s1">&#39;number of transitions&#39;</span><span class="p">:</span> <span class="n">d</span>
+<span class="p">})</span>
+
+<span class="c1"># Write the DataFrame to a CSV file</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;fdata.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># index=False argument is used to prevent pandas from writing row indices into the CSV file</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>One can read the data back from the file like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;fdata.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="transform-and-inspect-data">
+<h2>Transform and inspect data<a class="headerlink" href="#transform-and-inspect-data" title="Permalink to this heading"></a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="p">[[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;age group (normalized)&#39;</span><span class="p">])]</span> <span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0.   0.  ]
+ [0.   0.01]
+ [0.   0.02]
+ [0.   0.03]
+ [0.   0.04]
+ [0.   0.05]
+ [0.   0.06]
+ [0.   0.07]
+ [0.   0.08]
+ [0.   0.09]
+ [0.   0.1 ]
+ [0.   0.11]
+ [0.   0.12]
+ [0.   0.13]
+ [0.   0.14]
+ [0.   0.15]
+ [0.   0.16]
+ [0.   0.17]
+ [0.   0.18]
+ [0.   0.19]
+ [0.   0.2 ]
+ [0.   0.21]
+ [0.   0.22]
+ [0.   0.23]
+ [0.   0.24]
+ [0.   0.25]
+ [0.   0.26]
+ [0.   0.27]
+ [0.   0.28]
+ [0.   0.29]
+ [0.   0.3 ]
+ [0.   0.31]
+ [0.   0.32]
+ [0.   0.33]
+ [0.   0.34]
+ [0.   0.35]
+ [0.   0.36]
+ [0.   0.37]
+ [0.   0.38]
+ [0.   0.39]
+ [0.   0.4 ]
+ [0.   0.41]
+ [0.   0.42]
+ [0.   0.43]
+ [0.   0.44]
+ [0.   0.45]
+ [0.   0.46]
+ [0.   0.47]
+ [0.   0.48]
+ [0.   0.49]
+ [0.   0.5 ]
+ [0.   0.51]
+ [0.   0.52]
+ [0.   0.53]
+ [0.   0.54]
+ [0.   0.55]
+ [0.   0.56]
+ [0.   0.57]
+ [0.   0.58]
+ [0.   0.59]
+ [0.   0.6 ]
+ [0.   0.61]
+ [0.   0.62]
+ [0.   0.63]
+ [0.   0.64]
+ [0.   0.65]
+ [0.   0.66]
+ [0.   0.67]
+ [0.   0.68]
+ [0.   0.69]
+ [0.   0.7 ]
+ [0.   0.71]
+ [0.   0.72]
+ [0.   0.73]
+ [0.   0.74]
+ [0.   0.75]
+ [0.   0.76]
+ [0.   0.77]
+ [0.   0.78]
+ [0.   0.79]
+ [0.   0.8 ]
+ [0.   0.81]
+ [0.   0.82]
+ [0.   0.83]
+ [0.   0.84]
+ [0.   0.85]
+ [0.   0.86]
+ [0.   0.87]
+ [0.   0.88]
+ [0.   0.89]
+ [0.   0.9 ]
+ [0.   0.91]
+ [0.   0.92]
+ [0.   0.93]
+ [0.   0.94]
+ [0.   0.95]
+ [0.   0.96]
+ [0.   0.97]
+ [0.   0.98]
+ [0.   0.99]
+ [1.   0.  ]
+ [1.   0.01]
+ [1.   0.02]
+ [1.   0.03]
+ [1.   0.04]
+ [1.   0.05]
+ [1.   0.06]
+ [1.   0.07]
+ [1.   0.08]
+ [1.   0.09]
+ [1.   0.1 ]
+ [1.   0.11]
+ [1.   0.12]
+ [1.   0.13]
+ [1.   0.14]
+ [1.   0.15]
+ [1.   0.16]
+ [1.   0.17]
+ [1.   0.18]
+ [1.   0.19]
+ [1.   0.2 ]
+ [1.   0.21]
+ [1.   0.22]
+ [1.   0.23]
+ [1.   0.24]
+ [1.   0.25]
+ [1.   0.26]
+ [1.   0.27]
+ [1.   0.28]
+ [1.   0.29]
+ [1.   0.3 ]
+ [1.   0.31]
+ [1.   0.32]
+ [1.   0.33]
+ [1.   0.34]
+ [1.   0.35]
+ [1.   0.36]
+ [1.   0.37]
+ [1.   0.38]
+ [1.   0.39]
+ [1.   0.4 ]
+ [1.   0.41]
+ [1.   0.42]
+ [1.   0.43]
+ [1.   0.44]
+ [1.   0.45]
+ [1.   0.46]
+ [1.   0.47]
+ [1.   0.48]
+ [1.   0.49]
+ [1.   0.5 ]
+ [1.   0.51]
+ [1.   0.52]
+ [1.   0.53]
+ [1.   0.54]
+ [1.   0.55]
+ [1.   0.56]
+ [1.   0.57]
+ [1.   0.58]
+ [1.   0.59]
+ [1.   0.6 ]
+ [1.   0.61]
+ [1.   0.62]
+ [1.   0.63]
+ [1.   0.64]
+ [1.   0.65]
+ [1.   0.66]
+ [1.   0.67]
+ [1.   0.68]
+ [1.   0.69]
+ [1.   0.7 ]
+ [1.   0.71]
+ [1.   0.72]
+ [1.   0.73]
+ [1.   0.74]
+ [1.   0.75]
+ [1.   0.76]
+ [1.   0.77]
+ [1.   0.78]
+ [1.   0.79]
+ [1.   0.8 ]
+ [1.   0.81]
+ [1.   0.82]
+ [1.   0.83]
+ [1.   0.84]
+ [1.   0.85]
+ [1.   0.86]
+ [1.   0.87]
+ [1.   0.88]
+ [1.   0.89]
+ [1.   0.9 ]
+ [1.   0.91]
+ [1.   0.92]
+ [1.   0.93]
+ [1.   0.94]
+ [1.   0.95]
+ [1.   0.96]
+ [1.   0.97]
+ [1.   0.98]
+ [1.   0.99]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># raw transition frequency per group, used for plots</span>
+<span class="n">p_raw</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="o">/</span><span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">n</span><span class="p">)]</span>
+
+<span class="c1"># logistic probability, used as input to SVR optimization</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span> <span class="n">p</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span> <span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">p_raw</span><span class="p">])</span>
+
+<span class="c1"># calculate weights for SVR based on population size</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.</span><span class="o">/</span><span class="n">nj</span> <span class="k">for</span> <span class="n">nj</span> <span class="ow">in</span> <span class="n">n</span><span class="p">])</span>
+
+<span class="c1"># normalize weights (equivalent to changing the hyperparameters of the SVR)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">w</span><span class="o">/</span><span class="nb">sum</span><span class="p">(</span><span class="n">w</span><span class="p">)</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">axs</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">xj</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">xj</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p_raw</span><span class="p">)</span> <span class="k">if</span> <span class="n">xj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">xj</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p_raw</span><span class="p">)</span> <span class="k">if</span> <span class="n">xj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;or&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">xj</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">xj</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p_raw</span><span class="p">)</span> <span class="k">if</span> <span class="n">xj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">xj</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p_raw</span><span class="p">)</span> <span class="k">if</span> <span class="n">xj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;ob&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;raw transition frequencies&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/f7837049adb33f5cb6712c0fd8f6ff12bc2175b6fc97483e3bbd033ce50466e7.png" src="../../_images/f7837049adb33f5cb6712c0fd8f6ff12bc2175b6fc97483e3bbd033ce50466e7.png" />
+</div>
+</div>
+<p>The first step of the modelling is to define the mapping from data space to our quantum feature space. This is done by setting up the qc circuit. The circuit below is a very simplified two-variable circuit. Feel free to experiment!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set up &#39;kernel circuit&#39;</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">ParameterVector</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;mpl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/0aef202daa12992e161edc8c488f7734353be4bfc10f2a2d3f1e2d594b7061a0.png" src="../../_images/0aef202daa12992e161edc8c488f7734353be4bfc10f2a2d3f1e2d594b7061a0.png" />
+</div>
+</div>
+</section>
+<section id="exercise-1">
+<h2>Exercise 1<a class="headerlink" href="#exercise-1" title="Permalink to this heading"></a></h2>
+<p>Experimenting with quantum circuits involves changing the structure of the circuit or the parameters used. Here are a few ways you can experiment with the given circuit:</p>
+<ol class="arabic simple">
+<li><p><strong>Change the gates</strong>: Instead of using <code class="docutils literal notranslate"><span class="pre">ry</span></code> gates, you could use other gates like <code class="docutils literal notranslate"><span class="pre">rx</span></code>, <code class="docutils literal notranslate"><span class="pre">rz</span></code>, <code class="docutils literal notranslate"><span class="pre">h</span></code> (Hadamard), etc.</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p><strong>Add more gates</strong>: You can add more gates to your circuit to make it more complex.</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># CNOT gate</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p><strong>Change the parameters</strong>: Instead of multiplying the parameters by <code class="docutils literal notranslate"><span class="pre">pi</span></code>, you could multiply them by other constants or use more complex functions of the parameters.</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p><strong>Increase the number of qubits</strong>: You can increase the number of qubits in your circuit and see how that affects your results.</p></li>
+</ol>
+<p>Remember, when experimenting with quantum circuits, it’s important to understand what each gate does and how changing the circuit might affect your results. Happy experimenting! 😊</p>
+<p>A few general guidelines for experimenting with quantum circuits:</p>
+<ol class="arabic simple">
+<li><p><strong>Understand the problem</strong>: Before you start experimenting, make sure you understand the problem you’re trying to solve and how a quantum circuit could help solve it.</p></li>
+<li><p><strong>Start simple</strong>: Start with a simple circuit and gradually add complexity. This makes it easier to understand what each part of your circuit is doing.</p></li>
+<li><p><strong>Use a variety of gates</strong>: Different gates can have different effects on your quantum state, so try using a variety of gates in your experiments.</p></li>
+<li><p><strong>Test on a simulator first</strong>: Before running your circuit on a real quantum computer, test it on a simulator to make sure it’s working as expected.</p></li>
+<li><p><strong>Analyze your results</strong>: After running your circuit, analyze the results to see if they make sense and if they’re helping you solve your problem.</p></li>
+<li><p><strong>Iterate</strong>: Experimenting with quantum circuits often involves a lot of trial and error. Don’t be afraid to iterate on your design and try new things.</p></li>
+</ol>
+<p>In the context of the Quantum Support Vector Regression (QSVR) for disability insurance that you’re working on, you might want to experiment with different ways of encoding your data into the quantum state or different types of quantum kernels. Remember, the goal is to find a quantum circuit that can effectively model your data and help you make accurate predictions.</p>
+<section id="hints">
+<h3>Hints<a class="headerlink" href="#hints" title="Permalink to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>x[0] is a binary variable representing gender. Hence, flipping the first qubit from |0&gt; to |1&gt; based on gender will maximize the distance (wrt only the first qubit) between two subpopulations belong to different genders.</p></li>
+<li><p>x[1] is a representing age. For two sub-populations of similar age, the rotations of the second qubit will be similar, causing a low distance (wrt only the second qubit).</p></li>
+<li><p>One possible extension is to add a third qubit that would capture a first order interaction effect between x[0] and x[1], e.g. a cy or cx gate. We could also incorporate this by adding more gates to qubits 1 or 2.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test code here</span>
+<span class="c1"># Then rerun the following cells </span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The QuantumKernel function prepares the kernel estimation by setting up inner product circuits, based on each combination of two data points.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zz_kernel</span> <span class="o">=</span> <span class="n">QuantumKernel</span><span class="p">(</span><span class="n">feature_map</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">quantum_instance</span><span class="o">=</span><span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;statevector_simulator&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then we specify the quantum instance:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zz_circuit</span> <span class="o">=</span> <span class="n">zz_kernel</span><span class="o">.</span><span class="n">construct_circuit</span><span class="p">(</span><span class="n">ParameterVector</span><span class="p">(</span><span class="s1">&#39;x_i&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span><span class="n">ParameterVector</span><span class="p">(</span><span class="s1">&#39;x_j&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">zz_circuit</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;mpl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/1ffee118743e3cb1cd824a99f901eea8a20cff00acc6fac8f5619b201b0c1ac1.png" src="../../_images/1ffee118743e3cb1cd824a99f901eea8a20cff00acc6fac8f5619b201b0c1ac1.png" />
+</div>
+</div>
+<p>We evaluate the kernel matrix based on our x data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">matrix_train</span> <span class="o">=</span> <span class="n">zz_kernel</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x_vec</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="n">axs</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asmatrix</span><span class="p">(</span><span class="n">matrix_train</span><span class="p">),</span>
+              <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;upper&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;training kernel matrix&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/1b62fa7e4780419dcca52a009b6077ab7210d427385e298f132801c17de3f8bb.png" src="../../_images/1b62fa7e4780419dcca52a009b6077ab7210d427385e298f132801c17de3f8bb.png" />
+</div>
+</div>
+<p>Figure 1 displays the estimated kernel matrix. This matrix has an interesting structure: it is block-diagonal. This is due to the fact that the second quadrant of the matrix correspond to the inner products of the  population groups with gender=0. These share the common characteristic gender=0, and each row is similar to its neighbours due to the encoding: similar ages are also similar in the quantum feature space. Analogously, the fourth quadrant of the matrix contains the gender=1 population groups. The first and third quadrants contain the inner products between gender=0 and gender=1 population groups and so are dissimilar in the quantum feature space.</p>
+<p>Next, we run a support vector regression (SVR) taking the kernel matrix, the weights, and the y-values as input.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f_matrix_train</span> <span class="o">=</span> <span class="n">matrix_train</span>
+
+<span class="n">zzpc_svr</span> <span class="o">=</span> <span class="n">SVR</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;precomputed&#39;</span><span class="p">)</span>
+<span class="n">zzpc_svr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">f_matrix_train</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="n">zzpc_score</span> <span class="o">=</span> <span class="n">zzpc_svr</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">f_matrix_train</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;score: </span><span class="si">{</span><span class="n">zzpc_score</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">zzpc_svr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">f_matrix_train</span><span class="p">)</span>
+
+<span class="n">p_hat</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">pred</span><span class="p">))</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">y</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span><span class="s1">&#39;or&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">p_hat</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span><span class="s1">&#39;ob&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">p_hat</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Group 0&#39;</span><span class="p">,</span> <span class="s1">&#39;Group 0 model&#39;</span><span class="p">,</span> <span class="s1">&#39;Group 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Group 1 model&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>score: 0.9315524163072193
+</pre></div>
+</div>
+<img alt="../../_images/2127cbb3603ba71aff0de17bc4a4a98ddb5ca80510b9f7720e9c9c73acb652af.png" src="../../_images/2127cbb3603ba71aff0de17bc4a4a98ddb5ca80510b9f7720e9c9c73acb652af.png" />
+</div>
+</div>
+<p>The score you see is the R-squared score from the SVR model. This score represents the proportion of the variance in the dependent variable that is predictable from the independent variables1. In other words, it gives you a measure of how well your model is fitting the data. A score of 1.0 indicates a perfect fit.</p>
+<p>We check the results against a classical SVR.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">classical</span> <span class="o">=</span> <span class="n">SVR</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">)</span>
+<span class="n">classical</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="n">classical_score</span> <span class="o">=</span> <span class="n">classical</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;score: </span><span class="si">{</span><span class="n">classical_score</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">classical</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">p_hat</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">pred</span><span class="p">))</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">y</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span><span class="s1">&#39;or&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">p_hat</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span><span class="s1">&#39;ob&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">p_hat</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Group 0&#39;</span><span class="p">,</span> <span class="s1">&#39;Group 0 model&#39;</span><span class="p">,</span> <span class="s1">&#39;Group 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Group 1 model&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>score: 0.9390284403415132
+</pre></div>
+</div>
+<img alt="../../_images/caac49ef520eba0d986654bc1b42de0280dead97f972010941ec04968e0b016c.png" src="../../_images/caac49ef520eba0d986654bc1b42de0280dead97f972010941ec04968e0b016c.png" />
+</div>
+</div>
+<p>The above analysis is done in-sample. Below, we use the leave-one-out cross-validation functionality from the sklearn module.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">LeaveOneOut</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">r2_score</span>
+
+<span class="n">zzpc_svr</span> <span class="o">=</span> <span class="n">SVR</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;precomputed&#39;</span><span class="p">)</span>
+<span class="n">classical</span> <span class="o">=</span> <span class="n">SVR</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">)</span>
+
+<span class="n">cols</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="n">loo</span> <span class="o">=</span> <span class="n">LeaveOneOut</span><span class="p">()</span>
+<span class="n">pred_loo</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">pred_loo_classic</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">used_K</span> <span class="o">=</span> <span class="n">matrix_train</span>
+<span class="k">for</span> <span class="n">train_index</span><span class="p">,</span> <span class="n">test_index</span> <span class="ow">in</span> <span class="n">loo</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">cols</span><span class="p">):</span>
+    <span class="c1">#print(x[train_index])</span>
+    <span class="n">zzpc_svr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">used_K</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">train_index</span><span class="p">,</span><span class="n">train_index</span><span class="p">)],</span> <span class="n">y</span><span class="p">[</span><span class="n">train_index</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="n">train_index</span><span class="p">])</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">zzpc_svr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">used_K</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">test_index</span><span class="p">,</span><span class="n">train_index</span><span class="p">)])</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pred</span><span class="p">:</span>
+        <span class="n">pred_loo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">classical</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">train_index</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">train_index</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="n">train_index</span><span class="p">])</span>
+    <span class="n">cpred</span> <span class="o">=</span> <span class="n">classical</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">test_index</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">cpred</span><span class="p">:</span>
+        <span class="n">pred_loo_classic</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="n">pred_loo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pred_loo</span><span class="p">)</span>
+<span class="n">pred_loo_classic</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pred_loo_classic</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">LeaveOneOut</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">r2_score</span>
+
+<span class="k">def</span> <span class="nf">predict_loo</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">zzpc_svr</span><span class="p">):</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+    <span class="n">loo</span> <span class="o">=</span> <span class="n">LeaveOneOut</span><span class="p">()</span>
+    <span class="n">pred_loo</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">train_index</span><span class="p">,</span> <span class="n">test_index</span> <span class="ow">in</span> <span class="n">loo</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">cols</span><span class="p">):</span>
+        <span class="c1">#print(x[train_index])</span>
+        <span class="n">zzpc_svr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">K</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">train_index</span><span class="p">,</span><span class="n">train_index</span><span class="p">)],</span> <span class="n">y</span><span class="p">[</span><span class="n">train_index</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="n">train_index</span><span class="p">])</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">zzpc_svr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">K</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">test_index</span><span class="p">,</span><span class="n">train_index</span><span class="p">)])</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pred</span><span class="p">:</span>
+            <span class="n">pred_loo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pred_loo</span><span class="p">)</span>
+
+<span class="n">statevector_loo</span> <span class="o">=</span> <span class="n">predict_loo</span><span class="p">(</span><span class="n">matrix_train</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">SVR</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;precomputed&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_hat</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">statevector_loo</span><span class="p">))</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">y</span><span class="p">))</span>
+<span class="n">score</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p_hat</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">w</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;score: </span><span class="si">{</span><span class="n">score</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span><span class="s1">&#39;or&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span><span class="s1">&#39;ob&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">p_hat</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">p_hat</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Group 0&#39;</span><span class="p">,</span> <span class="s1">&#39;Group 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Group 0, statevector&#39;</span><span class="p">,</span> <span class="s1">&#39;Group 1, statevector&#39;</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticklabels</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>score: 0.917110541114462
+</pre></div>
+</div>
+<img alt="../../_images/a9634e8d5e0c46d173dc691c4eed5481daa114f7592a40d87efde54cb6d93108.png" src="../../_images/a9634e8d5e0c46d173dc691c4eed5481daa114f7592a40d87efde54cb6d93108.png" />
+</div>
+</div>
+<p>Quantum Support Vector Regression (QSVR) Score (0.9155345528008413): This score suggests that your QSVR model is doing a good job of capturing the relationship between your features and your target variable.</p>
+<p>Classical Support Vector Regression (SVR) Score (0.9295558682302361): This score is slightly higher than your QSVR score, suggesting that your classical SVR model might be fitting the data slightly better than your QSVR model.</p>
+<p>Leave-One-Out Cross-Validation Score (0.8977158412990511): This score is lower than both your QSVR and classical SVR scores. This isn’t surprising, as leave-one-out cross-validation can often result in lower scores because it’s a more rigorous form of validation. It’s a good way to get an unbiased estimate of how well your model will perform on unseen data.</p>
+<p>To compare these results, you can look at how much each score deviates from 1.0. The closer the score is to 1.0, the better the model is fitting your data. However, keep in mind that a high R-squared score doesn’t always mean your model will perform well on unseen data. It’s important to also look at other metrics and plots (like residuals) to assess your model’s performance.</p>
+</section>
+</section>
+<section id="exercise-2-residuals">
+<h2>Exercise 2: Residuals<a class="headerlink" href="#exercise-2-residuals" title="Permalink to this heading"></a></h2>
+<p>In the context of regression analysis, residuals are the difference between the observed (actual) and predicted values for a data point. In other words, a residual is an error in prediction.</p>
+<p>Mathematically, if you have an observed value $<span class="math notranslate nohighlight">\(y_{\text{obs}}\)</span><span class="math notranslate nohighlight">\( and a predicted value \)</span><span class="math notranslate nohighlight">\(y_{\text{pred}}\)</span><span class="math notranslate nohighlight">\( for a data point, the residual \)</span><span class="math notranslate nohighlight">\(e\)</span>$ for that data point is calculated as:</p>
+<div class="math notranslate nohighlight">
+\[e = y_{\text{obs}} - y_{\text{pred}}\]</div>
+<p>Residuals are used to understand the accuracy of a regression model. If a model fits the data well, the residuals should be small and randomly distributed around zero. Patterns or trends in the residuals can indicate that the model is not adequately capturing some aspect of the data.</p>
+<p>In our case, we will plot a histogram of residuals from our QSVR model. This visualization can help us understand the distribution of errors made by the model.
+If the model is performing well, we would expect to see most residuals close to zero, indicating that the predicted and actual values are close. Large residuals indicate that the model’s predictions are far off from the actual values.</p>
+<section id="id1">
+<h3>Hints<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>use <code class="docutils literal notranslate"><span class="pre">residuals</span> <span class="pre">=</span> <span class="pre">y</span> <span class="pre">-</span> <span class="pre">pred</span></code></p></li>
+<li><p>in <code class="docutils literal notranslate"><span class="pre">plt.hist</span></code>use <code class="docutils literal notranslate"><span class="pre">bins=20</span></code> # bins parameter determines the number of bins (or bars) to divide your data into</p></li>
+<li><p>use appropriate lables</p></li>
+<li><p><em>Advanced</em> – use <code class="docutils literal notranslate"><span class="pre">p_hat-p</span></code> for residuals</p></li>
+</ol>
+<p>You’ve done a great job implementing the Quantum Support Vector Regression (QSVR) and comparing it with a classical SVR. You’ve also used leave-one-out cross-validation to evaluate the performance of your models, which is a robust method for estimating the generalization error.</p>
+<p>In terms of the residuals, you’ve plotted two histograms:</p>
+<ol class="arabic simple">
+<li><p>The first histogram represents the residuals calculated as <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">-</span> <span class="pre">pred</span></code>, where <code class="docutils literal notranslate"><span class="pre">y</span></code> is the observed value and <code class="docutils literal notranslate"><span class="pre">pred</span></code> is the predicted value from your QSVR model. This gives you an idea of how well your model is predicting the actual <code class="docutils literal notranslate"><span class="pre">y</span></code> values. If your model is accurate, most residuals should be close to zero, indicating that the predicted and actual values are close. Large residuals indicate that the model’s predictions are far off from the actual values.</p></li>
+<li><p>The second histogram represents the residuals calculated as <code class="docutils literal notranslate"><span class="pre">p_hat</span> <span class="pre">-</span> <span class="pre">p</span></code>, where <code class="docutils literal notranslate"><span class="pre">p_hat</span></code> is the predicted probability and <code class="docutils literal notranslate"><span class="pre">p</span></code> is the actual probability. This gives you an idea of how well your model is predicting the actual probabilities. Again, if your model is accurate, most residuals should be close to zero.</p></li>
+</ol>
+<p>To describe the results, you would typically look at the distribution of residuals in your histograms. If your model is performing well, you would expect to see a distribution centered around zero, indicating that most predictions are close to the actual values or probabilities. If you see a skewed distribution or a distribution with a long tail, it might indicate that your model is systematically overestimating or underestimating the values or probabilities.</p>
+<p>In terms of what you’ve done here, you’ve implemented a QSVR for modeling transition probabilities in disability insurance, compared it with a classical SVR, and evaluated their performance using leave-one-out cross-validation and residual analysis. This is a comprehensive approach to developing and evaluating predictive models. Great work! 😊</p>
+</section>
+<section id="we-used-the-statevector-simulator-and-now-we-ll-run-it-on-helmi">
+<h3>We used the statevector simulator and now we’ll run it on Helmi.<a class="headerlink" href="#we-used-the-statevector-simulator-and-now-we-ll-run-it-on-helmi" title="Permalink to this heading"></a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">provider</span> <span class="o">=</span> <span class="n">IQMProvider</span><span class="p">(</span><span class="s2">&quot;https://qc.vtt.fi/cocos&quot;</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_backend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Native operations: </span><span class="si">{</span><span class="n">backend</span><span class="o">.</span><span class="n">operation_names</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Number of qubits: </span><span class="si">{</span><span class="n">backend</span><span class="o">.</span><span class="n">num_qubits</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Coupling map: </span><span class="si">{</span><span class="n">backend</span><span class="o">.</span><span class="n">coupling_map</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Native operations: [&#39;r&#39;, &#39;id&#39;, &#39;cz&#39;, &#39;measure&#39;]
+Number of qubits: 5
+Coupling map: [[0, 2], [2, 0], [1, 2], [2, 1], [2, 3], [3, 2], [2, 4], [4, 2]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">feature_map</span></code> function is a way to encode classical data into a quantum state. In this case, it’s creating a quantum circuit <code class="docutils literal notranslate"><span class="pre">qc</span></code> with 2 qubits. It then applies a rotation around the y-axis (<code class="docutils literal notranslate"><span class="pre">ry</span></code>) on each qubit. The rotation angle is determined by the input data <code class="docutils literal notranslate"><span class="pre">x</span></code> multiplied by <code class="docutils literal notranslate"><span class="pre">pi</span></code>. The <code class="docutils literal notranslate"><span class="pre">ParameterVector</span></code> is a way to create a list of parameters.</p>
+<p>First, we create some dummy data, but smaller (fewer data points) than it was before.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nsamp</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="p">[[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">x</span><span class="o">/</span><span class="n">nsamp</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsamp</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[[</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">x</span><span class="o">/</span><span class="n">nsamp</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsamp</span><span class="p">)]</span> <span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">4.5</span> <span class="o">+</span> <span class="mf">0.2</span><span class="o">*</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mf">0.2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">()</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span><span class="p">])</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">y</span><span class="p">))</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="mi">200</span> <span class="o">+</span> <span class="mi">600</span><span class="o">*</span><span class="n">xj</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mf">0.7</span><span class="p">)</span> <span class="k">if</span> <span class="n">xj</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">0.7</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="mi">800</span> <span class="o">-</span> <span class="mi">300</span><span class="o">*</span><span class="p">(</span><span class="n">xj</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mf">0.7</span><span class="p">)</span><span class="o">/</span><span class="mf">0.3</span><span class="p">)</span> <span class="k">for</span> <span class="n">xj</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="p">[</span><span class="n">nj</span><span class="o">*</span><span class="n">pj</span> <span class="k">for</span> <span class="n">nj</span><span class="p">,</span><span class="n">pj</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">p</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a DataFrame</span>
+<span class="n">df1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;gender&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span><span class="p">],</span>
+    <span class="s1">&#39;age group (normalized)&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span><span class="p">],</span>
+    <span class="s1">&#39;population size&#39;</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span>
+    <span class="s1">&#39;number of transitions&#39;</span><span class="p">:</span> <span class="n">d</span>
+<span class="p">})</span>
+
+<span class="c1"># Write the DataFrame to a CSV file</span>
+<span class="n">df1</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;fdata1.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># index=False argument is used to prevent pandas from writing row indices into the CSV file</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data1</span> <span class="o">=</span> <span class="n">df1</span>
+<span class="c1"># data1 = pd.read_csv(&#39;fdata1.csv&#39;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Transform and inspect data</span>
+<span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="p">[[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data1</span><span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">],</span> <span class="n">data1</span><span class="p">[</span><span class="s1">&#39;age group (normalized)&#39;</span><span class="p">])]</span> <span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0.  0. ]
+ [0.  0.1]
+ [0.  0.2]
+ [0.  0.3]
+ [0.  0.4]
+ [0.  0.5]
+ [0.  0.6]
+ [0.  0.7]
+ [0.  0.8]
+ [0.  0.9]
+ [1.  0. ]
+ [1.  0.1]
+ [1.  0.2]
+ [1.  0.3]
+ [1.  0.4]
+ [1.  0.5]
+ [1.  0.6]
+ [1.  0.7]
+ [1.  0.8]
+ [1.  0.9]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># raw transition frequency per group, used for plots</span>
+<span class="n">p_raw</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="o">/</span><span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">n</span><span class="p">)]</span>
+
+<span class="c1"># logistic probability, used as input to SVR optimization</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span> <span class="n">p</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span> <span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">p_raw</span><span class="p">])</span>
+
+<span class="c1"># calculate weights for SVR based on population size</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.</span><span class="o">/</span><span class="n">nj</span> <span class="k">for</span> <span class="n">nj</span> <span class="ow">in</span> <span class="n">n</span><span class="p">])</span>
+
+<span class="c1"># normalize weights (equivalent to changing the hyperparameters of the SVR)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">w</span><span class="o">/</span><span class="nb">sum</span><span class="p">(</span><span class="n">w</span><span class="p">)</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">axs</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x1j</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x1j</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">p_raw</span><span class="p">)</span> <span class="k">if</span> <span class="n">x1j</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">x1j</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">p_raw</span><span class="p">)</span> <span class="k">if</span> <span class="n">x1j</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;or&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x1j</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x1j</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">p_raw</span><span class="p">)</span> <span class="k">if</span> <span class="n">x1j</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">x1j</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">p_raw</span><span class="p">)</span> <span class="k">if</span> <span class="n">x1j</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;ob&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;raw transition frequencies&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/7bb3b27987d7a610178294318c15d5f2fe5b4bc5ccfbf0666b909f075247fce4.png" src="../../_images/7bb3b27987d7a610178294318c15d5f2fe5b4bc5ccfbf0666b909f075247fce4.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-implement-and-visualize-a-quantum-feature-map">
+<h2>Exercise 3: Implement and Visualize a Quantum Feature Map<a class="headerlink" href="#exercise-3-implement-and-visualize-a-quantum-feature-map" title="Permalink to this heading"></a></h2>
+<p>In this exercise, you will implement a quantum feature map using Qiskit and visualize the resulting quantum circuit. The feature map is a way of encoding classical data into quantum states. In this case, we will use a simple feature map that applies a rotation around the y-axis on each qubit.</p>
+<section id="task-1-implement-the-feature-map">
+<h3>Task 1: Implement the Feature Map<a class="headerlink" href="#task-1-implement-the-feature-map" title="Permalink to this heading"></a></h3>
+<p>First, let’s implement the feature map. Here is the function you need to complete:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">feature_map</span><span class="p">(</span><span class="n">x1</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">ParameterVector</span><span class="p">(</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># TODO: Apply a rotation around the y-axis on each qubit</span>
+    <span class="c1"># Hint: Use the ry gate and the input data x1</span>
+
+    <span class="k">return</span> <span class="n">qc</span>
+</pre></div>
+</div>
+</section>
+<section id="task-2-visualize-the-circuit">
+<h3>Task 2: Visualize the Circuit<a class="headerlink" href="#task-2-visualize-the-circuit" title="Permalink to this heading"></a></h3>
+<p>After implementing the feature map, you visualize the resulting quantum circuit, as we did at the beginning of this lesson.</p>
+<p>Good luck with your exercise! If you have any questions or need further clarification, feel free to ask. 😊</p>
+<p>The following part of the code implements a list of all possible quantum circuits for the given data <code class="docutils literal notranslate"><span class="pre">x1</span></code>. For each pair of data points <code class="docutils literal notranslate"><span class="pre">(x1[i],</span> <span class="pre">x1[j])</span></code>, it creates two circuits using the <code class="docutils literal notranslate"><span class="pre">feature_map</span></code> function. The feature map is a way of encoding classical data into quantum states. It then appends the inverse of <code class="docutils literal notranslate"><span class="pre">qc_j</span></code> to <code class="docutils literal notranslate"><span class="pre">qc_i</span></code> using the <code class="docutils literal notranslate"><span class="pre">compose</span></code> function. This function combines two circuits, and with <code class="docutils literal notranslate"><span class="pre">.inverse()</span></code>, it applies the inverse of the second circuit. After composing the circuits, it adds a measurement on all qubits using <code class="docutils literal notranslate"><span class="pre">measure_all()</span></code>. The circuit is then transpiled for a specific backend using the <code class="docutils literal notranslate"><span class="pre">transpile</span></code> function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># from qiskit import transpile</span>
+
+<span class="c1"># Initialize an empty list to store all circuits</span>
+<span class="n">all_circuits</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x1</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+        <span class="c1"># Substitute parameters with values from your data</span>
+        <span class="n">qc_i</span> <span class="o">=</span> <span class="n">feature_map</span><span class="p">(</span><span class="n">x1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">qc_j</span> <span class="o">=</span> <span class="n">feature_map</span><span class="p">(</span><span class="n">x1</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+        
+        <span class="c1"># Append the inverse of qc_j to qc_i and measure</span>
+        <span class="n">qc_ij</span> <span class="o">=</span> <span class="n">qc_i</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">qc_j</span><span class="o">.</span><span class="n">inverse</span><span class="p">())</span>
+        <span class="n">qc_ij</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+        
+        <span class="c1"># Transpile the circuit for the backend</span>
+        <span class="n">qc_ij_transpiled</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">qc_ij</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
+        
+        <span class="c1"># Add the transpiled circuit to the list</span>
+        <span class="n">all_circuits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">qc_ij_transpiled</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">all_circuits</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>190
+</pre></div>
+</div>
+</div>
+</div>
+<p>This block of code defines a batch size and splits the transpiled circuits into batches. It then initializes a list to store job IDs. Each batch of circuits is executed on the backend with 1024 shots per circuit execution. Also, it can take some time to execute.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the batch size</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="c1"># Split the transpiled circuits into batches</span>
+<span class="n">batches</span> <span class="o">=</span> <span class="p">[</span><span class="n">all_circuits</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_circuits</span><span class="p">),</span> <span class="n">batch_size</span><span class="p">)]</span>
+
+<span class="c1"># Initialize a list to store job IDs</span>
+<span class="n">job_ids</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Execute each batch of circuits</span>
+<span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">:</span>
+    <span class="n">job</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span>
+    <span class="n">job_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">job_id</span><span class="p">())</span>
+
+<span class="c1"># This block of code executes each batch until it&#39;s successful or an exception occurs</span>
+<span class="c1"># If an exception occurs, it waits for a random amount of time between 1 and 10 seconds before retrying</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="c1"># Initialize a list to store results</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">n_shots</span> <span class="o">=</span> <span class="mi">1024</span>
+
+<span class="c1"># Initialize a counter for the job number</span>
+<span class="n">job_number</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">:</span>
+    <span class="n">success</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Execute the batch of circuits</span>
+            <span class="n">job</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">n_shots</span><span class="p">)</span>
+            
+            <span class="c1"># Print job execution status</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tracking execution of job</span><span class="si">{</span><span class="n">job_number</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+            <span class="n">job_monitor</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+            
+            <span class="c1"># Wait for the job to finish and get the result</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+            
+            <span class="c1"># If successful, append the result and break the loop</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+            <span class="n">success</span> <span class="o">=</span> <span class="kc">True</span>
+            
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Execution failed with error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># Sleep for a bit (random backoff) before retrying</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    
+    <span class="c1"># Increment the job number for the next iteration</span>
+    <span class="n">job_number</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking execution of job1:
+Job Status: job has successfully run
+Tracking execution of job2:
+Job Status: job has successfully run
+Tracking execution of job3:
+Job Status: job has successfully run
+Tracking execution of job4:
+Job Status: job has successfully run
+Tracking execution of job5:
+Job Status: job has successfully run
+Tracking execution of job6:
+Job Status: job has successfully run
+Tracking execution of job7:
+Job Status: job has successfully run
+Tracking execution of job8:
+Job Status: job has successfully run
+Tracking execution of job9:
+Job Status: job has successfully run
+Tracking execution of job10:
+Job Status: job has successfully run
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Job Retrieval and Frequency Calculation</strong>: The script starts by iterating over a list of <code class="docutils literal notranslate"><span class="pre">job_ids</span></code>. For each <code class="docutils literal notranslate"><span class="pre">job_id</span></code>, it retrieves the job result from the backend. It then calculates the frequency of the ‘00’ state in the results and appends this frequency to the <code class="docutils literal notranslate"><span class="pre">estimates</span></code> list.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize a counter for the job number</span>
+<span class="n">job_number</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="k">for</span> <span class="n">job_id</span> <span class="ow">in</span> <span class="n">job_ids</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Job</span><span class="si">{</span><span class="n">job_number</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">job_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">job_number</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Job1: ea63caca-9859-4988-afcc-4617a4422261
+Job2: 4ea8454c-0146-47e3-a4f3-22e7098bf8b5
+Job3: 29c17939-328b-46bd-bcf6-e2df758b4efd
+Job4: 80e39182-931b-4bc9-83d7-f100a877d81b
+Job5: bae16e48-b12a-4cea-bdf4-287bce4e11ab
+Job6: ed7f15be-36d1-41c4-b0e1-794746789a48
+Job7: b07bd0df-a786-4389-8def-ea0926f2fd17
+Job8: d346a014-4afc-43ee-8ee4-d16e229e7c1e
+Job9: baf11441-c6d0-4b0b-8641-068a929c72c4
+Job10: 1895b727-95b8-4925-bc95-e7e2347493f7
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">estimates</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">job_id</span> <span class="ow">in</span> <span class="n">job_ids</span><span class="p">:</span>
+    <span class="n">job_res</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">retrieve_job</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">job_res</span><span class="o">.</span><span class="n">results</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;00&#39;</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">counts</span><span class="p">:</span>
+            <span class="n">freq</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">counts</span><span class="p">[</span><span class="s1">&#39;00&#39;</span><span class="p">]</span><span class="o">/</span><span class="n">n_shots</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">freq</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">estimates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Kernel Matrix Construction</strong>: The script constructs a kernel matrix <code class="docutils literal notranslate"><span class="pre">K_helmi</span></code> using the estimates. The kernel matrix is a symmetric matrix where each element represents a measure of similarity between two data points.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">K_helmi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x1</span><span class="p">))</span>
+
+<span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x1</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+        <span class="c1">#print(i, &#39; &#39;, j)</span>
+        <span class="n">K_helmi</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">estimates</span><span class="p">[</span><span class="n">cnt</span><span class="p">]</span>
+        <span class="n">K_helmi</span><span class="p">[</span><span class="n">j</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">estimates</span><span class="p">[</span><span class="n">cnt</span><span class="p">]</span>
+        <span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Kernel Matrix Visualization</strong>: The kernel matrix is then visualized using matplotlib’s <code class="docutils literal notranslate"><span class="pre">imshow</span></code> function. The color map ‘Blues’ is used, and a color bar is added for reference.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="n">axs</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asmatrix</span><span class="p">(</span><span class="n">K_helmi</span><span class="p">),</span>
+              <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;upper&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;kernel matrix from Helmi&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/0a84b444f7b2cdf438d2ecc222ea76d29f63aada6401149af8f803cb88d103b8.png" src="../../_images/0a84b444f7b2cdf438d2ecc222ea76d29f63aada6401149af8f803cb88d103b8.png" />
+</div>
+</div>
+<p><strong>Support Vector Regression (SVR)</strong>: The script uses the Support Vector Regression (SVR) model from scikit-learn with a precomputed kernel. It fits the model to the data (<code class="docutils literal notranslate"><span class="pre">f_matrix_train</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>) and calculates the score of the model using the <code class="docutils literal notranslate"><span class="pre">score</span></code> method.</p>
+<p><strong>Prediction and Plotting</strong>: The fitted model is used to predict outcomes, which are then plotted against the actual outcomes for two groups (Group 0 and Group 1).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f_matrix_train</span> <span class="o">=</span> <span class="n">K_helmi</span>
+
+<span class="n">zzpc_svr</span> <span class="o">=</span> <span class="n">SVR</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;precomputed&#39;</span><span class="p">)</span>
+<span class="n">zzpc_svr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">f_matrix_train</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="n">zzpc_score</span> <span class="o">=</span> <span class="n">zzpc_svr</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">f_matrix_train</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;score: </span><span class="si">{</span><span class="n">zzpc_score</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">zzpc_svr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">f_matrix_train</span><span class="p">)</span>
+
+<span class="n">p_hat</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">pred</span><span class="p">))</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">y</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span><span class="s1">&#39;or&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">p_hat</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">p</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span><span class="s1">&#39;ob&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">p_hat</span><span class="p">)</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;Group 0&#39;</span><span class="p">,</span> <span class="s1">&#39;Group 0 model&#39;</span><span class="p">,</span> <span class="s1">&#39;Group 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Group 1 model&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>score: 0.9001754733534563
+</pre></div>
+</div>
+<img alt="../../_images/d0588aac56a818bcbb1d825a8810c8cbb88904faa92a9096fbe0559d8a9d1aa8.png" src="../../_images/d0588aac56a818bcbb1d825a8810c8cbb88904faa92a9096fbe0559d8a9d1aa8.png" />
+</div>
+</div>
+<p><strong>Error Calculation and Visualization</strong>: Finally, the script calculates the absolute errors between <code class="docutils literal notranslate"><span class="pre">K_helmi</span></code> and <code class="docutils literal notranslate"><span class="pre">matrix_train</span></code>, visualizes these errors using <code class="docutils literal notranslate"><span class="pre">imshow</span></code>, and displays this with a color bar for reference.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># redo the steps for statevector kernel to compare with the Helmi results</span>
+
+<span class="n">zz_kernel</span> <span class="o">=</span> <span class="n">QuantumKernel</span><span class="p">(</span><span class="n">feature_map</span><span class="o">=</span><span class="n">qc</span><span class="p">,</span> <span class="n">quantum_instance</span><span class="o">=</span><span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;statevector_simulator&#39;</span><span class="p">))</span>
+<span class="n">zz_circuit</span> <span class="o">=</span> <span class="n">zz_kernel</span><span class="o">.</span><span class="n">construct_circuit</span><span class="p">(</span><span class="n">ParameterVector</span><span class="p">(</span><span class="s1">&#39;x_i&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span><span class="n">ParameterVector</span><span class="p">(</span><span class="s1">&#39;x_j&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">zz_circuit</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;mpl&#39;</span><span class="p">)</span>
+<span class="n">matrix_train</span> <span class="o">=</span> <span class="n">zz_kernel</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">x_vec</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">errors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">K_helmi</span> <span class="o">-</span> <span class="n">matrix_train</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">pos</span> <span class="o">=</span> <span class="n">axs</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asmatrix</span><span class="p">(</span><span class="n">errors</span><span class="p">),</span>
+              <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s1">&#39;upper&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Reds&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;erorrs&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/16a05217fa1e056bba7296222b96407d437a3846178964ba2ce8b1dfa0b4a94e.png" src="../../_images/16a05217fa1e056bba7296222b96407d437a3846178964ba2ce8b1dfa0b4a94e.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution ex2</span>
+<span class="n">residuals</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">pred</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">residuals</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Residuals&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Histogram of Residuals&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution1 ex2</span>
+<span class="n">residuals1</span> <span class="o">=</span> <span class="n">p_hat</span><span class="o">-</span><span class="n">p</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">residuals1</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Residuals&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Histogram of Residuals&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution ex3</span>
+
+<span class="k">def</span> <span class="nf">feature_map</span><span class="p">(</span><span class="n">x1</span><span class="p">):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">ParameterVector</span><span class="p">(</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">qc</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">x1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">x1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">qc</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># solution1 ex3</span>
+<span class="c1"># Draw the circuit</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;mpl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/0aef202daa12992e161edc8c488f7734353be4bfc10f2a2d3f1e2d594b7061a0.png" src="../../_images/0aef202daa12992e161edc8c488f7734353be4bfc10f2a2d3f1e2d594b7061a0.png" />
+</div>
+</div>
+<section id="test-code">
+<h4>TEST CODE<a class="headerlink" href="#test-code" title="Permalink to this heading"></a></h4>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../Workshop-ADAPT/" class="btn btn-neutral float-left" title="Tutorial - Adaptive State Preparation Techniques" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../Tutotial_HPCoordinateBasedLattice_noDependencies/" class="btn btn-neutral float-right" title="Tutorial: Protein Folding with Quantum Approximate Optimization Algorithm (QAOA)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, The contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

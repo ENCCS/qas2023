@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial - Qubit Spectroscopy Analysis &mdash; Quantum Autumn School 2023  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/togglebutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx_lesson.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx_rtd_theme_ext_color_contrast.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/overrides.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script src="../../_static/minipres.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script data-domain="enccs.github.io/qas2023" defer="defer" src="https://plausible.io/js/script.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="Tutorial - Quantum Alternating Operator Ansatz" href="../Notebook_maxcut_Qas2023/" />
+    <link rel="prev" title="Tutorial - Introduction to Helmi with qiskit" href="../intro-to-helmi-qiskit/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../" class="icon icon-home">
+            Quantum Autumn School 2023
+              <img src="../../_static/ENCCS.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../setup/">Setup</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 1</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../qc-overview/">Physical Approaches to Quantum Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../digital-qc/">Introduction to Digital Quantum Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-1/">Tutorial - Quantum programming I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-2/">Tutorial - Quantum programming II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-3/">Tutorial - Quantum programming III</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 2</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../hpc-qc/">HPC-QC integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software-stack/">QC software stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-classical-quantum/">Hybrid Classical/Quantum Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro-to-helmi-qiskit/">Tutorial - Introduction to Helmi with qiskit</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial - Qubit Spectroscopy Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-transmon-qubit">A transmon qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#readout-resonator-spectroscopy">Readout resonator spectroscopy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#qubit-spectroscopy">Qubit spectroscopy</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#live-exercise-qubit-spectroscopy-analysis">Live exercise: qubit spectroscopy analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Notebook_maxcut_Qas2023/">Tutorial - Quantum Alternating Operator Ansatz</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 3</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-quantum-chemistry/">Hybrid Algorithms - Use Cases for Quantum Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-finance/">Hybrid Algorithms - Use Cases for Quantum Finance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-life-science/">Hybrid Algorithms - Use Cases for Quantum Life Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E2_VQE-H2/">Tutorial - Quantum chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/">Tutorial - Adaptive State Preparation Techniques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QF/">Tutorial - Quantum support vector regression for disability insurance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutotial_HPCoordinateBasedLattice_noDependencies/">Tutorial: Protein Folding with Quantum Approximate Optimization Algorithm (QAOA)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://enccs.se/lessons/">All ENCCS lessons</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://enccs.se/">About ENCCS</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../">Quantum Autumn School 2023</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tutorial - Qubit Spectroscopy Analysis</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/qas2023/blob/main/content/notebooks/Qubit_Spectroscopy_Analysis.ipynb" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="tutorial-qubit-spectroscopy-analysis">
+<h1>Tutorial - Qubit Spectroscopy Analysis<a class="headerlink" href="#tutorial-qubit-spectroscopy-analysis" title="Permalink to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
+<p>To be able to perform computations with a qubit, we must calibrate it first. This tutorial describes how to do perform a qubit spectroscopy analysis, which is an essential step during the calibration of the qubit. After completing the tutorial you will know:</p>
+<ul class="simple">
+<li><p>How a single transmon qubit looks like on the chip</p></li>
+<li><p>How to find the readout resonator frequency</p></li>
+<li><p>How to find the qubit frequency</p></li>
+</ul>
+<p><img alt="" src="../../_images/spectroscopy-introduction.png" /></p>
+<p>In order to run this tutorial you will need this notebook and the following packages installed in your environment (already done when you are running on the provided Jupyter server from CSC):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xarray</span><span class="o">==</span><span class="mf">2023.9.0</span>
+<span class="n">scipy</span><span class="o">==</span><span class="mf">1.11.2</span>
+<span class="n">matplotlib</span><span class="o">==</span><span class="mf">3.8.0</span>
+<span class="n">numpy</span><span class="o">==</span><span class="mf">1.23.5</span>
+<span class="n">lmfit</span><span class="o">==</span><span class="mf">1.2.2</span>
+</pre></div>
+</div>
+<p>Furthermore, please go to <span class="xref myst">www.qal9000.se/qas2023</span> and retrieve a qubit spectroscopy measurement. It will be sent to your email address and should be in the .hdf5 format. If this page does not work for you, download a sample measurement here: <a class="reference external" href="https://github.com/ENCCS/qas2023/tree/main/content/notebooks/datasets/spectroscopy_data.hdf5">https://github.com/ENCCS/qas2023/tree/main/content/notebooks/datasets/spectroscopy_data.hdf5</a>. Please note that the service at  <span class="xref myst">www.qal9000.se/qas2023</span> is only available during the school. At other times, use the stored datafile on GitHub.</p>
+</section>
+<section id="a-transmon-qubit">
+<h2>A transmon qubit<a class="headerlink" href="#a-transmon-qubit" title="Permalink to this heading"></a></h2>
+<p>The figure below depicts the basic design of a transmon qubit. Right in the middle there of the zoomed-in area there is the readout resonator, connected to the readout line. The actual qubit is the transmon on the right of the readout resonator. The qubit operates at a certain frequency, referred to as the qubit frequency f01. The qubit is in the ground state |0&gt; until we send an electrical pulse with the correct frequency (f01) through the qubit drive line (on the very right of the zoomed-in area) to bring it into the excited state |1&gt;. With this tutorial, you will learn how we can find the qubit frequency.</p>
+<p><img alt="" src="../../_images/qubit-on-chip.png" /></p>
+<p><em>Picture of a transmon qubit on a five qubit chip produced in Chalmers (Copyright: Anuj Aggarwal)</em></p>
+</section>
+<section id="readout-resonator-spectroscopy">
+<h2>Readout resonator spectroscopy<a class="headerlink" href="#readout-resonator-spectroscopy" title="Permalink to this heading"></a></h2>
+<p>You can think of the readout resonator as the qubit detector: the resonance frequency of this resonator changes if the qubit is excited. Typically, we have a rough estimate of the . resonator frequency given by its geometry. Without doing anything to the qubit, we send a signal through the feedline and we sweep the frequency of this signal. We then measure the signal at the output of the feedline. In the figure below you can see what happens for a sweep over the frequencies 6.850GHz-6.856GHz. We have a Lorentzian curve with its minimum at the frequency of the resonator. We see a deep because the signal, that we send, get absorbed by the resonator when it is at the frequency of the resonator. To extract this frequency we will apply a curve fit on the data points and retrieve the resonator frequency (fr = 6.853GHz), marked by the vertical blue line.</p>
+<p><img alt="" src="../../_images/readout-resonator.png" /></p>
+<p><em>Readout resonator spectroscopy analysis. The red line is the measured voltage for a qubit in ground state. The yellow line is the measured voltage for a qubit in excited state.</em></p>
+<p>The yellow line in the picture depicts the behavior of the resonator when the qubit is in its |1&gt; state. We do not know yet where this yellow line will be exactly, but we know that it is probably located left from the orange line. However, assuming the qubit would be in its excited state and that we measure our signal at the frequency corresponding to the qubit in the ground state, we would measure the voltage that corresponds to the intersection of the yellow line and the vertical blue line (16.5mv). We are taking advantage of the fact that the resonator frequency changes if the qubit is excited, to determine the qubit quantum state. This is what we will exploit in the next calibration step to determine the qubit frequency.</p>
+</section>
+<section id="qubit-spectroscopy">
+<h2>Qubit spectroscopy<a class="headerlink" href="#qubit-spectroscopy" title="Permalink to this heading"></a></h2>
+<p>In this calibration step, we want to find out the frequency (f01) at which we can bring the qubit form its ground to excited state. From geometrical properties of the qubit, we have a rough range in which we should search for this frequency. We continuously monitor the signal at the output of the feedline at the frequency of the resonator corresponding to the qubit in the ground state (fr,as we determined in the previous step).</p>
+<p>Now, in addition, we send a signal to the qubit through its own drive line at different frequencies. If this frequency does not correspond to f01, the qubit does not get excited and qubit is not excited, we expect to measure the lower voltage on the readout signal. As soon as the frequency hits f01, the qubit is excited and the readout resonator will switch to its |1&gt; state curve. Hence, if we keep measuring the output signal at the frequency fr, we will measure a larger signal. So, if we plot the measured signal at fr as a function of the qubit drive frequency, we expect to see a peak centered at the qubit frequency f01. By fitting this curve (as shown in the live exercise below), we can extract the value of f01.</p>
+<p><img alt="" src="../../_images/qubit-spectroscopy.png" /></p>
+<p><em>Qubit spectroscopy analysis step by step. We collect the data points and then apply a fit function.</em></p>
+<section id="live-exercise-qubit-spectroscopy-analysis">
+<h3>Live exercise: qubit spectroscopy analysis<a class="headerlink" href="#live-exercise-qubit-spectroscopy-analysis" title="Permalink to this heading"></a></h3>
+<p>As described above, we must fit a function over the measurement values of the sweep. For the qubit spectroscopy, we know that the shape of the function follows a Lorentzian function. Thus, in our experiment, we are loading the fit function described below:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># (C) Eleftherios Moschandreou, 2023</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">lmfit</span>
+
+
+<span class="c1"># Lorentzian function that is fit to qubit spectroscopy peaks</span>
+<span class="k">def</span> <span class="nf">lorentzian_function</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">x0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">A</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">A</span> <span class="o">*</span> <span class="n">width</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">x0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">width</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span>
+
+
+<span class="k">class</span> <span class="nc">LorentzianModel</span><span class="p">(</span><span class="n">lmfit</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a Lorentzian model that can be fit to qubit spectroscopy data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">lorentzian_function</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_param_hint</span><span class="p">(</span><span class="s2">&quot;x0&quot;</span><span class="p">,</span> <span class="n">vary</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_param_hint</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="n">vary</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_param_hint</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">vary</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_param_hint</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">,</span> <span class="n">vary</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">guess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">lmfit</span><span class="o">.</span><span class="n">parameter</span><span class="o">.</span><span class="n">Parameters</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">kws</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># Guess that the resonance is where the function takes its maximal value</span>
+        <span class="n">x0_guess</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">data</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_param_hint</span><span class="p">(</span><span class="s2">&quot;x0&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">x0_guess</span><span class="p">)</span>
+
+        <span class="c1"># Guess width</span>
+        <span class="n">width_guess</span> <span class="o">=</span> <span class="mf">0.5e6</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_param_hint</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">width_guess</span><span class="p">)</span>
+
+        <span class="c1"># The guess for the vertical offset is the mean absolute value of the data</span>
+        <span class="n">c_guess</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_param_hint</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">c_guess</span><span class="p">)</span>
+
+        <span class="c1"># Calculate A_guess from difference between the peak and the backround level</span>
+        <span class="n">A_guess</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="n">c_guess</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_param_hint</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">A_guess</span><span class="p">)</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_params</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">lmfit</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">update_param_vals</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">QubitSpectroscopyAnalysis</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Analysis that fits a Lorentzian function to qubit spectroscopy data.</span>
+<span class="sd">    The resulting fit can be analyzed to determine if a peak was found or not.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+        <span class="n">data_var</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">coord</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="n">data_var</span><span class="p">]</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">S21</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="n">data_var</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">independents</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="n">coord</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">magnitudes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">S21</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_frequencies</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_y</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">run_fitting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Initialize the Lorentzian model</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">LorentzianModel</span><span class="p">()</span>
+
+        <span class="c1"># Fetch the resulting measurement variables from self</span>
+        <span class="n">frequencies</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">independents</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_frequencies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">frequencies</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">frequencies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1000</span><span class="p">)</span>  <span class="c1"># x-values for plotting</span>
+
+        <span class="c1"># Gives an initial guess for the model parameters and then fits the model to the data.</span>
+        <span class="n">guess</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">guess</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">magnitudes</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">frequencies</span><span class="p">)</span>
+        <span class="n">fit_result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">magnitudes</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">guess</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">frequencies</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_y</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">fit_result</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">model</span><span class="o">.</span><span class="n">independent_vars</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit_frequencies</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">fit_result</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;x0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">plotter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax_</span><span class="p">,</span> <span class="n">qubit_</span><span class="p">):</span>
+        <span class="c1"># Plots the data and the fitted model of a qubit spectroscopy experiment</span>
+        <span class="n">ax_</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fit_frequencies</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fit_y</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
+        <span class="n">ax_</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">independents</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">magnitudes</span><span class="p">,</span> <span class="s1">&#39;bo-&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
+        <span class="n">ax_</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Qubit Spectroscopy for </span><span class="si">{</span><span class="n">qubit_</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">ax_</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;frequency (Hz)&#39;</span><span class="p">)</span>
+        <span class="n">ax_</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;|S21| (V)&#39;</span><span class="p">)</span>
+        <span class="n">ax_</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If you have not done it yet, you can now request a dataset from the <a class="reference external" href="http://www.qal9000.se/qas2023">http://www.qal9000.se/qas2023</a> webpage or from <a class="reference external" href="https://github.com/ENCCS/qas2023/tree/main/content/notebooks/datasets/spectroscopy_data.hdf5">https://github.com/ENCCS/qas2023/tree/main/content/notebooks/datasets/spectroscopy_data.hdf5</a>. It will contain the frequency and voltage values for the spectroscopy measurements of one real qubit. Replace the file name in the script below with the file you got by email and run it. You should expect an output that has a peak.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">xarray</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># TODO: Replace the file name</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="s1">&#39;&lt;FILE_YOU_GOT_BY_EMAIL&gt;.hdf5&#39;</span><span class="p">)</span>
+<span class="n">analysis</span> <span class="o">=</span> <span class="n">QubitSpectroscopyAnalysis</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+<span class="n">fitted_frequency</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">run_fitting</span><span class="p">()</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">analysis</span><span class="o">.</span><span class="n">plotter</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s1">&#39;q0&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The qubit frequency is: </span><span class="si">{</span><span class="n">fitted_frequency</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">10e-10</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">GHz&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The qubit frequency is: 4.009GHz
+</pre></div>
+</div>
+<img alt="../../_images/8c9b44ff7c748942b3f3708cf28290e4484a35b40b5d4701c411a921430faa33.png" src="../../_images/8c9b44ff7c748942b3f3708cf28290e4484a35b40b5d4701c411a921430faa33.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../intro-to-helmi-qiskit/" class="btn btn-neutral float-left" title="Tutorial - Introduction to Helmi with qiskit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../Notebook_maxcut_Qas2023/" class="btn btn-neutral float-right" title="Tutorial - Quantum Alternating Operator Ansatz" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, The contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

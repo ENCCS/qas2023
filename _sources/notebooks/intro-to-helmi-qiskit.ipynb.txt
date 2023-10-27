@@ -1,0 +1,1208 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Tutorial - Introduction to Helmi with qiskit\n",
+    "\n",
+    "Helmi is a 5 qubit Quantum Computer that is co-developed by [VTT](https://www.vttresearch.com/en/ourservices/quantum-technology) and [IQM](https://www.meetiqm.com/). It uses superconducting transmon qubits in a star shaped topology. Helmi's natives gates consist of the phased-rx and controlled-z gates. This architecture is called **Adonis** by IQM.\n",
+    "\n",
+    "In this tutorial running on Helmi is demonstrated using the Qiskit framework by utilising the [qiskit-on-iqm](https://github.com/iqm-finland/qiskit-on-iqm) adapter. You can also run on Helmi using [Cirq](https://quantumai.google/cirq) with [cirq-on-iqm](https://github.com/iqm-finland/cirq-on-iqm) adapter. These notebooks are intended to be run on [`notebooks.csc.fi`](https://notebooks.rahtiapp.fi/welcome) which has access to run on Helmi. Additional documentation for notebooks.csc.fi can be found [here](https://docs.csc.fi/cloud/csc_notebooks/).\n",
+    "\n",
+    "Here is Helmi! It is located in Espoo, Finland."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<img src=\"img/large_helmi.png\" alt=\"VTT Helmi\" width=\"900\" height=\"500\" class=\"blog-image\">"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## **Setup**\n",
+    "\n",
+    "This notebook uses the following requirements. \n",
+    "\n",
+    "```text\n",
+    "qiskit-iqm==10.10\n",
+    "iqm-client==13.2\n",
+    "qiskit[visualization]\n",
+    "PennyLane-qiskit @ git+https://github.com/NordIQuEst/pennylane-qiskit@support-num-qubits\n",
+    "```"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## **Using Helmi with Qiskit**\n",
+    "\n",
+    "First we import [qiskit-on-iqm](https://github.com/iqm-finland/qiskit-on-iqm/tree/9.0) which is needed to run on Helmi with qiskit. You can read the user guide [here](https://iqm-finland.github.io/qiskit-on-iqm/versions/9.0/index.html)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import matplotlib.pyplot as plt\n",
+    "from qiskit_iqm import IQMProvider\n",
+    "import networkx as nx\n",
+    "from qiskit import QuantumCircuit, QuantumRegister, execute, transpile\n",
+    "from qiskit.tools.monitor import job_monitor\n",
+    "from qiskit.visualization import plot_histogram"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Then connection to the backend is simple! For this we point the `IQMProvider` at what is called the \"cocos URL\". The cocos url to access Helmi is provided below. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "provider = IQMProvider(\"https://qc.vtt.fi/cocos\")\n",
+    "backend = provider.get_backend()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now that we have the backend connected to Helmi, let's print out some information about Helmi!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print(f'Native operations: {backend.operation_names}')\n",
+    "print(f'Number of qubits: {backend.num_qubits}')\n",
+    "print(f'Coupling map: {backend.coupling_map}')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We see that the native operations on Helmi are the `r` gate and the `cz` gate. In reality Helmi has native gates `phased-rx` and `cz` and here it is given in the context of Qiskit as Qiskit does not have the PRX operation. You will see when running circuits on Helmi multiple `r` gates are quite common. These represent PRX gates with the following relation:\n",
+    "\n",
+    "The phased-rx (PRX) gate is an x-rotation conjugated by a z-rotation. It can be represented as a function of  angle $\\theta$ and phase $\\phi$ in the computational basis with:\n",
+    "\n",
+    "$$R(\\theta, \\phi) = e^{-i (X \\cos \\phi + Y \\sin \\phi) \\: \\theta/2} = R_z(\\phi) R_x(\\theta) R_z^\\dagger(\\phi)$$\n",
+    "\n",
+    "Where $X$ and $Y$ are the Pauli matrices. Note that `id` gates are dropped when submitted to Helmi and Helmi does not currently allow for mid-circuit measurements. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The topology can be visualised with `networkx`:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "G = nx.Graph()\n",
+    "G.add_edges_from(backend.coupling_map)\n",
+    "node_labels = {node: f\"QB{node + 1}\" for node in G.nodes}\n",
+    "nx.draw(G, labels=node_labels, node_color='skyblue', node_size=500, font_size=10)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The topology can also be displayed as an image"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<img src=\"img/helmi-topology.png\" alt=\"Helmi topology\" class=\"blog-image\">"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### **Constructing and executing quantum circuits**\n",
+    "\n",
+    "Circuits are constructed and submitted to Helmi using the same methods as with IBM machines. First we construct a Bell pair circuit between 2 qubits. The circuit is then executed on the backend using the `execute` function.  "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "circuit = QuantumCircuit(2, name='Bell pair circuit')\n",
+    "circuit.h(0)\n",
+    "circuit.cx(0, 1)\n",
+    "circuit.measure_all()\n",
+    "circuit.draw(output='mpl')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### **Executing the circuit on Helmi**\n",
+    "\n",
+    "When submitting a job to Helmi a unique identifier for your job is returned. This can be used to gather additional information about the circuit you just submitted and the results. **You should save your job ids!**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "job = execute(circuit, backend, shots=100)\n",
+    "print(f\"Job ID: {job.job_id()}.\")\n",
+    "print(\"Tracking execution of job:\")\n",
+    "job_monitor(job)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "After submitting, the job is now running. The status of the job can be queried using `job.status()`. Using the job id, you can retrieve previous jobs. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "status = job.status()\n",
+    "print(status)\n",
+    "#old_job = backend.retrieve_job(job_id)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### **Explicit Transpilation**"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Instead of using the `execute` function you can also be explicit about your transpilation. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "transpiled_circuit = transpile(circuit, backend=backend, layout_method='sabre', optimization_level=3)\n",
+    "transpiled_circuit.draw('mpl')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "For the more control, you can also specify the initial layout in both `transpile` and `execute`. For example, Helmi's topology only allows 2 qubit gates between the central and outer qubits. Therefore we can map the 2 qubit gate to QB3.  For this we make use of the `QuantumRegister`. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "qreg = QuantumRegister(2, \"QB\")\n",
+    "circuit = QuantumCircuit(qreg, name='Bell pair circuit')\n",
+    "circuit.h(qreg[0])\n",
+    "circuit.cx(qreg[0], qreg[1])\n",
+    "circuit.measure_all()\n",
+    "\n",
+    "\n",
+    "# Qubit numbers start at 0 index whereas the qubit names start at 1 index. \n",
+    "qubit_mapping = {\n",
+    "    qreg[0]: 0,  # Map the first qubit to QB1\n",
+    "    qreg[1]: 2,  # Map the second qubit to QB3\n",
+    "    }\n",
+    "\n",
+    "\n",
+    "job = execute(circuit, backend, shots=100, initial_layout=qubit_mapping)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    " Qiskit refers to qubits using integer indices, whereas IQM uses strings. The backend class provides utility methods for mapping them to one another. Let's see on which physical qubits the logical circuit qubits were mapped."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "mapping = {}\n",
+    "for qubit in circuit.qubits:\n",
+    "    index = circuit.find_bit(qubit).index\n",
+    "    mapping[index] = backend.index_to_qubit_name(index)\n",
+    " \n",
+    "print(mapping)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### **Results**\n",
+    "\n",
+    "Results can be printed once the job has completed. If results are queried before the job has completed then an error will be returned. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "result = job.result()\n",
+    "print(result.job_id)  # The job id can be queried from the result\n",
+    "print(result.get_counts())\n",
+    "#print(result.get_memory())\n",
+    "\n",
+    "plot_histogram(result.get_counts())"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Additional metadata about the executed job can also be found."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "exp_result = result._get_experiment(circuit)\n",
+    "print(\"Job ID: \", job.job_id())  # Retrieving the submitted job id\n",
+    "print(result.request.circuits)  # Retrieving the circuit request sent\n",
+    "print(\"Calibration Set ID: \", exp_result.calibration_set_id)  # Retrieving the current calibration set id. \n",
+    "print(result.request.qubit_mapping)  # Retrieving the qubit mapping\n",
+    "print(result.request.shots)  # Retrieving the number of requested shots. \n",
+    "print(exp_result.header)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### **Simulating circuits locally with noise**\n",
+    "\n",
+    "[Qiskit on IQM](https://iqm-finland.github.io/qiskit-on-iqm/user_guide.html#noisy-simulation-of-quantum-circuit-execution) provides an `IQMFakeBackend` with `IQMFakeAdonis` for simulating Helmi. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from qiskit_iqm import IQMFakeAdonis\n",
+    "fake_backend = IQMFakeAdonis()\n",
+    "job = execute(circuit, fake_backend, shots=1000)\n",
+    "job.result().get_counts()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The error profile of the noise can be queried, for example:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print(fake_backend.error_profile)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "And the noise model can be updated. Let's give it some parameters to make the noise model more accurate."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "error_profile = fake_backend.error_profile\n",
+    "error_profile.t1s['QB1'] = 38940.0  # in ns\n",
+    "error_profile.t1s['QB3'] = 43322.0  # in ns\n",
+    "\n",
+    "error_profile.t2s['QB1'] = 24785.0  # in ns\n",
+    "error_profile.t2s['QB3'] = 10050.0  # in ns\n",
+    "\n",
+    "error_profile.single_qubit_gate_depolarizing_error_parameters['phased_rx']['QB1'] = 0.0043 \n",
+    "error_profile.single_qubit_gate_depolarizing_error_parameters['phased_rx']['QB3'] = 0.0022 \n",
+    "\n",
+    "error_profile.two_qubit_gate_depolarizing_error_parameters['cz'][('QB1', 'QB3')] = 0.018\n",
+    "\n",
+    "error_profile.single_qubit_gate_durations['phased_rx'] = 120  # in ns\n",
+    "error_profile.two_qubit_gate_durations['cz'] = 120  # in ns\n",
+    "\n",
+    "error_profile.readout_errors['QB1']['0'] = 0.03375\n",
+    "error_profile.readout_errors['QB1']['1'] = 0.03865\n",
+    "error_profile.readout_errors['QB3']['0'] = 0.0365\n",
+    "error_profile.readout_errors['QB3']['1'] = 0.05885\n",
+    "\n",
+    "error_profile.name = 'fake_helmi'\n",
+    "\n",
+    "\n",
+    "helmi_fake_backend = fake_backend.copy_with_error_profile(error_profile)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's test to see how accurate our noise model is!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "job_1 = execute(circuit, backend, shots=1000)\n",
+    "job_2 = execute(circuit, fake_backend, shots=1000)\n",
+    "job_3 = execute(circuit, helmi_fake_backend, shots=1000)\n",
+    "\n",
+    "counts_1 = job_1.result().get_counts()\n",
+    "counts_2 = job_2.result().get_counts()\n",
+    "counts_3 = job_3.result().get_counts()\n",
+    "\n",
+    "legend = [\"Helmi\", \"FakeAdonis\", \"FakeHelmi\"]\n",
+    "plot_histogram([counts_1, counts_2, counts_3], legend=legend)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### **Batch execution**\n",
+    "\n",
+    "Helmi also allows for batches of circuits to be submitted with 1 call to the quantum computer. A batch is simply a list of `QuantumCircuits`. This is often faster than executing circuits individually, however, circuits will still be executed sequentially. On Helmi currently you can only place a maximum of 20 circuits in one batch. All circuits in a batch are executed with the same number of shots. The maximum number of shots per circuit is 100,000. \n",
+    "\n",
+    "A batch of circuits has an additional restriction that all circuits in the batch must measure the same qubits. In this case, batch execution is useful for parameterized circuits to be executed using the [`qiskit.circuit.Parameter`](https://qiskit.org/documentation/stubs/qiskit.circuit.Parameter.html) class. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "circuits_list = []\n",
+    "\n",
+    "circuit_1 = QuantumCircuit(2, name='Bell pair circuit')\n",
+    "circuit_1.h(0)\n",
+    "circuit_1.cx(0, 1)\n",
+    "circuit_1.measure_all()\n",
+    "circuits_list.append(circuit_1)\n",
+    "\n",
+    "circuit_1.draw(output='mpl')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "circuit_2 = QuantumCircuit(2, name='Reverse Bell pair circuit')\n",
+    "circuit_2.h(1)\n",
+    "circuit_2.cx(1, 0)\n",
+    "circuit_2.measure_all()\n",
+    "circuits_list.append(circuit_2)\n",
+    "\n",
+    "circuit_2.draw(output='mpl')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Execute and monitor job\n",
+    "job = execute(circuits_list, backend, shots=10, optimization_level=0, initial_layout=[0, 2])\n",
+    "print(\"Tracking execution of job:\")\n",
+    "job_monitor(job)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Get results\n",
+    "result = job.result()\n",
+    "\n",
+    "# Plot histograms\n",
+    "plot_histogram(result.get_counts(), legend=['Circuit 1', 'Circuit 2'])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## **[Pennylane Qiskit](https://docs.pennylane.ai/projects/qiskit/en/latest/)**\n",
+    "\n",
+    "You can also run Pennylane code on Helmi with the [PennyLane-Qiskit Plugin](https://docs.pennylane.ai/projects/qiskit/en/latest/). The `IQMBackend` object uses `BackendV2` currently which Pennylane-Qiskit does not support, therefore we use a [forked-version](https://github.com/JMuff22/pennylane-qiskit/tree/support-num-qubits) that fixes this. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pennylane as qml\n",
+    "\n",
+    "provider = IQMProvider(\"https://qc.vtt.fi/cocos\")\n",
+    "backend = provider.get_backend()\n",
+    "\n",
+    "\n",
+    "dev = qml.device('qiskit.remote', wires=5, backend=backend, shots=10)\n",
+    "\n",
+    "print(dev.capabilities())\n",
+    "\n",
+    "@qml.qnode(dev, interface=\"autograd\")\n",
+    "def circuit(params):\n",
+    "    qml.RX(params[0], wires=0)\n",
+    "    qml.RY(params[1], wires=0)\n",
+    "    return qml.expval(qml.PauliZ(0))\n",
+    "\n",
+    "\n",
+    "print(circuit([0.54, 0.12]))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## **Summary**\n",
+    "\n",
+    "In this notebook we have demonstrated how to connect and run circuits on Helmi with Qiskit, qiskit-on-iqm and the PennyLane-Qiskit plugin. You are encouraged to use Helmi and apply what you have learnt to the exercise from day 1! Below are some tasks!"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## **Tasks**\n",
+    "\n",
+    "Here are some tasks to demonstrate usage of Helmi and how to improve the results. Do you notice any differences compared to when you run with the simulator? "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### **Task 1**\n",
+    "\n",
+    "In this task we create an entangled state on a real quantum computer! This follows [the second practice session from yesterday](https://enccs.github.io/nordiquest-workshop/notebooks/E1_qc-2/#multi-qubit-gates).\n",
+    "\n",
+    "Here is a demonstration of creating a Bell pair (Entanglement!) between qubits 1 and 3. Create an entanglement between the other qubit pairs according to the topology of Helmi! Which are the best qubit pairs today?\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# create quantum circuit\n",
+    "qreg = QuantumRegister(2, \"QB\")\n",
+    "qc = QuantumCircuit(qreg, name='Bell pair circuit')\n",
+    "\n",
+    "qc.h(0)\n",
+    "qc.cx(0, 1)\n",
+    "qc.measure_all()\n",
+    "\n",
+    "qc.draw('mpl')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Transpile the circuit \n",
+    "\n",
+    "qubit_mapping = {\n",
+    "    qreg[0]: 0,  # Map the first qubit to QB1\n",
+    "    qreg[1]: 2,  # Map the second qubit to QB3\n",
+    "}\n",
+    "transpiled_circuit = transpile(qc, backend=backend, initial_layout=qubit_mapping)\n",
+    "transpiled_circuit.draw('mpl')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Execute the circuit\n",
+    "\n",
+    "job = backend.run(transpiled_circuit)\n",
+    "\n",
+    "job_monitor(job)\n",
+    "counts = job.result().get_counts()\n",
+    "print(counts)\n",
+    "\n",
+    "plot_histogram(counts)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### **Task 1 - Solution**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def create_bell_pair_circuit(outer_qubit):\n",
+    "    \"\"\"For a given outer qubit, create a bell pair between the outer qubit and QB3\"\"\"\n",
+    "    qreg = QuantumRegister(2, \"QB\")\n",
+    "    qc = QuantumCircuit(qreg, name='Bell pair circuit')\n",
+    "    qc.h(0)\n",
+    "    qc.cx(0, 1)\n",
+    "    qc.measure_all()\n",
+    "    \n",
+    "    # Create the qubit mapping\n",
+    "    qubit_mapping = {\n",
+    "        qreg[0]: outer_qubit,\n",
+    "        qreg[1]: 2,  # Map the second qubit to QB3\n",
+    "    }\n",
+    "    \n",
+    "    # Transpile the circuit with the qubit mapping\n",
+    "    transpiled_circuit = transpile(qc, backend=backend,  initial_layout=qubit_mapping)\n",
+    "    \n",
+    "    return transpiled_circuit\n",
+    "\n",
+    "outer_qubits = [0, 1, 3, 4]  # Qubits 1, 2, 4, 5\n",
+    "bell_pair_circuits = [create_bell_pair_circuit(q) for q in outer_qubits]\n",
+    "\n",
+    "# uncomment to draw the circuits\n",
+    "# for circuit in bell_pair_circuits:\n",
+    "#     display(circuit.draw('mpl'))\n",
+    "\n",
+    "jobs = [execute(qc, backend, shots=100) for qc in bell_pair_circuits]\n",
+    "\n",
+    "for i, job in enumerate(jobs):\n",
+    "    job_monitor(job)\n",
+    "    counts = job.result().get_counts()\n",
+    "    print(f\"Counts for outer qubit {outer_qubits[i]}: {counts}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "\n",
+    "def success_probability(counts):\n",
+    "    total_shots = sum(counts.values())\n",
+    "    success_count = counts.get('00', 0) + counts.get('11', 0)\n",
+    "    return success_count / total_shots\n",
+    "\n",
+    "outcome_order = ['00', '01', '10', '11']\n",
+    "success_probabilities = [success_probability(counts) for counts in [job.result().get_counts() for job in jobs]]\n",
+    "\n",
+    "\n",
+    "# Plot histograms for counts\n",
+    "plt.figure(figsize=(12, 6))\n",
+    "\n",
+    "for i, counts in enumerate([job.result().get_counts() for job in jobs]):\n",
+    "    plt.subplot(2, 2, i + 1)\n",
+    "    sorted_counts = {outcome: counts.get(outcome, 0) for outcome in outcome_order}\n",
+    "    plt.bar(sorted_counts.keys(), sorted_counts.values())\n",
+    "    plt.title(f'Counts for outer qubit {outer_qubits[i]+1}')\n",
+    "    plt.xlabel('Measurement Outcomes')\n",
+    "    plt.ylabel('Counts')\n",
+    "\n",
+    "plt.tight_layout()\n",
+    "\n",
+    "# Plot histograms for success probabilities\n",
+    "plt.figure(figsize=(12, 6))\n",
+    "plt.bar(outer_qubits, success_probabilities)\n",
+    "plt.title('Success Probabilities for Each Outer Qubit')\n",
+    "plt.xlabel('Outer Qubit')\n",
+    "plt.ylabel('Success Probability')\n",
+    "\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### **Task 2 - Entangling more qubits: GHZ**\n",
+    "\n",
+    "We've now seen that we can create a Bell pair circuit where 2 qubits are entangled. What about entangling more than 2 qubits? The **Greenberger-Horne-Zeilinger** (GHZ) State does precisely this by creating an *n*-qubit entangled state. Running a GHZ experiment is useful for assessing the multi-qubit interactions in a quantum computer. \n",
+    "\n",
+    "Here we demonstrate a 5 qubit GHZ circuit on Helmi."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### **Creating the GHZ circuit**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# create quantum circuit\n",
+    "\n",
+    "shots = 1000\n",
+    "\n",
+    "qreg = QuantumRegister(5, \"QB\")\n",
+    "qc = QuantumCircuit(qreg, name='GHZ circuit')\n",
+    "\n",
+    "qc.h(0)\n",
+    "qc.cx(0, 1)                      # apply CNOT, control=0, target=1\n",
+    "qc.cx(1, 2)\n",
+    "qc.cx(2, 3)\n",
+    "qc.cx(3, 4)\n",
+    "qc.measure_all()\n",
+    "\n",
+    "qc.draw('mpl')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's see what the simulator gives"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from qiskit import Aer\n",
+    "\n",
+    "simulator = Aer.get_backend('aer_simulator')\n",
+    "result = simulator.run(qc, shots=shots).result()\n",
+    "counts = result.get_counts()   # extract statistics from results\n",
+    "print(counts)\n",
+    "\n",
+    "plot_histogram(counts)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In this approach, the circuit is created in a 'textbook' fashion. Due to the topology of Helmi, after transpiling the circuit it becomes much longer because SWAP gates are needed. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "transpiled_circuit = transpile(qc, backend=backend, layout_method='sabre', optimization_level=3)\n",
+    "transpiled_circuit.draw('mpl')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This can be shown by only displaying the routed circuit, without decomposition into native gates. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "transpiled_circuit_simple = transpile(qc, coupling_map=backend.coupling_map, layout_method='sabre', optimization_level=3)\n",
+    "transpiled_circuit_simple.draw('mpl')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's run this on Helmi!"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "job = backend.run(transpiled_circuit)\n",
+    "\n",
+    "job_monitor(job)\n",
+    "counts = job.result().get_counts()   # extract statistics from results\n",
+    "\n",
+    "plot_histogram(counts)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In this case we have an additional swap gates due to the central qubit (QB3) being the only available qubit to make 2 qubit gates. \n",
+    "\n",
+    "We can reduce the number of swap gates needed and improve our GHZ 5 result by placing the Hadamard gate on the central qubit and CNOTs on all the neighbours. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# create quantum circuit\n",
+    "qreg = QuantumRegister(5, \"QB\")\n",
+    "qc = QuantumCircuit(qreg, name='GHZ circuit')\n",
+    "\n",
+    "qc.h(2)\n",
+    "qc.cx(2, 0)\n",
+    "qc.cx(2, 1)\n",
+    "qc.cx(2, 3)\n",
+    "qc.cx(2, 4)\n",
+    "\n",
+    "qc.measure_all()\n",
+    "\n",
+    "qc.draw('mpl')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "transpiled_circuit = transpile(qc, backend=backend, layout_method='sabre', optimization_level=3)\n",
+    "transpiled_circuit.draw('mpl')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now we run the code on Helmi and look at the histogram. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "job = backend.run(transpiled_circuit, shots=1000)\n",
+    "\n",
+    "job_monitor(job)\n",
+    "\n",
+    "counts = job.result().get_counts()\n",
+    "plot_histogram(counts)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### **Simple readout error mitigation**\n",
+    "\n",
+    "Error mitigation is a class of techniques aimed at reducing the error from submitting to the current generation of noisy devices. This exercise demonstrates how to apply simple readout error mitigation to improve the results from our GHZ circuit. \n",
+    "\n",
+    "This follows Qiskit's tutorial: [Readout Mitigation](https://qiskit.org/ecosystem/experiments/manuals/measurement/readout_mitigation.html), however alternatives such as [Mitiq](https://mitiq.readthedocs.io/en/stable/index.html) can be used. Mitiq provides an open-source library to learn about and implement error mitigation. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "For this brief example, *readout* error mitigation is applied using the [`LocalReadoutError`](https://qiskit.org/ecosystem/experiments/stubs/qiskit_experiments.library.characterization.LocalReadoutError.html#qiskit_experiments.library.characterization.LocalReadoutError) mitigator from `qiskit.experiments`. Readout error mitigation refers to errors related to \"reading out\" of the quantum state into classical information which occurs during measurement. \n",
+    "\n",
+    "With the [`LocalReadoutError`](https://qiskit.org/ecosystem/experiments/stubs/qiskit_experiments.library.characterization.LocalReadoutError.html#qiskit_experiments.library.characterization.LocalReadoutError), a $2^n \\times 2^n$ assignment matrix $A$ is created, containing the probabilities to observe $y$, given $x$. That is to say that the individual elements of the matrix will contain the probabilities that a qubit prepared in state $|0 \\rangle$ or $|1 \\rangle$ and was measured in either state $|0 \\rangle$ or $|1 \\rangle$.\n",
+    "\n",
+    "Here we demonstrate the[ `LocalReadoutMitigator`](https://qiskit.org/documentation/stubs/qiskit.result.LocalReadoutMitigator.html#qiskit.result.LocalReadoutMitigator) example, which assumes the readout errors of the qubits are uncorrelated. In this case $n 2 \\times 2$  *mitigation matrices* are generated, 1 for each qubit. \n",
+    "\n",
+    "First we generate 2 circuits for all of Helmi's qubits. The first circuit has no gates applied with the ideal outcome of all zeros: `00000`, the second circuit applied an $X$ gate to our circuit with the ideal outcome of all ones: `11111`. After running the experiment we get the [Mitigator](https://qiskit.org/documentation/stubs/qiskit.result.LocalReadoutMitigator.html#qiskit.result.LocalReadoutMitigator) which returns the mitigated qasi-probabilities. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from qiskit_experiments.library import LocalReadoutError\n",
+    "\n",
+    "qubits = [0, 1, 2, 3, 4]\n",
+    "\n",
+    "# The qiskit experiment class generates the \"Calibration Circuits\" based off the experiment and the qubits input. \n",
+    "exp = LocalReadoutError(qubits)\n",
+    "for c in exp.circuits():\n",
+    "    print(c)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The experiment can simple be run. Qiskit's experiments library takes take of the circuit transpilation and execution in addition to analysis. In this case the above circuits are run and then analysed. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "provider = IQMProvider(\"https://qc.vtt.fi/cocos\")\n",
+    "backend = provider.get_backend()\n",
+    "\n",
+    "# from qiskit import Aer\n",
+    "# backend = Aer.get_backend('aer_simulator')\n",
+    "\n",
+    "exp.analysis.set_options(plot=True)\n",
+    "\n",
+    "result = exp.run(backend)\n",
+    "mitigator = result.analysis_results(0).value"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "result.figure(0)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Here $A$ is the assignment matrix, with $I$ being the identity matrix. The individual components of the assignment matrix represent the probabilities to, for example prepare a $|0 \\rangle$ state and get a $|1 \\rangle$ state or $|1\\rangle$ state and get a $|0\\rangle$ state. This is compared against the identity matrix because in the ideal case we would expect $P(X|X) = 1$ and $P(X|Y) = 0$ ($P(X|X)$ means the probability of $X$ given $X$) The plot shows the absolute value of these two matrices. \n",
+    "\n",
+    "The automatic scale given by Qiskit experiments can be slightly misleading, as demonstrated when you run this with the simulator. \n",
+    "\n",
+    "The assignment matrix can be printed. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "mitigator.assignment_matrix()\n",
+    "print(len(mitigator.assignment_matrix()))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "If, for example we used the simulator here the assignment matrix would look like the following:\n",
+    "\n",
+    "```python\n",
+    "array([[1., 0., 0., ..., 0., 0., 0.],\n",
+    "       [0., 1., 0., ..., 0., 0., 0.],\n",
+    "       [0., 0., 1., ..., 0., 0., 0.],\n",
+    "       ...,\n",
+    "       [0., 0., 0., ..., 1., 0., 0.],\n",
+    "       [0., 0., 0., ..., 0., 1., 0.],\n",
+    "       [0., 0., 0., ..., 0., 0., 1.]])\n",
+    "```\n",
+    "\n",
+    "With the simulator the $n$ mitigation matrices will look like:\n",
+    "\n",
+    "```python\n",
+    "[1. 0.]\n",
+    " [0. 1.]\n",
+    "```"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "When using the Qiskit experiment library the analysis is hidden from the user.\n",
+    "\n",
+    "\n",
+    "Here is the code snippet from Qiskit experiments [`LocalReadoutErrorAnalysis`](https://qiskit.org/ecosystem/experiments/stubs/qiskit_experiments.library.characterization.LocalReadoutErrorAnalysis.html#qiskit_experiments.library.characterization.LocalReadoutErrorAnalysis) if you wish to see what it's doing under the hood. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<details>\n",
+    "<summary>Click to reveal </summary>\n",
+    "\n",
+    "Taken from [`LocalReadoutErrorAnalysis`](https://qiskit.org/ecosystem/experiments/stubs/qiskit_experiments.library.characterization.LocalReadoutErrorAnalysis.html#qiskit_experiments.library.characterization.LocalReadoutErrorAnalysis).\n",
+    "\n",
+    "```python\n",
+    "\n",
+    "from qiskit.result import LocalReadoutMitigator, marginal_distribution\n",
+    "import numpy as np\n",
+    "\n",
+    "def generate_matrices(data):\n",
+    "        num_qubits = len(data[0][\"metadata\"][\"state_label\"])\n",
+    "        counts = [None, None]\n",
+    "        for result in data:\n",
+    "            for i in range(2):\n",
+    "                if result[\"metadata\"][\"state_label\"] == str(i) * num_qubits:\n",
+    "                    counts[i] = result[\"counts\"]\n",
+    "        matrices = []\n",
+    "        for k in range(num_qubits):\n",
+    "            matrix = np.zeros([2, 2], dtype=float)\n",
+    "            marginalized_counts = []\n",
+    "            shots = []\n",
+    "            for i in range(2):\n",
+    "                marginal_cts = marginal_distribution(counts[i], [k])\n",
+    "                marginalized_counts.append(marginal_cts)\n",
+    "                shots.append(sum(marginal_cts.values()))\n",
+    "\n",
+    "            # matrix[i][j] is the probability of counting i for expected j\n",
+    "            for i in range(2):\n",
+    "                for j in range(2):\n",
+    "                    matrix[i][j] = marginalized_counts[j].get(str(i), 0) / shots[j]\n",
+    "            matrices.append(matrix)\n",
+    "        return matrices\n",
+    "\n",
+    "data = result.data()\n",
+    "physical_qubits = result.metadata[\"physical_qubits\"]\n",
+    "matrices = generate_matrices(data)\n",
+    "result_mitigator = LocalReadoutMitigator(matrices, qubits=qubits)\n",
+    "\n",
+    "result_mitigator.assignment_matrix()\n",
+    "\n",
+    "\n",
+    "```\n",
+    "\n",
+    "And then plotting is done with \n",
+    "\n",
+    "```python\n",
+    "\n",
+    "def assignment_matrix_visualization(assignment_matrix, ax=None):\n",
+    "    \"\"\"Displays a visualization of the assignment matrix compared to the identity\"\"\"\n",
+    "    if ax is None:\n",
+    "        ax = get_non_gui_ax()\n",
+    "    figure = ax.get_figure()\n",
+    "    n = len(assignment_matrix)\n",
+    "    diff = np.abs(assignment_matrix - np.eye(n))\n",
+    "    im2 = ax.matshow(diff, cmap=plt.cm.Reds, vmin=0, vmax=0.2)\n",
+    "    ax.set_yticks(np.arange(n))\n",
+    "    ax.set_xticks(np.arange(n))\n",
+    "    ax.set_yticklabels(n * [\"\"])\n",
+    "    ax.set_xticklabels(n * [\"\"])\n",
+    "    ax.set_title(r\"$|A - I  |$\", fontsize=16)\n",
+    "    ax.set_xlabel(\"Prepared State\")\n",
+    "    ax.xaxis.set_label_position(\"top\")\n",
+    "    ax.set_ylabel(\"Measured State\")\n",
+    "    figure.colorbar(im2, ax=ax)\n",
+    "    return figure\n",
+    "\n",
+    "```\n",
+    "\n",
+    "</details>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The mitigation matrices can then be printed"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "for m in mitigator._mitigation_mats:\n",
+    "    print(m)\n",
+    "    print()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print(len(mitigator._mitigation_mats))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Then a circuit can be run on Helmi and our error mitigation applied! In this case we apply the readout error mitigation to the GHZ circuit."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "shots = 10000\n",
+    "counts = backend.run(transpiled_circuit, shots=shots).result().get_counts()\n",
+    "unmitigated_probs = {label: count / shots for label, count in counts.items()}"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "mitigated_quasi_probs = mitigator.quasi_probabilities(counts)\n",
+    "mitigated_probs = (mitigated_quasi_probs.nearest_probability_distribution().binary_probabilities())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "legend = ['Mitigated Probabilities', 'Unmitigated Probabilities']\n",
+    "plot_histogram([mitigated_probs, unmitigated_probs], legend=legend, sort=\"value_desc\", bar_labels=False)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can quickly see how the total success probability has increased by counting the number of all 0's and all 1's states. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print((unmitigated_probs['00000']+unmitigated_probs['11111']))\n",
+    "print((mitigated_probs['00000']+mitigated_probs['11111']))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "This is just 1 example of error mitigation for mitigating the \"Local\" (when you assume the readout erros for each qubit are independent) readout error. You could also apply what the Correlated readout error mitigation as described in Qiskit's tutorial or other forms of error mitigation which are described in [Mitiq's](https://mitiq.readthedocs.io/en/stable/guide/guide.html) documentation. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## **Additional Reading**\n",
+    "\n",
+    "- [Long-distance transmon coupler with CZ gate fidelity above 99.8%](https://arxiv.org/pdf/2208.09460.pdf). Paper by IQM describing the superconducting technology behind Helmi. \n",
+    "- [Helmi press release](https://www.vttresearch.com/en/news-and-ideas/finlands-first-5-qubit-quantum-computer-now-operational). \n",
+    "- [qiskit-on-iqm Github page](https://github.com/iqm-finland/qiskit-on-iqm).\n",
+    "- [qiskit-on-iqm documentation](https://iqm-finland.github.io/qiskit-on-iqm/). We are running `10.4`.\n",
+    "- [CSC documentation on Helmi](https://docs.csc.fi/computing/quantum-computing/overview/).\n",
+    "- [Pennylane-Qiskit documentation](https://docs.pennylane.ai/projects/qiskit/en/latest/)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.13"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

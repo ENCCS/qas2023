@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial - Introduction to Helmi with qiskit &mdash; Quantum Autumn School 2023  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/togglebutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx_lesson.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx_rtd_theme_ext_color_contrast.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/overrides.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script src="../../_static/minipres.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="Qubit Spectroscopy Analysis" href="../Qubit_Spectroscopy_Analysis/" />
+    <link rel="prev" title="Hybrid Classical/Quantum Algorithms" href="../../hybrid-classical-quantum/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../" class="icon icon-home">
+            Quantum Autumn School 2023
+              <img src="../../_static/ENCCS.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../setup/">Setup</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 1</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../qc-overview/">Physical Approaches to Quantum Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../digital-qc/">Introduction to Digital Quantum Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-1/">Tutorial - Quantum programming I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-2/">Tutorial - Quantum programming II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-3/">Tutorial - Quantum programming III</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 2</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../hpc-qc/">HPC-QC integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software-stack/">QC software stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-classical-quantum/">Hybrid Classical/Quantum Algorithms</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial - Introduction to Helmi with qiskit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#setup"><strong>Setup</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-helmi-with-qiskit"><strong>Using Helmi with Qiskit</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#constructing-and-executing-quantum-circuits"><strong>Constructing and executing quantum circuits</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#executing-the-circuit-on-helmi"><strong>Executing the circuit on Helmi</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#explicit-transpilation"><strong>Explicit Transpilation</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#results"><strong>Results</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simulating-circuits-locally-with-noise"><strong>Simulating circuits locally with noise</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#batch-execution"><strong>Batch execution</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pennylane-qiskit"><strong>Pennylane Qiskit</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#summary"><strong>Summary</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tasks"><strong>Tasks</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#task-1"><strong>Task 1</strong></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#task-1-solution"><strong>Task 1 - Solution</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#task-2-entangling-more-qubits-ghz"><strong>Task 2 - Entangling more qubits: GHZ</strong></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#creating-the-ghz-circuit"><strong>Creating the GHZ circuit</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#simple-readout-error-mitigation"><strong>Simple readout error mitigation</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#additional-reading"><strong>Additional Reading</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Qubit_Spectroscopy_Analysis/">Qubit Spectroscopy Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Notebook_maxcut_Qas2023/">Tutorial - Quantum Alternating Operator Ansatz</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 3</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-quantum-chemistry/">Hybrid Algorithms - Use Cases for Quantum Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-finance/">Hybrid Algorithms - Use Cases for Quantum Finance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-life-science/">Hybrid Algorithms - Use Cases for Quantum Life Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E2_VQE-H2/"><strong>Use case: Quantum chemistry</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/">State generation tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#set-logging-levels">Set logging levels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#select-molecule-and-obtain-fermionic-hamiltonian">Select molecule and obtain fermionic hamiltonian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#choose-a-qubit-converter-and-map-hamiltonian">Choose a qubit converter and map Hamiltonian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#initialise-penalty-operators">Initialise penalty operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#choose-operator-pool">Choose operator pool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#initialize-ansatz">Initialize Ansatz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#choose-optimizer-method-and-optimizer-object">Choose optimizer method and optimizer object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#initialize-riemannian-flow">Initialize Riemannian flow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#run-adapt-algorithm">Run ADAPT algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#transpile-and-draw-ansatz">Transpile and draw Ansatz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#plot-stats-from-simulation">Plot stats from simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial-5/">Tutorial - Quantum Finance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial-life-science/">Tutorial - Protein Folding with QAOA</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://enccs.se/lessons/">All ENCCS lessons</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://enccs.se/">About ENCCS</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../">Quantum Autumn School 2023</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tutorial - Introduction to Helmi with qiskit</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/qas2023/blob/main/content/notebooks/intro-to-helmi-qiskit.ipynb" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="tutorial-introduction-to-helmi-with-qiskit">
+<h1>Tutorial - Introduction to Helmi with qiskit<a class="headerlink" href="#tutorial-introduction-to-helmi-with-qiskit" title="Permalink to this heading"></a></h1>
+<p>Helmi is a 5 qubit Quantum Computer that is co-developed by <a class="reference external" href="https://www.vttresearch.com/en/ourservices/quantum-technology">VTT</a> and <a class="reference external" href="https://www.meetiqm.com/">IQM</a>. It uses superconducting transmon qubits in a star shaped topology. Helmi’s natives gates consist of the phased-rx and controlled-z gates. This architecture is called <strong>Adonis</strong> by IQM.</p>
+<p>In this tutorial running on Helmi is demonstrated using the Qiskit framework by utilising the <a class="reference external" href="https://github.com/iqm-finland/qiskit-on-iqm">qiskit-on-iqm</a> adapter. You can also run on Helmi using <a class="reference external" href="https://quantumai.google/cirq">Cirq</a> with <a class="reference external" href="https://github.com/iqm-finland/cirq-on-iqm">cirq-on-iqm</a> adapter. These notebooks are intended to be run on <a class="reference external" href="https://notebooks.rahtiapp.fi/welcome"><code class="docutils literal notranslate"><span class="pre">notebooks.csc.fi</span></code></a> which has access to run on Helmi. Additional documentation for notebooks.csc.fi can be found <a class="reference external" href="https://docs.csc.fi/cloud/csc_notebooks/">here</a>.</p>
+<p>Here is Helmi! It is located in Espoo, Finland.</p>
+<a class="blog-image reference internal image-reference" href="../../_images/large_helmi.png"><img alt="VTT Helmi" class="blog-image" src="../../_images/large_helmi.png" style="width: 900px; height: 500px;" /></a>
+<section id="setup">
+<h2><strong>Setup</strong><a class="headerlink" href="#setup" title="Permalink to this heading"></a></h2>
+<p>This notebook uses the following requirements.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>qiskit-iqm==10.10
+iqm-client==13.2
+qiskit[visualization]
+PennyLane-qiskit @ git+https://github.com/NordIQuEst/pennylane-qiskit@support-num-qubits
+</pre></div>
+</div>
+</section>
+<section id="using-helmi-with-qiskit">
+<h2><strong>Using Helmi with Qiskit</strong><a class="headerlink" href="#using-helmi-with-qiskit" title="Permalink to this heading"></a></h2>
+<p>First we import <a class="reference external" href="https://github.com/iqm-finland/qiskit-on-iqm/tree/9.0">qiskit-on-iqm</a> which is needed to run on Helmi with qiskit. You can read the user guide <a class="reference external" href="https://iqm-finland.github.io/qiskit-on-iqm/versions/9.0/index.html">here</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">qiskit_iqm</span> <span class="kn">import</span> <span class="n">IQMProvider</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">QuantumRegister</span><span class="p">,</span> <span class="n">execute</span><span class="p">,</span> <span class="n">transpile</span>
+<span class="kn">from</span> <span class="nn">qiskit.tools.monitor</span> <span class="kn">import</span> <span class="n">job_monitor</span>
+<span class="kn">from</span> <span class="nn">qiskit.visualization</span> <span class="kn">import</span> <span class="n">plot_histogram</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then connection to the backend is simple! For this we point the <code class="docutils literal notranslate"><span class="pre">IQMProvider</span></code> at what is called the “cocos URL”. The cocos url to access Helmi is provided below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">provider</span> <span class="o">=</span> <span class="n">IQMProvider</span><span class="p">(</span><span class="s2">&quot;https://qc.vtt.fi/cocos&quot;</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_backend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now that we have the backend connected to Helmi, let’s print out some information about Helmi!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Native operations: </span><span class="si">{</span><span class="n">backend</span><span class="o">.</span><span class="n">operation_names</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Number of qubits: </span><span class="si">{</span><span class="n">backend</span><span class="o">.</span><span class="n">num_qubits</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Coupling map: </span><span class="si">{</span><span class="n">backend</span><span class="o">.</span><span class="n">coupling_map</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We see that the native operations on Helmi are the <code class="docutils literal notranslate"><span class="pre">r</span></code> gate and the <code class="docutils literal notranslate"><span class="pre">cz</span></code> gate. In reality Helmi has native gates <code class="docutils literal notranslate"><span class="pre">phased-rx</span></code> and <code class="docutils literal notranslate"><span class="pre">cz</span></code> and here it is given in the context of Qiskit as Qiskit does not have the PRX operation. You will see when running circuits on Helmi multiple <code class="docutils literal notranslate"><span class="pre">r</span></code> gates are quite common. These represent PRX gates with the following relation:</p>
+<p>The phased-rx (PRX) gate is an x-rotation conjugated by a z-rotation. It can be represented as a function of  angle <span class="math notranslate nohighlight">\(\theta\)</span> and phase <span class="math notranslate nohighlight">\(\phi\)</span> in the computational basis with:</p>
+<div class="math notranslate nohighlight">
+\[R(\theta, \phi) = e^{-i (X \cos \phi + Y \sin \phi) \: \theta/2} = R_z(\phi) R_x(\theta) R_z^\dagger(\phi)\]</div>
+<p>Where <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> are the Pauli matrices. Note that <code class="docutils literal notranslate"><span class="pre">id</span></code> gates are dropped when submitted to Helmi and Helmi does not currently allow for mid-circuit measurements.</p>
+<p>The topology can be visualised with <code class="docutils literal notranslate"><span class="pre">networkx</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="n">G</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">coupling_map</span><span class="p">)</span>
+<span class="n">node_labels</span> <span class="o">=</span> <span class="p">{</span><span class="n">node</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;QB</span><span class="si">{</span><span class="n">node</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">}</span>
+<span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">node_labels</span><span class="p">,</span> <span class="n">node_color</span><span class="o">=</span><span class="s1">&#39;skyblue&#39;</span><span class="p">,</span> <span class="n">node_size</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The topology can also be displayed as an image</p>
+<p align="center">
+  <img src="img/helmi-topology.png"/>
+</p><section id="constructing-and-executing-quantum-circuits">
+<h3><strong>Constructing and executing quantum circuits</strong><a class="headerlink" href="#constructing-and-executing-quantum-circuits" title="Permalink to this heading"></a></h3>
+<p>Circuits are constructed and submitted to Helmi using the same methods as with IBM machines. First we construct a Bell pair circuit between 2 qubits. The circuit is then executed on the backend using the <code class="docutils literal notranslate"><span class="pre">execute</span></code> function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Bell pair circuit&#39;</span><span class="p">)</span>
+<span class="n">circuit</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">circuit</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">circuit</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+<span class="n">circuit</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;mpl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="executing-the-circuit-on-helmi">
+<h3><strong>Executing the circuit on Helmi</strong><a class="headerlink" href="#executing-the-circuit-on-helmi" title="Permalink to this heading"></a></h3>
+<p>When submitting a job to Helmi a unique identifier for your job is returned. This can be used to gather additional information about the circuit you just submitted and the results. <strong>You should save your job ids!</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Job ID: </span><span class="si">{</span><span class="n">job</span><span class="o">.</span><span class="n">job_id</span><span class="p">()</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tracking execution of job:&quot;</span><span class="p">)</span>
+<span class="n">job_monitor</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>After submitting, the job is now running. The status of the job can be queried using <code class="docutils literal notranslate"><span class="pre">job.status()</span></code>. Using the job id, you can retrieve previous jobs.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">status</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">status</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+<span class="c1">#old_job = backend.retrieve_job(job_id)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="explicit-transpilation">
+<h3><strong>Explicit Transpilation</strong><a class="headerlink" href="#explicit-transpilation" title="Permalink to this heading"></a></h3>
+<p>Instead of using the <code class="docutils literal notranslate"><span class="pre">execute</span></code> function you can also be explicit about your transpilation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">transpiled_circuit</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">layout_method</span><span class="o">=</span><span class="s1">&#39;sabre&#39;</span><span class="p">,</span> <span class="n">optimization_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">transpiled_circuit</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;mpl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the more control, you can also specify the initial layout in both <code class="docutils literal notranslate"><span class="pre">transpile</span></code> and <code class="docutils literal notranslate"><span class="pre">execute</span></code>. For example, Helmi’s topology only allows 2 qubit gates between the central and outer qubits. Therefore we can map the 2 qubit gate to QB3.  For this we make use of the <code class="docutils literal notranslate"><span class="pre">QuantumRegister</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qreg</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;QB&quot;</span><span class="p">)</span>
+<span class="n">circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Bell pair circuit&#39;</span><span class="p">)</span>
+<span class="n">circuit</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">circuit</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">circuit</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+
+
+<span class="c1"># Qubit numbers start at 0 index whereas the qubit names start at 1 index. </span>
+<span class="n">qubit_mapping</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># Map the first qubit to QB1</span>
+    <span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># Map the second qubit to QB3</span>
+    <span class="p">}</span>
+
+
+<span class="n">job</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">initial_layout</span><span class="o">=</span><span class="n">qubit_mapping</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Qiskit refers to qubits using integer indices, whereas IQM uses strings. The backend class provides utility methods for mapping them to one another. Let’s see on which physical qubits the logical circuit qubits were mapped.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mapping</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="n">circuit</span><span class="o">.</span><span class="n">qubits</span><span class="p">:</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">find_bit</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span><span class="o">.</span><span class="n">index</span>
+    <span class="n">mapping</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">index_to_qubit_name</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+ 
+<span class="nb">print</span><span class="p">(</span><span class="n">mapping</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="results">
+<h3><strong>Results</strong><a class="headerlink" href="#results" title="Permalink to this heading"></a></h3>
+<p>Results can be printed once the job has completed. If results are queried before the job has completed then an error will be returned.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">job_id</span><span class="p">)</span>  <span class="c1"># The job id can be queried from the result</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">())</span>
+<span class="c1">#print(result.get_memory())</span>
+
+<span class="n">plot_histogram</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Additional metadata about the executed job can also be found.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exp_result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">_get_experiment</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Job ID: &quot;</span><span class="p">,</span> <span class="n">job</span><span class="o">.</span><span class="n">job_id</span><span class="p">())</span>  <span class="c1"># Retrieving the submitted job id</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">circuits</span><span class="p">)</span>  <span class="c1"># Retrieving the circuit request sent</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Calibration Set ID: &quot;</span><span class="p">,</span> <span class="n">exp_result</span><span class="o">.</span><span class="n">calibration_set_id</span><span class="p">)</span>  <span class="c1"># Retrieving the current calibration set id. </span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">qubit_mapping</span><span class="p">)</span>  <span class="c1"># Retrieving the qubit mapping</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">shots</span><span class="p">)</span>  <span class="c1"># Retrieving the number of requested shots. </span>
+<span class="nb">print</span><span class="p">(</span><span class="n">exp_result</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="simulating-circuits-locally-with-noise">
+<h3><strong>Simulating circuits locally with noise</strong><a class="headerlink" href="#simulating-circuits-locally-with-noise" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://iqm-finland.github.io/qiskit-on-iqm/user_guide.html#noisy-simulation-of-quantum-circuit-execution">Qiskit on IQM</a> provides an <code class="docutils literal notranslate"><span class="pre">IQMFakeBackend</span></code> with <code class="docutils literal notranslate"><span class="pre">IQMFakeAdonis</span></code> for simulating Helmi.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit_iqm</span> <span class="kn">import</span> <span class="n">IQMFakeAdonis</span>
+<span class="n">fake_backend</span> <span class="o">=</span> <span class="n">IQMFakeAdonis</span><span class="p">()</span>
+<span class="n">job</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">fake_backend</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The error profile of the noise can be queried, for example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">fake_backend</span><span class="o">.</span><span class="n">error_profile</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And the noise model can be updated. Let’s give it some parameters to make the noise model more accurate.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">error_profile</span> <span class="o">=</span> <span class="n">fake_backend</span><span class="o">.</span><span class="n">error_profile</span>
+<span class="n">error_profile</span><span class="o">.</span><span class="n">t1s</span><span class="p">[</span><span class="s1">&#39;QB1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">38940.0</span>  <span class="c1"># in ns</span>
+<span class="n">error_profile</span><span class="o">.</span><span class="n">t1s</span><span class="p">[</span><span class="s1">&#39;QB3&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">43322.0</span>  <span class="c1"># in ns</span>
+
+<span class="n">error_profile</span><span class="o">.</span><span class="n">t2s</span><span class="p">[</span><span class="s1">&#39;QB1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">24785.0</span>  <span class="c1"># in ns</span>
+<span class="n">error_profile</span><span class="o">.</span><span class="n">t2s</span><span class="p">[</span><span class="s1">&#39;QB3&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">10050.0</span>  <span class="c1"># in ns</span>
+
+<span class="n">error_profile</span><span class="o">.</span><span class="n">single_qubit_gate_depolarizing_error_parameters</span><span class="p">[</span><span class="s1">&#39;phased_rx&#39;</span><span class="p">][</span><span class="s1">&#39;QB1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0043</span> 
+<span class="n">error_profile</span><span class="o">.</span><span class="n">single_qubit_gate_depolarizing_error_parameters</span><span class="p">[</span><span class="s1">&#39;phased_rx&#39;</span><span class="p">][</span><span class="s1">&#39;QB3&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0022</span> 
+
+<span class="n">error_profile</span><span class="o">.</span><span class="n">two_qubit_gate_depolarizing_error_parameters</span><span class="p">[</span><span class="s1">&#39;cz&#39;</span><span class="p">][(</span><span class="s1">&#39;QB1&#39;</span><span class="p">,</span> <span class="s1">&#39;QB3&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">0.018</span>
+
+<span class="n">error_profile</span><span class="o">.</span><span class="n">single_qubit_gate_durations</span><span class="p">[</span><span class="s1">&#39;phased_rx&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">120</span>  <span class="c1"># in ns</span>
+<span class="n">error_profile</span><span class="o">.</span><span class="n">two_qubit_gate_durations</span><span class="p">[</span><span class="s1">&#39;cz&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">120</span>  <span class="c1"># in ns</span>
+
+<span class="n">error_profile</span><span class="o">.</span><span class="n">readout_errors</span><span class="p">[</span><span class="s1">&#39;QB1&#39;</span><span class="p">][</span><span class="s1">&#39;0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.03375</span>
+<span class="n">error_profile</span><span class="o">.</span><span class="n">readout_errors</span><span class="p">[</span><span class="s1">&#39;QB1&#39;</span><span class="p">][</span><span class="s1">&#39;1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.03865</span>
+<span class="n">error_profile</span><span class="o">.</span><span class="n">readout_errors</span><span class="p">[</span><span class="s1">&#39;QB3&#39;</span><span class="p">][</span><span class="s1">&#39;0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0365</span>
+<span class="n">error_profile</span><span class="o">.</span><span class="n">readout_errors</span><span class="p">[</span><span class="s1">&#39;QB3&#39;</span><span class="p">][</span><span class="s1">&#39;1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.05885</span>
+
+<span class="n">error_profile</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;fake_helmi&#39;</span>
+
+
+<span class="n">helmi_fake_backend</span> <span class="o">=</span> <span class="n">fake_backend</span><span class="o">.</span><span class="n">copy_with_error_profile</span><span class="p">(</span><span class="n">error_profile</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s test to see how accurate our noise model is!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job_1</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">job_2</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">fake_backend</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">job_3</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">helmi_fake_backend</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="n">counts_1</span> <span class="o">=</span> <span class="n">job_1</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+<span class="n">counts_2</span> <span class="o">=</span> <span class="n">job_2</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+<span class="n">counts_3</span> <span class="o">=</span> <span class="n">job_3</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+
+<span class="n">legend</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Helmi&quot;</span><span class="p">,</span> <span class="s2">&quot;FakeAdonis&quot;</span><span class="p">,</span> <span class="s2">&quot;FakeHelmi&quot;</span><span class="p">]</span>
+<span class="n">plot_histogram</span><span class="p">([</span><span class="n">counts_1</span><span class="p">,</span> <span class="n">counts_2</span><span class="p">,</span> <span class="n">counts_3</span><span class="p">],</span> <span class="n">legend</span><span class="o">=</span><span class="n">legend</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="batch-execution">
+<h3><strong>Batch execution</strong><a class="headerlink" href="#batch-execution" title="Permalink to this heading"></a></h3>
+<p>Helmi also allows for batches of circuits to be submitted with 1 call to the quantum computer. A batch is simply a list of <code class="docutils literal notranslate"><span class="pre">QuantumCircuits</span></code>. This is often faster than executing circuits individually, however, circuits will still be executed sequentially. On Helmi currently you can only place a maximum of 20 circuits in one batch. All circuits in a batch are executed with the same number of shots. The maximum number of shots per circuit is 100,000.</p>
+<p>A batch of circuits has an additional restriction that all circuits in the batch must measure the same qubits. In this case, batch execution is useful for parameterized circuits to be executed using the <a class="reference external" href="https://qiskit.org/documentation/stubs/qiskit.circuit.Parameter.html"><code class="docutils literal notranslate"><span class="pre">qiskit.circuit.Parameter</span></code></a> class.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">circuits_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">circuit_1</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Bell pair circuit&#39;</span><span class="p">)</span>
+<span class="n">circuit_1</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">circuit_1</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">circuit_1</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+<span class="n">circuits_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">circuit_1</span><span class="p">)</span>
+
+<span class="n">circuit_1</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;mpl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">circuit_2</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Reverse Bell pair circuit&#39;</span><span class="p">)</span>
+<span class="n">circuit_2</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">circuit_2</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">circuit_2</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+<span class="n">circuits_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">circuit_2</span><span class="p">)</span>
+
+<span class="n">circuit_2</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;mpl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Execute and monitor job</span>
+<span class="n">job</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="n">circuits_list</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">optimization_level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tracking execution of job:&quot;</span><span class="p">)</span>
+<span class="n">job_monitor</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get results</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+
+<span class="c1"># Plot histograms</span>
+<span class="n">plot_histogram</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(),</span> <span class="n">legend</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Circuit 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Circuit 2&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="pennylane-qiskit">
+<h2><strong><a class="reference external" href="https://docs.pennylane.ai/projects/qiskit/en/latest/">Pennylane Qiskit</a></strong><a class="headerlink" href="#pennylane-qiskit" title="Permalink to this heading"></a></h2>
+<p>You can also run Pennylane code on Helmi with the <a class="reference external" href="https://docs.pennylane.ai/projects/qiskit/en/latest/">PennyLane-Qiskit Plugin</a>. The <code class="docutils literal notranslate"><span class="pre">IQMBackend</span></code> object uses <code class="docutils literal notranslate"><span class="pre">BackendV2</span></code> currently which Pennylane-Qiskit does not support, therefore we use a <a class="reference external" href="https://github.com/JMuff22/pennylane-qiskit/tree/support-num-qubits">forked-version</a> that fixes this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pennylane</span> <span class="k">as</span> <span class="nn">qml</span>
+
+<span class="n">provider</span> <span class="o">=</span> <span class="n">IQMProvider</span><span class="p">(</span><span class="s2">&quot;https://qc.vtt.fi/cocos&quot;</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_backend</span><span class="p">()</span>
+
+
+<span class="n">dev</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;qiskit.remote&#39;</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">dev</span><span class="o">.</span><span class="n">capabilities</span><span class="p">())</span>
+
+<span class="nd">@qml</span><span class="o">.</span><span class="n">qnode</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="n">interface</span><span class="o">=</span><span class="s2">&quot;autograd&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">circuit</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">qml</span><span class="o">.</span><span class="n">expval</span><span class="p">(</span><span class="n">qml</span><span class="o">.</span><span class="n">PauliZ</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">circuit</span><span class="p">([</span><span class="mf">0.54</span><span class="p">,</span> <span class="mf">0.12</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="summary">
+<h2><strong>Summary</strong><a class="headerlink" href="#summary" title="Permalink to this heading"></a></h2>
+<p>In this notebook we have demonstrated how to connect and run circuits on Helmi with Qiskit, qiskit-on-iqm and the PennyLane-Qiskit plugin. You are encouraged to use Helmi and apply what you have learnt to the exercise from day 1! Below are some tasks!</p>
+</section>
+<section id="tasks">
+<h2><strong>Tasks</strong><a class="headerlink" href="#tasks" title="Permalink to this heading"></a></h2>
+<p>Here are some tasks to demonstrate usage of Helmi and how to improve the results. Do you notice any differences compared to when you run with the simulator?</p>
+<section id="task-1">
+<h3><strong>Task 1</strong><a class="headerlink" href="#task-1" title="Permalink to this heading"></a></h3>
+<p>In this task we create an entangled state on a real quantum computer! This follows <a class="reference external" href="https://enccs.github.io/nordiquest-workshop/notebooks/E1_qc-2/#multi-qubit-gates">the second practice session from yesterday</a>.</p>
+<p>Here is a demonstration of creating a Bell pair (Entanglement!) between qubits 1 and 3. Create an entanglement between the other qubit pairs according to the topology of Helmi! Which are the best qubit pairs today?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create quantum circuit</span>
+<span class="n">qreg</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;QB&quot;</span><span class="p">)</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Bell pair circuit&#39;</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;mpl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Transpile the circuit </span>
+
+<span class="n">qubit_mapping</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># Map the first qubit to QB1</span>
+    <span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># Map the second qubit to QB3</span>
+<span class="p">}</span>
+<span class="n">transpiled_circuit</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">initial_layout</span><span class="o">=</span><span class="n">qubit_mapping</span><span class="p">)</span>
+<span class="n">transpiled_circuit</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;mpl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Execute the circuit</span>
+
+<span class="n">job</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">transpiled_circuit</span><span class="p">)</span>
+
+<span class="n">job_monitor</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+
+<span class="n">plot_histogram</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="task-1-solution">
+<h4><strong>Task 1 - Solution</strong><a class="headerlink" href="#task-1-solution" title="Permalink to this heading"></a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_bell_pair_circuit</span><span class="p">(</span><span class="n">outer_qubit</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;For a given outer qubit, create a bell pair between the outer qubit and QB3&quot;&quot;&quot;</span>
+    <span class="n">qreg</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;QB&quot;</span><span class="p">)</span>
+    <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Bell pair circuit&#39;</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+    
+    <span class="c1"># Create the qubit mapping</span>
+    <span class="n">qubit_mapping</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">outer_qubit</span><span class="p">,</span>
+        <span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># Map the second qubit to QB3</span>
+    <span class="p">}</span>
+    
+    <span class="c1"># Transpile the circuit with the qubit mapping</span>
+    <span class="n">transpiled_circuit</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span>  <span class="n">initial_layout</span><span class="o">=</span><span class="n">qubit_mapping</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">transpiled_circuit</span>
+
+<span class="n">outer_qubits</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>  <span class="c1"># Qubits 1, 2, 4, 5</span>
+<span class="n">bell_pair_circuits</span> <span class="o">=</span> <span class="p">[</span><span class="n">create_bell_pair_circuit</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">outer_qubits</span><span class="p">]</span>
+
+<span class="c1"># uncomment to draw the circuits</span>
+<span class="c1"># for circuit in bell_pair_circuits:</span>
+<span class="c1">#     display(circuit.draw(&#39;mpl&#39;))</span>
+
+<span class="n">jobs</span> <span class="o">=</span> <span class="p">[</span><span class="n">execute</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span> <span class="k">for</span> <span class="n">qc</span> <span class="ow">in</span> <span class="n">bell_pair_circuits</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">job</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">jobs</span><span class="p">):</span>
+    <span class="n">job_monitor</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Counts for outer qubit </span><span class="si">{</span><span class="n">outer_qubits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">counts</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">success_probability</span><span class="p">(</span><span class="n">counts</span><span class="p">):</span>
+    <span class="n">total_shots</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">counts</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="n">success_count</span> <span class="o">=</span> <span class="n">counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;00&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;11&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">success_count</span> <span class="o">/</span> <span class="n">total_shots</span>
+
+<span class="n">outcome_order</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;00&#39;</span><span class="p">,</span> <span class="s1">&#39;01&#39;</span><span class="p">,</span> <span class="s1">&#39;10&#39;</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">]</span>
+<span class="n">success_probabilities</span> <span class="o">=</span> <span class="p">[</span><span class="n">success_probability</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span> <span class="k">for</span> <span class="n">counts</span> <span class="ow">in</span> <span class="p">[</span><span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span> <span class="k">for</span> <span class="n">job</span> <span class="ow">in</span> <span class="n">jobs</span><span class="p">]]</span>
+
+
+<span class="c1"># Plot histograms for counts</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">counts</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span> <span class="k">for</span> <span class="n">job</span> <span class="ow">in</span> <span class="n">jobs</span><span class="p">]):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">sorted_counts</span> <span class="o">=</span> <span class="p">{</span><span class="n">outcome</span><span class="p">:</span> <span class="n">counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">outcome</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">outcome</span> <span class="ow">in</span> <span class="n">outcome_order</span><span class="p">}</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">sorted_counts</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">sorted_counts</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Counts for outer qubit </span><span class="si">{</span><span class="n">outer_qubits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Measurement Outcomes&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Counts&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="c1"># Plot histograms for success probabilities</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">outer_qubits</span><span class="p">,</span> <span class="n">success_probabilities</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Success Probabilities for Each Outer Qubit&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Outer Qubit&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Success Probability&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="task-2-entangling-more-qubits-ghz">
+<h3><strong>Task 2 - Entangling more qubits: GHZ</strong><a class="headerlink" href="#task-2-entangling-more-qubits-ghz" title="Permalink to this heading"></a></h3>
+<p>We’ve now seen that we can create a Bell pair circuit where 2 qubits are entangled. What about entangling more than 2 qubits? The <strong>Greenberger-Horne-Zeilinger</strong> (GHZ) State does precisely this by creating an <em>n</em>-qubit entangled state. Running a GHZ experiment is useful for assessing the multi-qubit interactions in a quantum computer.</p>
+<p>Here we demonstrate a 5 qubit GHZ circuit on Helmi.</p>
+<section id="creating-the-ghz-circuit">
+<h4><strong>Creating the GHZ circuit</strong><a class="headerlink" href="#creating-the-ghz-circuit" title="Permalink to this heading"></a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create quantum circuit</span>
+
+<span class="n">shots</span> <span class="o">=</span> <span class="mi">1000</span>
+
+<span class="n">qreg</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;QB&quot;</span><span class="p">)</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;GHZ circuit&#39;</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                      <span class="c1"># apply CNOT, control=0, target=1</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;mpl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s see what the simulator gives</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">Aer</span>
+
+<span class="n">simulator</span> <span class="o">=</span> <span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">simulator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>   <span class="c1"># extract statistics from results</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+
+<span class="n">plot_histogram</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this approach, the circuit is created in a ‘textbook’ fashion. Due to the topology of Helmi, after transpiling the circuit it becomes much longer because SWAP gates are needed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">transpiled_circuit</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">layout_method</span><span class="o">=</span><span class="s1">&#39;sabre&#39;</span><span class="p">,</span> <span class="n">optimization_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">transpiled_circuit</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;mpl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This can be shown by only displaying the routed circuit, without decomposition into native gates.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">transpiled_circuit_simple</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">coupling_map</span><span class="o">=</span><span class="n">backend</span><span class="o">.</span><span class="n">coupling_map</span><span class="p">,</span> <span class="n">layout_method</span><span class="o">=</span><span class="s1">&#39;sabre&#39;</span><span class="p">,</span> <span class="n">optimization_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">transpiled_circuit_simple</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;mpl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s run this on Helmi!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">transpiled_circuit</span><span class="p">)</span>
+
+<span class="n">job_monitor</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>   <span class="c1"># extract statistics from results</span>
+
+<span class="n">plot_histogram</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this case we have an additional swap gates due to the central qubit (QB3) being the only available qubit to make 2 qubit gates.</p>
+<p>We can reduce the number of swap gates needed and improve our GHZ 5 result by placing the Hadamard gate on the central qubit and CNOTs on all the neighbours.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create quantum circuit</span>
+<span class="n">qreg</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;QB&quot;</span><span class="p">)</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;GHZ circuit&#39;</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;mpl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">transpiled_circuit</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">layout_method</span><span class="o">=</span><span class="s1">&#39;sabre&#39;</span><span class="p">,</span> <span class="n">optimization_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">transpiled_circuit</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;mpl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we run the code on Helmi and look at the histogram.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">transpiled_circuit</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="n">job_monitor</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+
+<span class="n">counts</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+<span class="n">plot_histogram</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="simple-readout-error-mitigation">
+<h3><strong>Simple readout error mitigation</strong><a class="headerlink" href="#simple-readout-error-mitigation" title="Permalink to this heading"></a></h3>
+<p>Error mitigation is a class of techniques aimed at reducing the error from submitting to the current generation of noisy devices. This exercise demonstrates how to apply simple readout error mitigation to improve the results from our GHZ circuit.</p>
+<p>This follows Qiskit’s tutorial: <a class="reference external" href="https://qiskit.org/ecosystem/experiments/manuals/measurement/readout_mitigation.html">Readout Mitigation</a>, however alternatives such as <a class="reference external" href="https://mitiq.readthedocs.io/en/stable/index.html">Mitiq</a> can be used. Mitiq provides an open-source library to learn about and implement error mitigation.</p>
+<p>For this brief example, <em>readout</em> error mitigation is applied using the <a class="reference external" href="https://qiskit.org/ecosystem/experiments/stubs/qiskit_experiments.library.characterization.LocalReadoutError.html#qiskit_experiments.library.characterization.LocalReadoutError"><code class="docutils literal notranslate"><span class="pre">LocalReadoutError</span></code></a> mitigator from <code class="docutils literal notranslate"><span class="pre">qiskit.experiments</span></code>. Readout error mitigation refers to errors related to “reading out” of the quantum state into classical information which occurs during measurement.</p>
+<p>With the <a class="reference external" href="https://qiskit.org/ecosystem/experiments/stubs/qiskit_experiments.library.characterization.LocalReadoutError.html#qiskit_experiments.library.characterization.LocalReadoutError"><code class="docutils literal notranslate"><span class="pre">LocalReadoutError</span></code></a>, a <span class="math notranslate nohighlight">\(2^n \times 2^n\)</span> assignment matrix <span class="math notranslate nohighlight">\(A\)</span> is created, containing the probabilities to observe <span class="math notranslate nohighlight">\(y\)</span>, given <span class="math notranslate nohighlight">\(x\)</span>. That is to say that the individual elements of the matrix will contain the probabilities that a qubit prepared in state <span class="math notranslate nohighlight">\(|0 \rangle\)</span> or <span class="math notranslate nohighlight">\(|1 \rangle\)</span> and was measured in either state <span class="math notranslate nohighlight">\(|0 \rangle\)</span> or <span class="math notranslate nohighlight">\(|1 \rangle\)</span>.</p>
+<p>Here we demonstrate the<a class="reference external" href="https://qiskit.org/documentation/stubs/qiskit.result.LocalReadoutMitigator.html#qiskit.result.LocalReadoutMitigator"> <code class="docutils literal notranslate"><span class="pre">LocalReadoutMitigator</span></code></a> example, which assumes the readout errors of the qubits are uncorrelated. In this case <span class="math notranslate nohighlight">\(n 2 \times 2\)</span>  <em>mitigation matrices</em> are generated, 1 for each qubit.</p>
+<p>First we generate 2 circuits for all of Helmi’s qubits. The first circuit has no gates applied with the ideal outcome of all zeros: <code class="docutils literal notranslate"><span class="pre">00000</span></code>, the second circuit applied an <span class="math notranslate nohighlight">\(X\)</span> gate to our circuit with the ideal outcome of all ones: <code class="docutils literal notranslate"><span class="pre">11111</span></code>. After running the experiment we get the <a class="reference external" href="https://qiskit.org/documentation/stubs/qiskit.result.LocalReadoutMitigator.html#qiskit.result.LocalReadoutMitigator">Mitigator</a> which returns the mitigated qasi-probabilities.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit_experiments.library</span> <span class="kn">import</span> <span class="n">LocalReadoutError</span>
+
+<span class="n">qubits</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+
+<span class="c1"># The qiskit experiment class generates the &quot;Calibration Circuits&quot; based off the experiment and the qubits input. </span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">LocalReadoutError</span><span class="p">(</span><span class="n">qubits</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">exp</span><span class="o">.</span><span class="n">circuits</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The experiment can simple be run. Qiskit’s experiments library takes take of the circuit transpilation and execution in addition to analysis. In this case the above circuits are run and then analysed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">provider</span> <span class="o">=</span> <span class="n">IQMProvider</span><span class="p">(</span><span class="s2">&quot;https://qc.vtt.fi/cocos&quot;</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_backend</span><span class="p">()</span>
+
+<span class="c1"># from qiskit import Aer</span>
+<span class="c1"># backend = Aer.get_backend(&#39;aer_simulator&#39;)</span>
+
+<span class="n">exp</span><span class="o">.</span><span class="n">analysis</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">backend</span><span class="p">)</span>
+<span class="n">mitigator</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">analysis_results</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here <span class="math notranslate nohighlight">\(A\)</span> is the assignment matrix, with <span class="math notranslate nohighlight">\(I\)</span> being the identity matrix. The individual components of the assignment matrix represent the probabilities to, for example prepare a <span class="math notranslate nohighlight">\(|0 \rangle\)</span> state and get a <span class="math notranslate nohighlight">\(|1 \rangle\)</span> state or <span class="math notranslate nohighlight">\(|1\rangle\)</span> state and get a <span class="math notranslate nohighlight">\(|0\rangle\)</span> state. This is compared against the identity matrix because in the ideal case we would expect <span class="math notranslate nohighlight">\(P(X|X) = 1\)</span> and <span class="math notranslate nohighlight">\(P(X|Y) = 0\)</span> (<span class="math notranslate nohighlight">\(P(X|X)\)</span> means the probability of <span class="math notranslate nohighlight">\(X\)</span> given <span class="math notranslate nohighlight">\(X\)</span>) The plot shows the absolute value of these two matrices.</p>
+<p>The automatic scale given by Qiskit experiments can be slightly misleading, as demonstrated when you run this with the simulator.</p>
+<p>The assignment matrix can be printed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mitigator</span><span class="o">.</span><span class="n">assignment_matrix</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigator</span><span class="o">.</span><span class="n">assignment_matrix</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If, for example we used the simulator here the assignment matrix would look like the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+       <span class="o">...</span><span class="p">,</span>
+       <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>With the simulator the <span class="math notranslate nohighlight">\(n\)</span> mitigation matrices will look like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mf">1.</span> <span class="mf">0.</span><span class="p">]</span>
+ <span class="p">[</span><span class="mf">0.</span> <span class="mf">1.</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>When using the Qiskit experiment library the analysis is hidden from the user.</p>
+<p>Here is the code snippet from Qiskit experiments <a class="reference external" href="https://qiskit.org/ecosystem/experiments/stubs/qiskit_experiments.library.characterization.LocalReadoutErrorAnalysis.html#qiskit_experiments.library.characterization.LocalReadoutErrorAnalysis"><code class="docutils literal notranslate"><span class="pre">LocalReadoutErrorAnalysis</span></code></a> if you wish to see what it’s doing under the hood.</p>
+<details>
+<summary>Click to reveal </summary>
+<p>Taken from <a class="reference external" href="https://qiskit.org/ecosystem/experiments/stubs/qiskit_experiments.library.characterization.LocalReadoutErrorAnalysis.html#qiskit_experiments.library.characterization.LocalReadoutErrorAnalysis"><code class="docutils literal notranslate"><span class="pre">LocalReadoutErrorAnalysis</span></code></a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="kn">from</span> <span class="nn">qiskit.result</span> <span class="kn">import</span> <span class="n">LocalReadoutMitigator</span><span class="p">,</span> <span class="n">marginal_distribution</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">generate_matrices</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="n">num_qubits</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="s2">&quot;state_label&quot;</span><span class="p">])</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">][</span><span class="s2">&quot;state_label&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_qubits</span><span class="p">:</span>
+                    <span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;counts&quot;</span><span class="p">]</span>
+        <span class="n">matrices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">):</span>
+            <span class="n">matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+            <span class="n">marginalized_counts</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">shots</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+                <span class="n">marginal_cts</span> <span class="o">=</span> <span class="n">marginal_distribution</span><span class="p">(</span><span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">[</span><span class="n">k</span><span class="p">])</span>
+                <span class="n">marginalized_counts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">marginal_cts</span><span class="p">)</span>
+                <span class="n">shots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">marginal_cts</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+
+            <span class="c1"># matrix[i][j] is the probability of counting i for expected j</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+                    <span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">marginalized_counts</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">shots</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">matrices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">matrices</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">data</span><span class="p">()</span>
+<span class="n">physical_qubits</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;physical_qubits&quot;</span><span class="p">]</span>
+<span class="n">matrices</span> <span class="o">=</span> <span class="n">generate_matrices</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result_mitigator</span> <span class="o">=</span> <span class="n">LocalReadoutMitigator</span><span class="p">(</span><span class="n">matrices</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="n">qubits</span><span class="p">)</span>
+
+<span class="n">result_mitigator</span><span class="o">.</span><span class="n">assignment_matrix</span><span class="p">()</span>
+
+
+</pre></div>
+</div>
+<p>And then plotting is done with</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="k">def</span> <span class="nf">assignment_matrix_visualization</span><span class="p">(</span><span class="n">assignment_matrix</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Displays a visualization of the assignment matrix compared to the identity&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">get_non_gui_ax</span><span class="p">()</span>
+    <span class="n">figure</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_figure</span><span class="p">()</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">assignment_matrix</span><span class="p">)</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">assignment_matrix</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+    <span class="n">im2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Reds</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$|A - I  |$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Prepared State&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_position</span><span class="p">(</span><span class="s2">&quot;top&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Measured State&quot;</span><span class="p">)</span>
+    <span class="n">figure</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im2</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">figure</span>
+
+</pre></div>
+</div>
+</details><p>The mitigation matrices can then be printed</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">mitigator</span><span class="o">.</span><span class="n">_mitigation_mats</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mitigator</span><span class="o">.</span><span class="n">_mitigation_mats</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then a circuit can be run on Helmi and our error mitigation applied! In this case we apply the readout error mitigation to the GHZ circuit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">shots</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">transpiled_circuit</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+<span class="n">unmitigated_probs</span> <span class="o">=</span> <span class="p">{</span><span class="n">label</span><span class="p">:</span> <span class="n">count</span> <span class="o">/</span> <span class="n">shots</span> <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mitigated_quasi_probs</span> <span class="o">=</span> <span class="n">mitigator</span><span class="o">.</span><span class="n">quasi_probabilities</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+<span class="n">mitigated_probs</span> <span class="o">=</span> <span class="p">(</span><span class="n">mitigated_quasi_probs</span><span class="o">.</span><span class="n">nearest_probability_distribution</span><span class="p">()</span><span class="o">.</span><span class="n">binary_probabilities</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">legend</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Mitigated Probabilities&#39;</span><span class="p">,</span> <span class="s1">&#39;Unmitigated Probabilities&#39;</span><span class="p">]</span>
+<span class="n">plot_histogram</span><span class="p">([</span><span class="n">mitigated_probs</span><span class="p">,</span> <span class="n">unmitigated_probs</span><span class="p">],</span> <span class="n">legend</span><span class="o">=</span><span class="n">legend</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="s2">&quot;value_desc&quot;</span><span class="p">,</span> <span class="n">bar_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can quickly see how the total success probability has increased by counting the number of all 0’s and all 1’s states.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">((</span><span class="n">unmitigated_probs</span><span class="p">[</span><span class="s1">&#39;00000&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">unmitigated_probs</span><span class="p">[</span><span class="s1">&#39;11111&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">((</span><span class="n">mitigated_probs</span><span class="p">[</span><span class="s1">&#39;00000&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">mitigated_probs</span><span class="p">[</span><span class="s1">&#39;11111&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is just 1 example of error mitigation for mitigating the “Local” (when you assume the readout erros for each qubit are independent) readout error. You could also apply what the Correlated readout error mitigation as described in Qiskit’s tutorial or other forms of error mitigation which are described in <a class="reference external" href="https://mitiq.readthedocs.io/en/stable/guide/guide.html">Mitiq’s</a> documentation.</p>
+</section>
+</section>
+<section id="additional-reading">
+<h2><strong>Additional Reading</strong><a class="headerlink" href="#additional-reading" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/pdf/2208.09460.pdf">Long-distance transmon coupler with CZ gate fidelity above 99.8%</a>. Paper by IQM describing the superconducting technology behind Helmi.</p></li>
+<li><p><a class="reference external" href="https://www.vttresearch.com/en/news-and-ideas/finlands-first-5-qubit-quantum-computer-now-operational">Helmi press release</a>.</p></li>
+<li><p><a class="reference external" href="https://github.com/iqm-finland/qiskit-on-iqm">qiskit-on-iqm Github page</a>.</p></li>
+<li><p><a class="reference external" href="https://iqm-finland.github.io/qiskit-on-iqm/">qiskit-on-iqm documentation</a>. We are running <code class="docutils literal notranslate"><span class="pre">10.4</span></code>.</p></li>
+<li><p><a class="reference external" href="https://docs.csc.fi/computing/quantum-computing/overview/">CSC documentation on Helmi</a>.</p></li>
+<li><p><a class="reference external" href="https://docs.pennylane.ai/projects/qiskit/en/latest/">Pennylane-Qiskit documentation</a>.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../hybrid-classical-quantum/" class="btn btn-neutral float-left" title="Hybrid Classical/Quantum Algorithms" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../Qubit_Spectroscopy_Analysis/" class="btn btn-neutral float-right" title="Qubit Spectroscopy Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, The contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

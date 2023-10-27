@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Use case: Quantum chemistry &mdash; Quantum Autumn School 2023  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/togglebutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx_lesson.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx_rtd_theme_ext_color_contrast.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/overrides.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script src="../../_static/minipres.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="State generation tutorial" href="../Workshop-ADAPT/" />
+    <link rel="prev" title="Hybrid Algorithms - Use Cases for Quantum Life Science" href="../../hybrid-life-science/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../" class="icon icon-home">
+            Quantum Autumn School 2023
+              <img src="../../_static/ENCCS.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../setup/">Setup</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 1</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../qc-overview/">Physical Approaches to Quantum Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../digital-qc/">Introduction to Digital Quantum Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-1/">Tutorial - Quantum programming I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-2/">Tutorial - Quantum programming II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-3/">Tutorial - Quantum programming III</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 2</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../hpc-qc/">HPC-QC integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software-stack/">QC software stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-classical-quantum/">Hybrid Classical/Quantum Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro-to-helmi-qiskit/">Tutorial - Introduction to Helmi with qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Qubit_Spectroscopy_Analysis/">Qubit Spectroscopy Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Notebook_maxcut_Qas2023/">Tutorial - Quantum Alternating Operator Ansatz</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 3</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-quantum-chemistry/">Hybrid Algorithms - Use Cases for Quantum Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-finance/">Hybrid Algorithms - Use Cases for Quantum Finance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-life-science/">Hybrid Algorithms - Use Cases for Quantum Life Science</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Use case: Quantum chemistry</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#practice-session-implement-vqe-for-h-2"><strong>Practice session: implement VQE for <span class="math notranslate nohighlight">\(H_2\)</span></strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#synopsis"><strong>Synopsis</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#implementation"><strong>Implementation</strong></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#measure-expectation-values"><strong>Measure Expectation values</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#scan-the-parameter-interval"><strong>Scan the parameter interval</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mapping-outcome-states-to-values"><strong>Mapping outcome states to values</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#further-problems"><strong>Further problems</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#summary"><strong>Summary</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/">State generation tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#set-logging-levels">Set logging levels</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#select-molecule-and-obtain-fermionic-hamiltonian">Select molecule and obtain fermionic hamiltonian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#choose-a-qubit-converter-and-map-hamiltonian">Choose a qubit converter and map Hamiltonian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#initialise-penalty-operators">Initialise penalty operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#choose-operator-pool">Choose operator pool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#initialize-ansatz">Initialize Ansatz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#choose-optimizer-method-and-optimizer-object">Choose optimizer method and optimizer object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#initialize-riemannian-flow">Initialize Riemannian flow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#run-adapt-algorithm">Run ADAPT algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#transpile-and-draw-ansatz">Transpile and draw Ansatz</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Workshop-ADAPT/#plot-stats-from-simulation">Plot stats from simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial-5/">Tutorial - Quantum Finance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial-life-science/">Tutorial - Protein Folding with QAOA</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://enccs.se/lessons/">All ENCCS lessons</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://enccs.se/">About ENCCS</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../">Quantum Autumn School 2023</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><strong>Use case: Quantum chemistry</strong></li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/qas2023/blob/main/content/notebooks/E2_VQE-H2.ipynb" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="use-case-quantum-chemistry">
+<h1><strong>Use case: Quantum chemistry</strong><a class="headerlink" href="#use-case-quantum-chemistry" title="Permalink to this heading"></a></h1>
+<section id="practice-session-implement-vqe-for-h-2">
+<h2><strong>Practice session: implement VQE for <span class="math notranslate nohighlight">\(H_2\)</span></strong><a class="headerlink" href="#practice-session-implement-vqe-for-h-2" title="Permalink to this heading"></a></h2>
+<p>In the lecture, we gave a very general description of how the variational quantum eigensolver (VQE) algorithm works.</p>
+<p>We are now going to implement it for the <span class="math notranslate nohighlight">\(H_2\)</span> molecule. This is one of the smallest systems one can imagine to start experimenting with VQE. It has also been implemented on an actual quantum computer as reported in <a class="reference external" href="https://arxiv.org/abs/1512.06860">O’Malley etal 2015, <em>Scalable Quantum Simulation of Molecular Energies</em>, arXiv:1512.06860v2</a>. The following figure given in the article summarizes the entire setup:</p>
+<img alt="VQE circuit. Source arXiv 1512.06860v2" src="../../_images/omalley-etal-2016-vqe.png" />
+<p>Fig. 1. The variational quantum eigensolver circuit and hardware. Source: <a href="https://arxiv.org/abs/1512.06860">arXiv:1512.06860v2</a>.</p>
+<p>In this session, we are going to implement the VQE algorithm for <span class="math notranslate nohighlight">\(H_2\)</span> from scratch using the circuit in Fig. 1 and the data given in the paper.</p>
+<section id="synopsis">
+<h3><strong>Synopsis</strong><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h3>
+<p>Before we begin, let us summarize the task ahead of us, and what exactly we are going to do. Remember that VQE starts with classical preparations. This involves all the classical computational chemistry computations we summarized in the lecture. As a result of these preparations we have the qubit Hamiltonian and the ansatz circuit that represents the parameterized unitary. We assume that all this work has been completed: the result is the ansatz circuit and the Hamiltonian shown in the figure above.</p>
+<p>Let us summarize the computation shown in the figure.</p>
+<p>The algorithm consists of two parts. Firstly, there is a computation carried out on a quantum computer. This is divided into three parts in the figure:</p>
+<ol class="arabic simple">
+<li><p>Prepare initial state,</p></li>
+<li><p>Apply Parameterized Ansatz, and</p></li>
+<li><p>Measure Expectation values.</p></li>
+</ol>
+<p>The entire quantum computation is performed using the circuit shown at the bottom part, ‘Software’. Note the circuit contains only two qubits.</p>
+<p>Secondly, there is the classical part, comprising</p>
+<ol class="arabic simple">
+<li><p>Calculate Energy, and</p></li>
+<li><p>Classical Optimizer Suggests New Parameters <span class="math notranslate nohighlight">\(\theta\)</span>.</p></li>
+</ol>
+<p>The qubit Hamiltonian of <span class="math notranslate nohighlight">\(H_2\)</span> is also shown on the right.</p>
+<p>Note that the top part of the figure also shows a rough outline of physical pulses with timings that are needed to run the circuit.</p>
+<p>We will implement both the classical and quantum parts in Python using Qiskit. We will implement the algorithm from scratch <em>without</em> using the more advanced Qiskit libraries. We will only rely circuits and measurements. In principle, we will show how to implement the algorithm in <em>any language that contains circuits and measurements</em>.</p>
+<p>The rationale of showing this simple, low-level implementation is to give a taste of what is going on behind the scenes of the more advanced (Qiskit) libraries.</p>
+</section>
+<section id="implementation">
+<h3><strong>Implementation</strong><a class="headerlink" href="#implementation" title="Permalink to this heading"></a></h3>
+<p>Let us start by creating a routine for the circuit in the figure.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">execute</span>
+<span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumRegister</span><span class="p">,</span> <span class="n">ClassicalRegister</span>
+<span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">Parameter</span>
+<span class="kn">from</span> <span class="nn">qiskit.compiler</span> <span class="kn">import</span> <span class="n">transpile</span>
+<span class="kn">from</span> <span class="nn">qiskit.visualization</span> <span class="kn">import</span> <span class="n">plot_histogram</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">qiskit_iqm</span> <span class="kn">import</span> <span class="n">IQMFakeAdonis</span>
+
+
+<span class="c1">##########################################################</span>
+<span class="c1">#</span>
+<span class="c1">#  Routines</span>
+<span class="c1">#</span>
+<span class="c1">##########################################################</span>
+<span class="k">def</span> <span class="nf">create_ansatz_circuit</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">,</span> <span class="n">parameter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create H2 ansatz circuit given in O&#39;Malley etal 2015.</span>
+<span class="sd">    </span>
+<span class="sd">    args</span>
+<span class="sd">        qreg           - qubits</span>
+<span class="sd">        creg           - classical bits</span>
+<span class="sd">        parameter      - parameter for parameterized circuit</span>
+
+<span class="sd">    returns</span>
+<span class="sd">        ansatz_circuit - a parameterized circuit</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ansatz_circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">)</span>
+    
+    <span class="c1"># H2 circuit</span>
+    <span class="c1"># 1 - create HF reference state</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+    <span class="c1"># 2 - ansatz: U(theta)</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c1"># 3</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># 4 - parameterized Z-rotation</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># 5</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># 6</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">ansatz_circuit</span>
+
+
+<span class="c1">##########################################################</span>
+<span class="c1">#</span>
+<span class="c1">#  Main program</span>
+<span class="c1">#</span>
+<span class="c1">##########################################################</span>
+
+<span class="c1"># variables</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s1">&#39;θ&#39;</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">ClassicalRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">ansatz_circuit</span> <span class="o">=</span> <span class="n">create_ansatz_circuit</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+
+<span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s2">&quot;mpl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We have added barriers for better visualization.</p>
+<p>The new feature here is a <em>parameter</em> that is inserted in the <code class="docutils literal notranslate"><span class="pre">rz()</span></code> rotation in L40. It means every time when we update the parameter, we do not need to create a new circuit from scratch. This saves a lot of time in general. VQE circuits can be quite large. Imagine a circuit containing <span class="math notranslate nohighlight">\(10\)</span>k gates and <span class="math notranslate nohighlight">\(300\)</span> parameters. Creating fixed circuits each time one parameter needs to be updated will take much longer than updating a single value in the circuit. For this reason, when implementing VQE, it’s always best to use <em>parameterized circuits</em> if they are available in the programming language.</p>
+<p>At this point we have accomplished the first two quantum components:</p>
+<ol class="arabic simple">
+<li><p>Prepare initial state, and</p></li>
+<li><p>Apply Parameterized Ansatz.</p></li>
+</ol>
+<section id="measure-expectation-values">
+<h4><strong>Measure Expectation values</strong><a class="headerlink" href="#measure-expectation-values" title="Permalink to this heading"></a></h4>
+<p>Next, let us focus on (3) Measure Expectation values. The qubit Hamiltonian we need to measure is as follows</p>
+<div class="math notranslate nohighlight">
+\[ 
+H = g_0 \mathbb{1} + g_1 Z_0 + g_2 Z_1 + g_3 Z_0 Z_1 + g_4 Y_0 Y_1 + g_5 X_0 X_1
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(g_i\)</span> are (real valued) coefficients that have been computed classically. They are given in the Table 1 in the appendix of O’Malley etal 2015. The values of <span class="math notranslate nohighlight">\(g_i\)</span> are functions of hydrogen-hydrogen bond length <span class="math notranslate nohighlight">\(R\)</span>. We will take the coefficients at bond length <span class="math notranslate nohighlight">\(R = 0.75\)</span> (in units <span class="math notranslate nohighlight">\(10^{-10}\)</span> m) where the energy is lowest (the actual bond length where the energy is lowest is <span class="math notranslate nohighlight">\(0.74\)</span>, which is close).</p>
+<p>There is a problem though. We can perform measurements in the <span class="math notranslate nohighlight">\(Z\)</span> basis using the Qiskit <code class="docutils literal notranslate"><span class="pre">measure()</span></code> routine. However, we cannot directly measure the Pauli <span class="math notranslate nohighlight">\(X\)</span> or <span class="math notranslate nohighlight">\(Y\)</span> operators of the terms <span class="math notranslate nohighlight">\(X_0 X_1\)</span> and <span class="math notranslate nohighlight">\(Y_0 Y_1\)</span>. In order to measure the latter, we have to use the following trick:</p>
+<ul class="simple">
+<li><p>to measure <span class="math notranslate nohighlight">\(X\)</span>, perform basis transformation from the <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Z\)</span></p></li>
+<li><p>then measure the qubits as usual (in the <span class="math notranslate nohighlight">\(Z\)</span> basis) with <code class="docutils literal notranslate"><span class="pre">measure()</span></code>.</p></li>
+</ul>
+<p>The same applies to <span class="math notranslate nohighlight">\(Y\)</span> measurements, in this case we need to perform basis transformation from <span class="math notranslate nohighlight">\(Y\)</span> to <span class="math notranslate nohighlight">\(Z\)</span>.</p>
+<p>In order to compute the average value <span class="math notranslate nohighlight">\(\langle H \rangle\)</span> of the (total) Hamiltonian we will use the fact that the total average is equal to the sum of averages of its terms,</p>
+<div class="math notranslate nohighlight">
+\[
+\langle H\rangle = g_0 \langle \mathbb{1}\rangle + g_1 \langle Z_0\rangle + g_2 \langle Z_1\rangle + g_3 \langle Z_0 Z_1\rangle + g_4 \langle Y_0 Y_1\rangle + g_5 \langle X_0 X_1\rangle.
+\]</div>
+<p>So we need to compute the expectation value of each term, then multiply each with the respective coefficient <span class="math notranslate nohighlight">\(g_i\)</span>, and finally add averages of all terms. Note that <span class="math notranslate nohighlight">\(\langle\mathbb{1}\rangle = 1\)</span>, so we can just add the coefficient <span class="math notranslate nohighlight">\(g_0\)</span>.</p>
+<p>Pseudo code wise, it means:</p>
+<ul class="simple">
+<li><p>Compute average of H:</p>
+<ul>
+<li><p>Loop over terms, compute average of each term</p></li>
+</ul>
+</li>
+</ul>
+<p>Now computing the average of a term like <span class="math notranslate nohighlight">\(X_0 X_1\)</span> means that we need to add the respective measurement mini-circuit at the end of the ansatz. This is how the part ‘(3) Measure Expectation values’ is realized in the circuit above in the figure, see the final light grey box.</p>
+<p>In terms of implementation, it means that <em>instead of looping over terms we can loop over measurement mini-circuits</em>. And in order to be more efficient, let us create these mini-circuits prior to running the algorithm.</p>
+<p>So let us add a routine that takes in a term (e.g. <span class="math notranslate nohighlight">\(X_0 X_1\)</span>) and creates the corresponding mini-circuit, which we can add at the end of the main ansatz circuit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">execute</span>
+<span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumRegister</span><span class="p">,</span> <span class="n">ClassicalRegister</span>
+<span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">Parameter</span>
+<span class="kn">from</span> <span class="nn">qiskit.compiler</span> <span class="kn">import</span> <span class="n">transpile</span>
+<span class="kn">from</span> <span class="nn">qiskit.visualization</span> <span class="kn">import</span> <span class="n">plot_histogram</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">qiskit_iqm</span> <span class="kn">import</span> <span class="n">IQMFakeAdonis</span>
+
+
+
+<span class="c1">##########################################################</span>
+<span class="c1">#</span>
+<span class="c1">#  Routines</span>
+<span class="c1">#</span>
+<span class="c1">##########################################################</span>
+<span class="k">def</span> <span class="nf">create_ansatz_circuit</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">,</span> <span class="n">parameter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create H2 ansatz circuit given in O&#39;Malley etal 2015.</span>
+<span class="sd">    </span>
+<span class="sd">    args</span>
+<span class="sd">        qreg           - qubits</span>
+<span class="sd">        creg           - classical bits</span>
+<span class="sd">        parameter      - parameter for parameterized circuit</span>
+
+<span class="sd">    returns</span>
+<span class="sd">        ansatz_circuit - a parameterized circuit</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ansatz_circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">)</span>
+    
+    <span class="c1"># H2 circuit</span>
+    <span class="c1"># 1 - create HF reference state</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+    <span class="c1"># 2 - ansatz: U(theta)</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c1"># 3</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># 4 - parameterized Z-rotation</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># 5</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># 6</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">ansatz_circuit</span>
+
+
+<span class="k">def</span> <span class="nf">paulis_to_measure_circ</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">,</span> <span class="n">hamlist</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate measure circuits from hamiltonian pauli list </span>
+<span class="sd">    for measurements in different bases.</span>
+
+<span class="sd">    args</span>
+<span class="sd">        qreg     - qubits</span>
+<span class="sd">        creg     - classical bits</span>
+<span class="sd">        hamlist  - total hamiltonian, i.e. pauli strings</span>
+<span class="sd">        </span>
+<span class="sd">    returns</span>
+<span class="sd">        circuits - list of circuits that can be used to average over</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">circuits</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">hamlist</span><span class="p">:</span>
+        <span class="n">minicirc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">qubitno</span><span class="p">,</span> <span class="n">qubitop</span> <span class="ow">in</span> <span class="n">elem</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">qubitop</span> <span class="o">==</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="n">qubitop</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
+                <span class="n">minicirc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="n">qubitno</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">qubitop</span> <span class="o">==</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span>
+                <span class="n">minicirc</span><span class="o">.</span><span class="n">sdg</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="n">qubitno</span><span class="p">])</span>
+                <span class="n">minicirc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="n">qubitno</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Error: INVALID qubit operation&quot;</span>
+
+        <span class="n">minicirc</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">)</span>
+        <span class="n">circuits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">minicirc</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">circuits</span>
+
+
+<span class="c1">##########################################################</span>
+<span class="c1">#</span>
+<span class="c1">#  Main program</span>
+<span class="c1">#</span>
+<span class="c1">##########################################################</span>
+
+<span class="c1"># variables</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s1">&#39;θ&#39;</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">ClassicalRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">hamiltonian</span> <span class="o">=</span> <span class="p">(((</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">),),</span> 
+               <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">),),</span> 
+               <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">)),</span> 
+               <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">)),</span> 
+               <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">)))</span>
+
+<span class="n">ansatz_circuit</span> <span class="o">=</span> <span class="n">create_ansatz_circuit</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+<span class="n">ham_mini_circuits</span> <span class="o">=</span> <span class="n">paulis_to_measure_circ</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">hamiltonian</span><span class="p">)</span>
+
+<span class="c1"># print result</span>
+<span class="p">[</span><span class="nb">print</span><span class="p">(</span><span class="n">circ</span><span class="p">)</span> <span class="k">for</span> <span class="n">circ</span> <span class="ow">in</span> <span class="n">ham_mini_circuits</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The new routine <code class="docutils literal notranslate"><span class="pre">paulis_to_measure_circ()</span></code> takes in the total qubit Hamiltonian and outputs circuits which correspond to the terms of the Hamiltonian. We also needed to represent the Hamiltonian, to this end we use a tuple of tuples in L96. The smallest element has the form <code class="docutils literal notranslate"><span class="pre">(qubit_number,</span> <span class="pre">Pauli_matrix)</span></code>, where <code class="docutils literal notranslate"><span class="pre">qubit_number</span></code> is the index of the qubit for the Pauli observable.</p>
+<p>Let’s summarize the computation of the average of the Hamiltonian. We need to compute the averages of terms. We do this by looping over terms, which are represented as mini-circuits. For each mini-circuit, we will take the ansatz, add to it the mini-circuit, and run the resulting circuit, collect measurement statistics and compute the average.</p>
+</section>
+</section>
+<section id="scan-the-parameter-interval">
+<h3><strong>Scan the parameter interval</strong><a class="headerlink" href="#scan-the-parameter-interval" title="Permalink to this heading"></a></h3>
+<p>We will not bother with classical optimization in this small implementation. The circuit has only one parameter—the angle <span class="math notranslate nohighlight">\(\theta\)</span> of the <span class="math notranslate nohighlight">\(R_z\)</span> rotation—which ranges between <span class="math notranslate nohighlight">\([-\pi, \pi]\)</span>. Instead of searching for the minimum value of <span class="math notranslate nohighlight">\(\langle H\rangle\)</span>, we will scan this interval and record the minimum energy.</p>
+<p>Let us add a loop to do this.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">execute</span>
+<span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumRegister</span><span class="p">,</span> <span class="n">ClassicalRegister</span>
+<span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">Parameter</span>
+<span class="kn">from</span> <span class="nn">qiskit.compiler</span> <span class="kn">import</span> <span class="n">transpile</span>
+<span class="kn">from</span> <span class="nn">qiskit.visualization</span> <span class="kn">import</span> <span class="n">plot_histogram</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">qiskit_iqm</span> <span class="kn">import</span> <span class="n">IQMFakeAdonis</span>
+
+
+
+<span class="c1">##########################################################</span>
+<span class="c1">#</span>
+<span class="c1">#  Routines</span>
+<span class="c1">#</span>
+<span class="c1">##########################################################</span>
+<span class="k">def</span> <span class="nf">create_ansatz_circuit</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">,</span> <span class="n">parameter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create H2 ansatz circuit given in O&#39;Malley etal 2015.</span>
+<span class="sd">    </span>
+<span class="sd">    args</span>
+<span class="sd">        qreg           - qubits</span>
+<span class="sd">        creg           - classical bits</span>
+<span class="sd">        parameter      - parameter for parameterized circuit</span>
+
+<span class="sd">    returns</span>
+<span class="sd">        ansatz_circuit - a parameterized circuit</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ansatz_circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">)</span>
+    
+    <span class="c1"># H2 circuit</span>
+    <span class="c1"># 1 - create HF reference state</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+    <span class="c1"># 2 - ansatz: U(theta)</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c1"># 3</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># 4 - parameterized Z-rotation</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># 5</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># 6</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">ansatz_circuit</span>
+
+
+<span class="k">def</span> <span class="nf">paulis_to_measure_circ</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">,</span> <span class="n">hamlist</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate measure circuits from hamiltonian pauli list </span>
+<span class="sd">    for measurements in different bases.</span>
+
+<span class="sd">    args</span>
+<span class="sd">        qreg     - qubits</span>
+<span class="sd">        creg     - classical bits</span>
+<span class="sd">        hamlist  - total hamiltonian, i.e. pauli strings</span>
+<span class="sd">        </span>
+<span class="sd">    returns</span>
+<span class="sd">        circuits - list of circuits that can be used to average over</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">circuits</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">hamlist</span><span class="p">:</span>
+        <span class="n">minicirc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">qubitno</span><span class="p">,</span> <span class="n">qubitop</span> <span class="ow">in</span> <span class="n">elem</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">qubitop</span> <span class="o">==</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="n">qubitop</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
+                <span class="n">minicirc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="n">qubitno</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">qubitop</span> <span class="o">==</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span>
+                <span class="n">minicirc</span><span class="o">.</span><span class="n">sdg</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="n">qubitno</span><span class="p">])</span>
+                <span class="n">minicirc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="n">qubitno</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Error: INVALID qubit operation&quot;</span>
+
+        <span class="n">minicirc</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">)</span>
+        <span class="n">circuits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">minicirc</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">circuits</span>
+
+
+<span class="k">def</span> <span class="nf">get_ham_avg</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">ansatz</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">,</span> <span class="n">ham_mini_circuits</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">shots</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute average of the total qubit Hamiltonian.</span>
+<span class="sd">    </span>
+<span class="sd">    args</span>
+<span class="sd">        params           - parameter value for the ansatz circuit</span>
+<span class="sd">        ansatz           - ansatz circuit</span>
+<span class="sd">        ham_mini_ciruits - pre-built circuits to measure Hamiltonian terms</span>
+<span class="sd">        obs              - data for observables </span>
+<span class="sd">        shots            - number of shots</span>
+
+<span class="sd">    returns</span>
+<span class="sd">        avg   - average of Hamiltonian </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">avg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.</span>
+    
+    <span class="c1"># TODO</span>
+    
+    <span class="k">return</span> <span class="n">avg</span>
+
+
+<span class="c1">##########################################################</span>
+<span class="c1">#</span>
+<span class="c1">#  Main program</span>
+<span class="c1">#</span>
+<span class="c1">##########################################################</span>
+
+<span class="c1"># variables</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s1">&#39;θ&#39;</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">ClassicalRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">hamiltonian</span> <span class="o">=</span> <span class="p">(((</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">),),</span> 
+               <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">),),</span> 
+               <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">)),</span> 
+               <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">)),</span> 
+               <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">)))</span>
+<span class="n">shots</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">no_of_points</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">param_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">no_of_points</span><span class="p">)</span>
+<span class="c1"># g_i coeffs for R = 0.75</span>
+<span class="n">g_coeff</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.3435</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4347</span><span class="p">,</span> <span class="mf">0.5716</span><span class="p">,</span> <span class="mf">0.091</span><span class="p">,</span> <span class="mf">0.091</span><span class="p">]</span>
+<span class="n">g_coeff_id</span> <span class="o">=</span> <span class="mf">0.2252</span>
+<span class="c1"># graph</span>
+<span class="n">graph</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1">#</span>
+<span class="n">obs</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># start</span>
+<span class="n">ansatz_circuit</span> <span class="o">=</span> <span class="n">create_ansatz_circuit</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+<span class="n">ham_mini_circuits</span> <span class="o">=</span> <span class="n">paulis_to_measure_circ</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">hamiltonian</span><span class="p">)</span>
+
+<span class="c1"># record min val of hamiltonian</span>
+<span class="n">h_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">100.</span>
+
+<span class="c1"># scan theta domain [-pi, pi]</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">param_range</span><span class="p">:</span>
+    <span class="n">h_avg</span> <span class="o">=</span> <span class="n">get_ham_avg</span><span class="p">({</span><span class="n">theta</span><span class="p">:</span> <span class="n">x</span><span class="p">},</span> <span class="n">ansatz_circuit</span><span class="p">,</span> <span class="n">g_coeff</span><span class="p">,</span> <span class="n">ham_mini_circuits</span><span class="p">,</span> 
+                        <span class="n">obs</span><span class="p">,</span> <span class="n">shots</span><span class="p">)</span>
+    <span class="n">h_avg</span> <span class="o">+=</span> <span class="n">g_coeff_id</span>        <span class="c1"># add coeff of id term</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h_avg</span><span class="p">)</span>        <span class="c1"># collect data for plotting</span>
+    <span class="k">if</span> <span class="n">h_avg</span> <span class="o">&lt;</span> <span class="n">h_min</span><span class="p">:</span>           <span class="c1"># record min value</span>
+        <span class="n">h_min</span> <span class="o">=</span> <span class="n">h_avg</span>
+
+<span class="c1"># result</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">H_min =&quot;</span><span class="p">,</span> <span class="n">h_min</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The loop in lines L141-147 walks through the interval <span class="math notranslate nohighlight">\([-\pi, \pi]\)</span> and finds the minimum energy. Of course, the answer is wrong—the value <span class="math notranslate nohighlight">\(0.2252\)</span> is just the value of the constant term—since we have not implemented the actual computation of the average.</p>
+</section>
+<section id="mapping-outcome-states-to-values">
+<h3><strong>Mapping outcome states to values</strong><a class="headerlink" href="#mapping-outcome-states-to-values" title="Permalink to this heading"></a></h3>
+<p>To actually compute the average of a Hamiltonian term, we need to know how the outcomes of the measurement <span class="math notranslate nohighlight">\(00, 01, 10, 11\)</span> that Qiskit uses correspond to the actual real valued outcomes <span class="math notranslate nohighlight">\(+1, -1\)</span> for a particular observable like <span class="math notranslate nohighlight">\(Z_0\)</span> or <span class="math notranslate nohighlight">\(Z_0 Z_1\)</span> we measure. Without discussing this at length here, we are going to introduce dictionaries that record the mapping for each observable. Of course, there are other ways to implement this.</p>
+<p>Let us fill in the generic routine for computing the average.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">execute</span>
+<span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumRegister</span><span class="p">,</span> <span class="n">ClassicalRegister</span>
+<span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">Parameter</span>
+<span class="kn">from</span> <span class="nn">qiskit.compiler</span> <span class="kn">import</span> <span class="n">transpile</span>
+<span class="kn">from</span> <span class="nn">qiskit.visualization</span> <span class="kn">import</span> <span class="n">plot_histogram</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">qiskit_iqm</span> <span class="kn">import</span> <span class="n">IQMFakeAdonis</span>
+
+
+
+<span class="c1">##########################################################</span>
+<span class="c1">#</span>
+<span class="c1">#  Routines</span>
+<span class="c1">#</span>
+<span class="c1">##########################################################</span>
+<span class="k">def</span> <span class="nf">create_ansatz_circuit</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">,</span> <span class="n">parameter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create H2 ansatz circuit given in O&#39;Malley etal 2015.</span>
+<span class="sd">    </span>
+<span class="sd">    args</span>
+<span class="sd">        qreg           - qubits</span>
+<span class="sd">        creg           - classical bits</span>
+<span class="sd">        parameter      - parameter for parameterized circuit</span>
+
+<span class="sd">    returns</span>
+<span class="sd">        ansatz_circuit - a parameterized circuit</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ansatz_circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">)</span>
+    
+    <span class="c1"># H2 circuit</span>
+    <span class="c1"># 1 - create HF reference state</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+    <span class="c1"># 2 - ansatz: U(theta)</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c1"># 3</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># 4 - parameterized Z-rotation</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># 5</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># 6</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">ansatz_circuit</span>
+
+
+<span class="k">def</span> <span class="nf">paulis_to_measure_circ</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">,</span> <span class="n">hamlist</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate measure circuits from hamiltonian pauli list </span>
+<span class="sd">    for measurements in different bases.</span>
+
+<span class="sd">    args</span>
+<span class="sd">        qreg     - qubits</span>
+<span class="sd">        creg     - classical bits</span>
+<span class="sd">        hamlist  - total hamiltonian, i.e. pauli strings</span>
+<span class="sd">        </span>
+<span class="sd">    returns</span>
+<span class="sd">        circuits - list of circuits that can be used to average over</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">circuits</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">hamlist</span><span class="p">:</span>
+        <span class="n">minicirc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">qubitno</span><span class="p">,</span> <span class="n">qubitop</span> <span class="ow">in</span> <span class="n">elem</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">qubitop</span> <span class="o">==</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="n">qubitop</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
+                <span class="n">minicirc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="n">qubitno</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">qubitop</span> <span class="o">==</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span>
+                <span class="n">minicirc</span><span class="o">.</span><span class="n">sdg</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="n">qubitno</span><span class="p">])</span>
+                <span class="n">minicirc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="n">qubitno</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Error: INVALID qubit operation&quot;</span>
+
+        <span class="n">minicirc</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">)</span>
+        <span class="n">circuits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">minicirc</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">circuits</span>
+
+
+<span class="k">def</span> <span class="nf">get_paulistr_avg</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">shots</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate average of a Pauli string (e.g. XXY).</span>
+
+<span class="sd">    args</span>
+<span class="sd">        counts      - result of simulation: {&#39;00&#39;: 45, &#39;01&#39;: 34, . . .}</span>
+<span class="sd">        obs         - data for calculating probabilities</span>
+<span class="sd">        shots       - number of repetitions</span>
+
+<span class="sd">    returns</span>
+<span class="sd">        avg         - the average value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">avg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.</span>
+    
+    <span class="c1"># TODO</span>
+
+    <span class="k">return</span> <span class="n">avg</span>
+
+
+<span class="k">def</span> <span class="nf">get_ham_avg</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">ansatz</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">,</span> <span class="n">ham_mini_circuits</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">shots</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute average of the total qubit Hamiltonian.</span>
+<span class="sd">    </span>
+<span class="sd">    args</span>
+<span class="sd">        params           - parameter value for the ansatz circuit</span>
+<span class="sd">        ansatz           - ansatz circuit</span>
+<span class="sd">        ham_mini_ciruits - pre-built circuits to measure Hamiltonian terms</span>
+<span class="sd">        obs              - data for observables </span>
+<span class="sd">        shots            - number of shots</span>
+
+<span class="sd">    returns</span>
+<span class="sd">        avg   - average of Hamiltonian </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">avg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="n">backend</span> <span class="o">=</span> <span class="n">IQMFakeAdonis</span><span class="p">()</span>
+
+   
+    <span class="k">for</span> <span class="n">coeff</span><span class="p">,</span> <span class="n">measure_circuit</span><span class="p">,</span> <span class="n">obsval</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">coeffs</span><span class="p">,</span> <span class="n">ham_mini_circuits</span><span class="p">,</span> <span class="n">obs</span><span class="p">):</span>
+        <span class="n">total_circuit</span> <span class="o">=</span> <span class="n">ansatz</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">measure_circuit</span><span class="p">)</span>
+        <span class="n">qc_transpiled</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">total_circuit</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">layout_method</span><span class="o">=</span><span class="s1">&#39;sabre&#39;</span><span class="p">,</span> <span class="n">optimization_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">circuit</span> <span class="o">=</span> <span class="n">qc_transpiled</span><span class="o">.</span><span class="n">bind_parameters</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">job</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span> <span class="n">optimization_level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+        <span class="n">paulistring_avg</span> <span class="o">=</span> <span class="n">get_paulistr_avg</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">obsval</span><span class="p">,</span> <span class="n">shots</span><span class="p">)</span>
+        <span class="n">avg</span> <span class="o">+=</span> <span class="n">coeff</span> <span class="o">*</span> <span class="n">paulistring_avg</span>
+   
+    <span class="k">return</span> <span class="n">avg</span>
+
+
+<span class="c1">##########################################################</span>
+<span class="c1">#</span>
+<span class="c1">#  Main program</span>
+<span class="c1">#</span>
+<span class="c1">##########################################################</span>
+
+<span class="c1"># variables</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s1">&#39;θ&#39;</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">ClassicalRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">hamiltonian</span> <span class="o">=</span> <span class="p">(((</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">),),</span> 
+               <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">),),</span> 
+               <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">)),</span> 
+               <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">)),</span> 
+               <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">)))</span>
+<span class="n">shots</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">no_of_points</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">param_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">no_of_points</span><span class="p">)</span>
+<span class="c1"># g_i coeffs for R = 0.75</span>
+<span class="n">g_coeff</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.3435</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4347</span><span class="p">,</span> <span class="mf">0.5716</span><span class="p">,</span> <span class="mf">0.091</span><span class="p">,</span> <span class="mf">0.091</span><span class="p">]</span>
+<span class="n">g_coeff_id</span> <span class="o">=</span> <span class="mf">0.2252</span>
+<span class="c1"># graph</span>
+<span class="n">graph</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># map outcome states to outcome values</span>
+<span class="n">obs</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;00&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;10&#39;</span><span class="p">:</span>  <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;01&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">},</span>  <span class="c1"># 1 x Z</span>
+       <span class="p">{</span><span class="s1">&#39;00&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;10&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;01&#39;</span><span class="p">:</span>  <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">},</span>  <span class="c1"># Z x 1</span>
+       <span class="p">{</span><span class="s1">&#39;00&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;10&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;01&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">:</span>  <span class="mi">1</span><span class="p">},</span>  <span class="c1"># Z x Z</span>
+       <span class="p">{</span><span class="s1">&#39;00&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;10&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;01&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">:</span>  <span class="mi">1</span><span class="p">},</span>  <span class="c1"># Y x Y</span>
+       <span class="p">{</span><span class="s1">&#39;00&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;10&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;01&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">:</span>  <span class="mi">1</span><span class="p">}]</span>  <span class="c1"># X x X</span>
+
+<span class="c1"># start</span>
+<span class="n">ansatz_circuit</span> <span class="o">=</span> <span class="n">create_ansatz_circuit</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+<span class="n">ham_mini_circuits</span> <span class="o">=</span> <span class="n">paulis_to_measure_circ</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">hamiltonian</span><span class="p">)</span>
+
+<span class="c1"># record min val of hamiltonian</span>
+<span class="n">h_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">100.</span>
+
+<span class="c1"># scan theta domain [-pi, pi]</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">param_range</span><span class="p">:</span>
+    <span class="n">h_avg</span> <span class="o">=</span> <span class="n">get_ham_avg</span><span class="p">({</span><span class="n">theta</span><span class="p">:</span> <span class="n">x</span><span class="p">},</span> <span class="n">ansatz_circuit</span><span class="p">,</span> <span class="n">g_coeff</span><span class="p">,</span> <span class="n">ham_mini_circuits</span><span class="p">,</span> 
+                        <span class="n">obs</span><span class="p">,</span> <span class="n">shots</span><span class="p">)</span>
+    <span class="n">h_avg</span> <span class="o">+=</span> <span class="n">g_coeff_id</span>        <span class="c1"># add coeff of id term</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h_avg</span><span class="p">)</span>        <span class="c1"># collect data for plotting</span>
+    <span class="k">if</span> <span class="n">h_avg</span> <span class="o">&lt;</span> <span class="n">h_min</span><span class="p">:</span>           <span class="c1"># record min value</span>
+        <span class="n">h_min</span> <span class="o">=</span> <span class="n">h_avg</span>
+
+<span class="c1"># result</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">H_min =&quot;</span><span class="p">,</span> <span class="n">h_min</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The routine <code class="docutils literal notranslate"><span class="pre">get_ham_avg()</span></code> in L105, and more specifically the loop in L122 implements the idea we outlined above. It iterates over all mini-circuits, combining each mini-circuit with the ansatz circuit, running it, collecting the statistics and finally computing the average for the term.</p>
+<p>The answer is still wrong because the very last step, computing the average of a single Pauli string in <code class="docutils literal notranslate"><span class="pre">get_paulistr_avg()</span></code> is still not implemented. Let us fill in that too.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">assemble</span><span class="p">,</span> <span class="n">Aer</span>
+<span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumRegister</span><span class="p">,</span> <span class="n">ClassicalRegister</span>
+<span class="kn">from</span> <span class="nn">qiskit.circuit</span> <span class="kn">import</span> <span class="n">Parameter</span>
+<span class="kn">from</span> <span class="nn">qiskit.visualization</span> <span class="kn">import</span> <span class="n">plot_histogram</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="c1">##########################################################</span>
+<span class="c1">#</span>
+<span class="c1">#  Routines</span>
+<span class="c1">#</span>
+<span class="c1">##########################################################</span>
+<span class="k">def</span> <span class="nf">create_ansatz_circuit</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">,</span> <span class="n">parameter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create H2 ansatz circuit given in O&#39;Malley etal 2015.</span>
+<span class="sd">    </span>
+<span class="sd">    args</span>
+<span class="sd">        qreg           - qubits</span>
+<span class="sd">        creg           - classical bits</span>
+<span class="sd">        parameter      - parameter for parameterized circuit</span>
+
+<span class="sd">    returns</span>
+<span class="sd">        ansatz_circuit - a parameterized circuit</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ansatz_circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">)</span>
+    
+    <span class="c1"># H2 circuit</span>
+    <span class="c1"># 1 - create HF reference state</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+    <span class="c1"># 2 - ansatz: U(theta)</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c1"># 3</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># 4 - parameterized Z-rotation</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="n">parameter</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># 5</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># 6</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">qreg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">ansatz_circuit</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">ansatz_circuit</span>
+
+
+<span class="k">def</span> <span class="nf">paulis_to_measure_circ</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">,</span> <span class="n">hamlist</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate measure circuits from hamiltonian pauli list </span>
+<span class="sd">    for measurements in different bases.</span>
+
+<span class="sd">    args</span>
+<span class="sd">        qreg     - qubits</span>
+<span class="sd">        creg     - classical bits</span>
+<span class="sd">        hamlist  - total hamiltonian, i.e. pauli strings</span>
+<span class="sd">        </span>
+<span class="sd">    returns</span>
+<span class="sd">        circuits - list of circuits that can be used to average over</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">circuits</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">hamlist</span><span class="p">:</span>
+        <span class="n">minicirc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">qubitno</span><span class="p">,</span> <span class="n">qubitop</span> <span class="ow">in</span> <span class="n">elem</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">qubitop</span> <span class="o">==</span> <span class="s1">&#39;Z&#39;</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="n">qubitop</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">:</span>
+                <span class="n">minicirc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="n">qubitno</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">qubitop</span> <span class="o">==</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span>
+                <span class="n">minicirc</span><span class="o">.</span><span class="n">sdg</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="n">qubitno</span><span class="p">])</span>
+                <span class="n">minicirc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="n">qreg</span><span class="p">[</span><span class="n">qubitno</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Error: INVALID qubit operation&quot;</span>
+
+        <span class="n">minicirc</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qreg</span><span class="p">,</span> <span class="n">creg</span><span class="p">)</span>
+        <span class="n">circuits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">minicirc</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">circuits</span>
+
+
+<span class="k">def</span> <span class="nf">get_paulistr_avg</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">shots</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate average of a Pauli string (e.g. IX, XX or YY).</span>
+
+<span class="sd">    args</span>
+<span class="sd">        counts      - result of simulation: {&#39;00&#39;: 45, &#39;01&#39;: 34, . . .}</span>
+<span class="sd">        obs         - data for calculating probabilities</span>
+<span class="sd">        shots       - number of repetitions</span>
+
+<span class="sd">    returns</span>
+<span class="sd">        avg         - the average value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">avg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="n">fshots</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">shots</span><span class="p">)</span>
+        
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">avg</span> <span class="o">+=</span> <span class="n">obs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">v</span> <span class="o">/</span> <span class="n">fshots</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">avg</span>
+
+
+<span class="k">def</span> <span class="nf">get_ham_avg</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">ansatz</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">,</span> <span class="n">ham_mini_circuits</span><span class="p">,</span> <span class="n">obs</span><span class="p">,</span> <span class="n">shots</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute average of the total qubit Hamiltonian.</span>
+<span class="sd">    </span>
+<span class="sd">    args</span>
+<span class="sd">        params           - parameter value for the ansatz circuit</span>
+<span class="sd">        ansatz           - ansatz circuit</span>
+<span class="sd">        ham_mini_ciruits - pre-built circuits to measure Hamiltonian terms</span>
+<span class="sd">        obs              - data for observables </span>
+<span class="sd">        shots            - number of shots</span>
+
+<span class="sd">    returns</span>
+<span class="sd">        avg   - average of Hamiltonian </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">avg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="n">backend</span> <span class="o">=</span> <span class="n">IQMFakeAdonis</span><span class="p">()</span>
+
+   
+    <span class="k">for</span> <span class="n">coeff</span><span class="p">,</span> <span class="n">measure_circuit</span><span class="p">,</span> <span class="n">obsval</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">coeffs</span><span class="p">,</span> <span class="n">ham_mini_circuits</span><span class="p">,</span> <span class="n">obs</span><span class="p">):</span>
+        <span class="n">total_circuit</span> <span class="o">=</span> <span class="n">ansatz</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">measure_circuit</span><span class="p">)</span>
+        <span class="n">qc_transpiled</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">total_circuit</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">layout_method</span><span class="o">=</span><span class="s1">&#39;sabre&#39;</span><span class="p">,</span> <span class="n">optimization_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="n">circuit</span> <span class="o">=</span> <span class="n">qc_transpiled</span><span class="o">.</span><span class="n">bind_parameters</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">job</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span> <span class="n">optimization_level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">counts</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+        <span class="n">paulistring_avg</span> <span class="o">=</span> <span class="n">get_paulistr_avg</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">obsval</span><span class="p">,</span> <span class="n">shots</span><span class="p">)</span>
+        <span class="n">avg</span> <span class="o">+=</span> <span class="n">coeff</span> <span class="o">*</span> <span class="n">paulistring_avg</span>
+   
+    <span class="k">return</span> <span class="n">avg</span>
+
+
+<span class="c1">##########################################################</span>
+<span class="c1">#</span>
+<span class="c1">#  Main program</span>
+<span class="c1">#</span>
+<span class="c1">##########################################################</span>
+
+<span class="c1"># variables</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s1">&#39;θ&#39;</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">QuantumRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">ClassicalRegister</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">hamiltonian</span> <span class="o">=</span> <span class="p">(((</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">),),</span> 
+               <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">),),</span> 
+               <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">)),</span> 
+               <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">)),</span> 
+               <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">)))</span>
+<span class="n">shots</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">no_of_points</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">param_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">no_of_points</span><span class="p">)</span>
+<span class="c1"># g_i coeffs for R = 0.75</span>
+<span class="n">g_coeff</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.3435</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4347</span><span class="p">,</span> <span class="mf">0.5716</span><span class="p">,</span> <span class="mf">0.091</span><span class="p">,</span> <span class="mf">0.091</span><span class="p">]</span>
+<span class="n">g_coeff_id</span> <span class="o">=</span> <span class="mf">0.2252</span>
+<span class="c1"># graph</span>
+<span class="n">graph</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># map outcome states to outcome values</span>
+<span class="n">obs</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;00&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;10&#39;</span><span class="p">:</span>  <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;01&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">},</span>  <span class="c1"># 1 x Z</span>
+       <span class="p">{</span><span class="s1">&#39;00&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;10&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;01&#39;</span><span class="p">:</span>  <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">},</span>  <span class="c1"># Z x 1</span>
+       <span class="p">{</span><span class="s1">&#39;00&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;10&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;01&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">:</span>  <span class="mi">1</span><span class="p">},</span>  <span class="c1"># Z x Z</span>
+       <span class="p">{</span><span class="s1">&#39;00&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;10&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;01&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">:</span>  <span class="mi">1</span><span class="p">},</span>  <span class="c1"># Y x Y</span>
+       <span class="p">{</span><span class="s1">&#39;00&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;10&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;01&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;11&#39;</span><span class="p">:</span>  <span class="mi">1</span><span class="p">}]</span>  <span class="c1"># X x X</span>
+
+<span class="c1"># start</span>
+<span class="n">ansatz_circuit</span> <span class="o">=</span> <span class="n">create_ansatz_circuit</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+<span class="n">ham_mini_circuits</span> <span class="o">=</span> <span class="n">paulis_to_measure_circ</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">hamiltonian</span><span class="p">)</span>
+
+<span class="c1"># record min val of hamiltonian</span>
+<span class="n">h_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">100.</span>
+
+<span class="c1"># scan theta domain [-pi, pi]</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">param_range</span><span class="p">:</span>
+    <span class="n">h_avg</span> <span class="o">=</span> <span class="n">get_ham_avg</span><span class="p">({</span><span class="n">theta</span><span class="p">:</span> <span class="n">x</span><span class="p">},</span> <span class="n">ansatz_circuit</span><span class="p">,</span> <span class="n">g_coeff</span><span class="p">,</span> <span class="n">ham_mini_circuits</span><span class="p">,</span> 
+                        <span class="n">obs</span><span class="p">,</span> <span class="n">shots</span><span class="p">)</span>
+    <span class="n">h_avg</span> <span class="o">+=</span> <span class="n">g_coeff_id</span>        <span class="c1"># add coeff of id term</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h_avg</span><span class="p">)</span>        <span class="c1"># collect data for plotting</span>
+    <span class="k">if</span> <span class="n">h_avg</span> <span class="o">&lt;</span> <span class="n">h_min</span><span class="p">:</span>          <span class="c1"># record min value</span>
+        <span class="n">h_min</span> <span class="o">=</span> <span class="n">h_avg</span>
+
+<span class="c1"># result</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">H_min =&quot;</span><span class="p">,</span> <span class="n">h_min</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This result is now close to the result obtained in <code class="docutils literal notranslate"><span class="pre">arXiv:1512.06860v2</span></code> where the circuit was executed on a real, physical quantum computer—compare it with the result in the paper in Fig. 3 at bond length <span class="math notranslate nohighlight">\(R = 0.75\)</span>.</p>
+</section>
+<section id="further-problems">
+<h3><strong>Further problems</strong><a class="headerlink" href="#further-problems" title="Permalink to this heading"></a></h3>
+<p>The article <code class="docutils literal notranslate"><span class="pre">arXiv:1512.06860v2</span></code> contains several figures that visualize the results in more detail. Using the above code, you can reproduce them with a little more work. This will give a better understanding of how VQE works.</p>
+<blockquote>
+<div><p><strong>Exercise 1</strong>. Record the average of each Hamiltonian term at <span class="math notranslate nohighlight">\(R = 0.75\)</span> and plot the averages. The resulting graph should be similar to Fig. 2a in <code class="docutils literal notranslate"><span class="pre">arXiv:1512.06860v2</span></code>.</p>
+</div></blockquote>
+<blockquote>
+<div><p><strong>Exercise 2</strong>. Extend the program to find the minimum energies at all bond lengths given in Table 1 in the Appendix. Plot the resulting graph. It should look like Fig. 3a in <code class="docutils literal notranslate"><span class="pre">arXiv:1512.06860v2</span></code>.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="summary">
+<h2><strong>Summary</strong><a class="headerlink" href="#summary" title="Permalink to this heading"></a></h2>
+<p>In this session, we have given an implementation of the VQE algorithm for the <span class="math notranslate nohighlight">\(H_2\)</span> molecule based on the circuit and the data in <code class="docutils literal notranslate"><span class="pre">arXiv:1512.06860v2</span></code>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../hybrid-life-science/" class="btn btn-neutral float-left" title="Hybrid Algorithms - Use Cases for Quantum Life Science" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../Workshop-ADAPT/" class="btn btn-neutral float-right" title="State generation tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, The contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,1057 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Tutorial - Quantum Alternating Operator Ansatz"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from qaoa import QAOA\n",
+    "from qaoa.problems.base_problem import Problem\n",
+    "from qaoa.mixers.base_mixer import Mixer\n",
+    "from qaoa.initialstates import InitialState\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import numpy as np\n",
+    "import networkx as nx\n",
+    "import sys\n",
+    "import matplotlib.pyplot as plt\n",
+    "\n",
+    "from plotroutines import *"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In this Exercise Notebook we are going to study the performance fo the QAOA on the maximum cut (MAXCUT) combinatorial optimization problem. The problem can stated as follows:\n",
+    "\n",
+    "Consider a graph $G=(V,E)$ with nodes V, where $|V|=n$ and edges E with weights $w_{ij}>0,w_{ij}=w_{ji}$ for $(i,j)\\in E$. A cut is defined as a partition of the original set V into two subsets. The cost of a cut is the sum of weights of edges connecting points in the two distinct subsets. MAXCUT seeks to find the cut that maximizes this cost, which can be expressed as:\n",
+    "\n",
+    "\n",
+    "$C(\\vec{x})=\\sum_{ij}w_{ij}x_{i}(1-x_{j})$. \n",
+    "\n",
+    "where $x_{i}$ is a binary variable: 0 if the vertex is in the first partition, and 1 if it is in the second partition.\n",
+    "\n",
+    "\n",
+    "Finding an exact solution for this problem is NP-hard but some classical algorithms can find an approximate solution in polynomial time like the Goemans-Williamson algorithm that guarantees an approximation ratio $\\frac{C}{C_{opt}}=0.8785$."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def generate_connected_graph(n, k=3):\n",
+    "    G = nx.barabasi_albert_graph(n, k)\n",
+    "    for edge in G.edges(data=True):\n",
+    "        edge[2]['weight'] = 1.0\n",
+    "    return G"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "G=generate_connected_graph(7)\n",
+    "\n",
+    "pos = nx.spring_layout(G)\n",
+    "nx.draw_networkx(G, pos=pos)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise: construct a cost function that take in input a string and the graph problem and return the specific cost "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def cost_string(G, string):\n",
+    "        \n",
+    "        '''\n",
+    "        Construct a function that takes in input the problem graph and a string and returns as output the cost function \n",
+    "        associated to that string.\n",
+    "        '''\n",
+    "\n",
+    "        return C"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now we need to map the classical cost function into a Ising Hamiltonian called typically Problem Hamiltonian that encode the cost function in terms of spin variables (qubits). \n",
+    "\n",
+    "To map this classical variable to a quantum representation in terms of spin variables or qubits, we use the transformation:\n",
+    "\n",
+    "$x_{i}\\rightarrow\\frac{1-\\sigma^{z}_{i}}{2}$\n",
+    "\n",
+    "applying this transfrmation to the cost funciton we obtain the problem Hamiltonian that we were looking for:\n",
+    "\n",
+    "$H_{P}=\\sum_{ij}\\tilde{w_{ij}}\\sigma_{i}^{z}\\sigma_{j}^{z},\\qquad \\tilde{w_{ij}}=-\\frac{w_{ij}}{4}$\n",
+    "\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Define The ZZ circuit using the Qiskit circuit and return the circuit operator to show them that they need that "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from qiskit.quantum_info import Operator\n",
+    "\n",
+    "from qiskit import QuantumCircuit, QuantumRegister\n",
+    "from qiskit.circuit import Parameter\n",
+    "\n",
+    "def ZZGate(theta):\n",
+    "    \n",
+    "    qr=QuantumRegister(2)\n",
+    "    qc=QuantumCircuit(qr)\n",
+    "\n",
+    "    '''\n",
+    "    Construct the circuit corresponing to the exponential of the ZZ Pauli operator here.\n",
+    "    It should takes in input the parameter and returns as output the circuit implement the exponential.\n",
+    "    '''    \n",
+    "\n",
+    "    return qc\n",
+    "\n",
+    "print(Operator(ZZGate(np.pi/2)))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Quantum Alternating Operator Ansatz"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The Quantum Ising Hamiltonian $H_{P}$, usually called in the QAOA formalism Phase or Problem Hamiltonian, is a diagonal operator that acts on the computational basis as:\n",
+    "\n",
+    "$H_{P}\\ket{x}=c(x)\\ket{x}$\n",
+    "\n",
+    "which means that the ground state is a computational basis state.\n",
+    "\n",
+    "The QAOA ansatz consist of p layers of alternating two operators called respectively Mixer and Problem Operators. The ansatz wavefunction has the following form:\n",
+    "\n",
+    "$\\ket{\\gamma,\\beta}= \\prod_{l=1}^{p}(U_{M}(\\beta_{l})U_{P}(\\gamma_{l}))\\ket{\\psi_{0}}$\n",
+    "\n",
+    "where\n",
+    "\n",
+    "$U_{M}$ is the Mixing operator that ensure transitions between all the possible feasible states\n",
+    "\n",
+    "\n",
+    "$U_{P}$ is the Phase Operator that has the form $U_{P}=e^{-i\\gamma H_{P}}$\n",
+    "\n",
+    "$\\ket{\\psi_{0}}$ is the initial state \n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise: Construct the cost Hamiltonian Circuit "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def cost_circuit(G):\n",
+    "        \n",
+    "        N_qubits=len(G.nodes)\n",
+    "        qr = QuantumRegister(N_qubits)\n",
+    "        qc= QuantumCircuit(qr,name='Cost')\n",
+    "        cost_param = Parameter(\"gamma\")\n",
+    "\n",
+    "\n",
+    "        '''\n",
+    "        Construct Here the function that takes in input the problem graph G and returns as output the circuit \n",
+    "        corresponding to the exponential of the cost function using the previous defined ZZ gates.\n",
+    "        '''\n",
+    "        \n",
+    "        return qc"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from qiskit.compiler import transpile\n",
+    "transpile(cost_circuit(G),basis_gates=['cx','rx','rz']).draw(output='mpl')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "\n",
+    "class My_MaxCut(Problem):\n",
+    "    def __init__(self, G) -> None:\n",
+    "        self.G = G\n",
+    "        self.N_qubits = self.G.number_of_nodes()\n",
+    "\n",
+    "    def cost(self, string):\n",
+    "        return cost_string(self.G,string)\n",
+    "\n",
+    "    def create_circuit(self):\n",
+    "        q = QuantumRegister(self.N_qubits)\n",
+    "        self.circuit = QuantumCircuit(q)\n",
+    "        self.circuit.append(cost_circuit(self.G),q)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In the MAXCUT problem the QAOA minimization is performed with respect to all states, so in particular in the whole n qubits Hilbert Space. For the standard QAOA the the mixing Hamiltonian is $H_{M}=\\sum_{i=1}^{N}\\sigma^{x}_{i}$ usually called X mixer. So for the Unconstrained QAOA, once we have choose the mixing Hamiltonian, we have to be able to prepare as initial state $\\ket{\\psi_{0}}$ in the ground state of $H_{M}$  and to be able to implement the mixing operator $U_{M}=e^{-i\\beta{H_{M}}}$ in terms of the native gates."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise: Implement the X mixer operator "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def X_circuit(G):\n",
+    "    N_qubits=len(G.nodes)\n",
+    "\n",
+    "    qr=QuantumRegister(N_qubits)\n",
+    "    qc=QuantumCircuit(qr,name='Mixer')\n",
+    "\n",
+    "    mix_param=Parameter(\"beta\")\n",
+    "\n",
+    "    '''\n",
+    "    Construct the Quantum circuit that implement the X mixer here\n",
+    "    '''\n",
+    "\n",
+    "    return qc"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "transpile(X_circuit(G),basis_gates=['cx','rx','rz','ry']).draw(output='mpl')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "class My_X(Mixer):\n",
+    "\n",
+    "    def __init__(self, G) -> None:\n",
+    "        self.G = G\n",
+    "        self.N_qubits = self.G.number_of_nodes()\n",
+    "        \n",
+    "    def create_circuit(self):\n",
+    "        q = QuantumRegister(self.N_qubits)\n",
+    "\n",
+    "        self.circuit = QuantumCircuit(q)\n",
+    "        self.circuit.append(X_circuit(self.G),q)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise: Prepare the initial state as the ground state of the Mixing Hamiltonian "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def init_circuit(G):\n",
+    "    N_qubits=len(G.nodes)\n",
+    "\n",
+    "    qr=QuantumRegister(N_qubits)\n",
+    "    qc=QuantumCircuit(qr,name='initial_state')\n",
+    "\n",
+    "    '''\n",
+    "    Construct the circuit that prepares the ground state of X mixer\n",
+    "    '''\n",
+    "\n",
+    "    return qc"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "transpile(init_circuit(G),basis_gates=['h','cx','rz','rx','ry']).draw(output='mpl')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "class My_Initial_circuit(InitialState):\n",
+    "    def __init__(self, G) -> None:\n",
+    "        self.G = G\n",
+    "        self.N_qubits = self.G.number_of_nodes()\n",
+    "\n",
+    "    def create_circuit(self):\n",
+    "        q = QuantumRegister(self.N_qubits)\n",
+    "        self.circuit = QuantumCircuit(q)\n",
+    "        self.circuit.append(init_circuit(self.G),q)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Once we have defined the building blocks of our QAOA ansatz we can define an instance using the QAOA package to study the performances of the algorithm"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "qaoa_x= QAOA(\n",
+    "    initialstate=My_Initial_circuit(G), problem=My_MaxCut(G=G), mixer=My_X(G=G)\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "qaoa_x.createParameterizedCircuit(1)\n",
+    "qaoa_x.parameterized_circuit.draw(output=\"mpl\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "min,max=qaoa_x.problem.computeMinMaxCosts()\n",
+    "print(min,max)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def Hamiltonian_spectrum(G):\n",
+    "    n=len(G.nodes)\n",
+    "    bit_strings = [bin(i)[2:].zfill(n) for i in range(2**n)]\n",
+    "    result = {bit_string: -cost_string(G,bit_string) for bit_string in bit_strings}\n",
+    "    return result"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "values = list(Hamiltonian_spectrum(G).values())\n",
+    "plt.hist(values, bins=np.abs(int(max-min)), edgecolor='black')  # Adjust the number of bins as needed\n",
+    "plt.xlabel('Values')\n",
+    "plt.ylabel('Frequency')\n",
+    "plt.title('Histogram of Dictionary Values')\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "For the case p=1 we can plot how the energy landscape looks like. This can help us to understand better how the optimization routine works. The energy landscape can be obtain just evaluating the energy associated to a certain couples of values $\\gamma,\\beta$ in a certain range. We know from construction that the energy in periodic in $\\beta$ between $[0,2\\pi]$ and we want to explore the same range of values for the $\\gamma$ parameter.\n",
+    "\n",
+    "In the following cell we are going to plot the heatmap related to:\n",
+    "\n",
+    "$\\bra{\\gamma,\\beta}H\\ket{\\gamma,\\beta}$, $\\gamma,\\beta\\in[0,2\\pi]$"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "qaoa_x.sample_cost_landscape(\n",
+    "    angles={\"gamma\": [0, 2*np.pi , 25], \"beta\": [0, 2*np.pi, 25]}\n",
+    ")\n",
+    "plot_E(qaoa_x)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Calling the method optimize we can see how the optimization prodecure perform on the first layer of QAOA and understand from the plot of the landscape how we converge in one local minima"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "qaoa_x.optimize(depth=1)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = pl.figure(figsize=(6, 6))\n",
+    "gamma = []\n",
+    "beta = []\n",
+    "angles = qaoa_x.optimization_results[1].angles\n",
+    "for i in range(len(angles)):\n",
+    "    gamma.append(angles[i][0])\n",
+    "    beta.append(angles[i][1])\n",
+    "pl.plot(gamma, beta, \"x-k\")\n",
+    "pl.plot(gamma[0], beta[0], \"wo\")\n",
+    "pl.plot(gamma[-1], beta[-1], \"or\")\n",
+    "plot_E(qaoa_x, fig=fig)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "pl.plot(qaoa_x.optimization_results[1].Exp, \"x-\")\n",
+    "_ = pl.ylabel(\"expectation value\")\n",
+    "_ = pl.xlabel(\"iteration optimizer\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "maxdepth = 6\n",
+    "qaoa_x.optimize(depth=maxdepth)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = pl.figure()\n",
+    "\n",
+    "plot_ApproximationRatio(\n",
+    "    qaoa_x,\n",
+    "    maxdepth,\n",
+    "    mincost=min,\n",
+    "    maxcost=max,\n",
+    "    label=\"x_mixer\",\n",
+    "    style=\"x-\",\n",
+    "    fig=fig,\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "p = maxdepth\n",
+    "fig = pl.figure(p)\n",
+    "\n",
+    "plot_angles(qaoa_x, p, label=\"\", style=\"x\", fig=fig)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "for p in range(maxdepth):\n",
+    "    pl.plot(qaoa_x.optimization_results[p+1].Exp, \"x-\",label=\"depth \"+str(p+1))\n",
+    "_ = pl.ylabel(\"expectation value\")\n",
+    "_ = pl.xlabel(\"iteration optimizer\")\n",
+    "pl.legend()\n",
+    "pl.xlim(0,100)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise: Implement the Y Mixer and the new initial state \n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We have previously choose as Mixer Hamiltonian $H_{M}=\\sum_{i}\\sigma_{i}^{x}$ but in principle we could have choosen a different one with the only condition that it has to mix all the possible solutions. \n",
+    "\n",
+    "In this exercise try to explore the perfromance of the QAOA with the Y mixer defined as $H_{M}^{Y}=\\sum_{i}\\sigma_{i}^{y},\\quad \\sigma^{y}=\\begin{pmatrix}\n",
+    "0 & i\\\\ \n",
+    "-i & 0 \n",
+    "\\end{pmatrix}$\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def Y_circuit(G):\n",
+    "    N_qubits=len(G.nodes)\n",
+    "\n",
+    "    qr=QuantumRegister(N_qubits)\n",
+    "    qc=QuantumCircuit(qr,name='Y_Mixer')\n",
+    "\n",
+    "    mix_param=Parameter(\"x_beta\")\n",
+    "    \n",
+    "    '''\n",
+    "    Construct the Quantum circuit that implement the Y mixer here\n",
+    "    '''\n",
+    "\n",
+    "    return qc"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "class My_Y(Mixer):\n",
+    "\n",
+    "    def __init__(self, G) -> None:\n",
+    "        self.G = G\n",
+    "        self.N_qubits = self.G.number_of_nodes()\n",
+    "        \n",
+    "    def create_circuit(self):\n",
+    "        q = QuantumRegister(self.N_qubits)\n",
+    "\n",
+    "        self.circuit = QuantumCircuit(q)\n",
+    "        self.circuit.append(Y_circuit(self.G),q)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def Y_init_circuit(G):\n",
+    "    N_qubits=len(G.nodes)\n",
+    "\n",
+    "    qr=QuantumRegister(N_qubits)\n",
+    "    qc=QuantumCircuit(qr,name='Y_initial_state')\n",
+    "\n",
+    "    '''\n",
+    "    Construct the circuit that prepares the ground state of Y mixer\n",
+    "    '''\n",
+    "\n",
+    "    return qc"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "class My_Y_Initial_circuit(InitialState):\n",
+    "    def __init__(self, G) -> None:\n",
+    "        self.G = G\n",
+    "        self.N_qubits = self.G.number_of_nodes()\n",
+    "\n",
+    "    def create_circuit(self):\n",
+    "        q = QuantumRegister(self.N_qubits)\n",
+    "        self.circuit = QuantumCircuit(q)\n",
+    "        self.circuit.append(Y_init_circuit(self.G),q)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "qaoa_y = QAOA(\n",
+    "    initialstate=My_Y_Initial_circuit(G), problem=My_MaxCut(G=G), mixer=My_Y(G=G)\n",
+    ")\n",
+    "qaoa_y.sample_cost_landscape(\n",
+    "    angles={\"gamma\": [0, 2*np.pi , 25], \"beta\": [0, 2*np.pi, 25]}\n",
+    ")\n",
+    "plot_E(qaoa_y)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "qaoa_y.optimize(depth=maxdepth)\n",
+    "plot_ApproximationRatio(\n",
+    "        qaoa_y,\n",
+    "        maxdepth,\n",
+    "        mincost=min,\n",
+    "        maxcost=max,\n",
+    "        label=\"y_mixer\",\n",
+    "        style=\"x-\",\n",
+    "        fig=fig,\n",
+    "    )\n",
+    "plot_ApproximationRatio(\n",
+    "        qaoa_x,\n",
+    "        maxdepth,\n",
+    "        mincost=min,\n",
+    "        maxcost=max,\n",
+    "        label=\"x_mixer\",\n",
+    "        style=\"x-\",\n",
+    "        fig=fig,\n",
+    "    )"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise: How the performance change if I choose state Different than the ground state? In this exercise we want to study the performance of the qaoa in function of the overlap with the ground state of the x mixer "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Create a circuit that prepares as initial state $\\ket{\\psi_{0}(\\theta)}=\\Pi_{i}^{n}R_{y}^{i}(\\theta)\\ket{0}=(cos(\\frac{\\theta}{2})\\ket{0}+sin(\\frac{\\theta}{2})\\ket{1})^{\\otimes n}$"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def Parametric_initial_state_circuit(G,theta):\n",
+    "    N_qubits=len(G.nodes)\n",
+    "\n",
+    "    qr=QuantumRegister(N_qubits)\n",
+    "    qc=QuantumCircuit(qr,name='Y_initial_state')\n",
+    "\n",
+    "    '''\n",
+    "    Construct the circuit that prepares the initial state in function of theta\n",
+    "    '''\n",
+    "\n",
+    "    return qc"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "class My_parametric_Initial_circuit(InitialState):\n",
+    "    def __init__(self, G, theta) -> None:\n",
+    "        self.G = G\n",
+    "        self.N_qubits = self.G.number_of_nodes()\n",
+    "        self.theta=theta\n",
+    "\n",
+    "    def create_circuit(self):\n",
+    "        q = QuantumRegister(self.N_qubits)\n",
+    "        self.circuit = QuantumCircuit(q)\n",
+    "        self.circuit.append(Parametric_initial_state_circuit(self.G,self.theta),q)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Construct a function that evaluates the overlap between this new initial state and the ground state of the X mixer depending of $\\theta$ \n",
+    "\n",
+    "$f(\\theta)=|\\langle \\psi_{0}(\\theta)| +\\rangle^{\\otimes n}|^{2}$"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def Overlap_ground_state(G,theta):\n",
+    "    Num_qubits=len(G.nodes)\n",
+    "\n",
+    "    return f"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Compute now the performance of the QAOA with depth 1 using different 6 theta values in the range $[0,\\pi]$"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "k=10  #number_of_points\n",
+    "thetas = np.linspace(0, np.pi/2, k)\n",
+    "overlaps=[]\n",
+    "qaoa = []\n",
+    "\n",
+    "for theta in thetas:\n",
+    "    qaoa.append(QAOA(initialstate=My_parametric_Initial_circuit(G,theta), problem=My_MaxCut(G=G), mixer=My_X(G=G)))\n",
+    "    overlaps.append(Overlap_ground_state(G,theta))\n",
+    "\n",
+    "print(thetas)\n",
+    "print(overlaps)\n",
+    "\n",
+    "for i in range (k):\n",
+    "    qaoa[i].sample_cost_landscape(angles={\"gamma\": [0, 2*np.pi , 10], \"beta\": [0, 2*np.pi, 10]})\n",
+    "    qaoa[i].optimize(depth=1)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "exp=[]\n",
+    "for j in range (k):\n",
+    "    exp.append((np.min(qaoa[j].optimization_results[1].Exp)-max)/(min-max))\n",
+    "plt.plot(overlaps,exp,label=\"p=\"+str(i),marker='x')\n",
+    "\n",
+    "plt.xlabel(\"overlap\")\n",
+    "plt.ylabel(\"approx ratio\")\n",
+    "_=plt.legend()\n",
+    "_=plt.ylim([.5,1])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Exercise: Use the Symmetry of the Problem to reduce the number of qubits necessary "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The Maxcut problem exhibits inherent symmetry concerning the flexibility of relabeling partitions. One approach is to assign the value 0 to a node in set A and 1 if it belongs to set B, or vice versa. This interchange does not alter the cost function associated with the partition. Therefore, we can deduce that the cost function remains invariant when the entire string is flipped.\n",
+    "\n",
+    "$C(x)=\\sum_{ij}w_{ij}x_{i}(1-x_{j})=\\sum_{ij}w_{ij}(1-x_{i})x_{j}$\n",
+    "\n",
+    "This symmetry is of course has to be reflected in the quantum problem Hamiltonian \n",
+    "\n",
+    "$H_{P}=\\sum_{ij}w_{ij}\\sigma_{i}^{z}\\sigma_{j}^{z}$\n",
+    "\n",
+    "and it can be expressed considering the same symmetry: if I flip all the spins the energy cost should remain the same.\n",
+    "\n",
+    "The flip operator can be expressed as: $M=\\otimes_{i} \\sigma_{i}^{x}$ \n",
+    "\n",
+    "$MH_{P}M=H_{P}$\n",
+    "\n",
+    "\n",
+    "Can you use this symmetry to reduce the dimension of the problem?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def reduced_cost_string(G,string):\n",
+    "    C=0\n",
+    "\n",
+    "    '''\n",
+    "    Construct here the function that takes in input the reduced string and output the cost associated to the graph G \n",
+    "    '''\n",
+    "\n",
+    "    return C\n",
+    "\n",
+    "def reduced_cost_circuit(G):       \n",
+    "    N_qubits=len(G.nodes)-1\n",
+    "    qr = QuantumRegister(N_qubits)\n",
+    "    qc= QuantumCircuit(qr,name='Cost')\n",
+    "    cost_param = Parameter(\"gamma\")\n",
+    "        '''\n",
+    "        Construct Here the function that takes in input the problem graph G and returns as output the circuit \n",
+    "        corresponding to the exponential of the reduced cost function.\n",
+    "        '''\n",
+    "\n",
+    "    return qc"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "class Reduced_MaxCut(Problem):\n",
+    "    def __init__(self, G) -> None:\n",
+    "        self.G = G\n",
+    "        self.N_qubits = self.G.number_of_nodes()-1\n",
+    "\n",
+    "    def cost(self, string):\n",
+    "        return reduced_cost_string(self.G,string)\n",
+    "\n",
+    "    def create_circuit(self):\n",
+    "        q = QuantumRegister(self.N_qubits)\n",
+    "        self.circuit = QuantumCircuit(q)\n",
+    "        self.circuit.append(reduced_cost_circuit(self.G),q)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def Reduced_X_mixer(G):\n",
+    "    N_qubits=len(G.nodes)-1\n",
+    "\n",
+    "    qr=QuantumRegister(N_qubits)\n",
+    "    qc=QuantumCircuit(qr,name='Y_Mixer')\n",
+    "\n",
+    "    mix_param=Parameter(\"beta\")\n",
+    "\n",
+    "    '''\n",
+    "    Construct the Quantum circuit that implement the X mixer for the reduced problem here\n",
+    "    '''\n",
+    "    \n",
+    "    return qc"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "class Reduced_X(Mixer):\n",
+    "\n",
+    "    def __init__(self, G) -> None:\n",
+    "        self.G = G\n",
+    "        self.N_qubits = self.G.number_of_nodes()\n",
+    "        \n",
+    "    def create_circuit(self):\n",
+    "        q = QuantumRegister(self.N_qubits)\n",
+    "\n",
+    "        self.circuit = QuantumCircuit(q)\n",
+    "        self.circuit.append(My_X_mixer(self.G),q)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def Reduced_initial_state_circuit(G):\n",
+    "    N_qubits=len(G.nodes)-1\n",
+    "\n",
+    "    qr=QuantumRegister(N_qubits)\n",
+    "    qc=QuantumCircuit(qr,name='Y_initial_state')\n",
+    "\n",
+    "    '''\n",
+    "    Construct the circuit that prepares the ground state of X mixer for the reduced problem Here\n",
+    "    '''\n",
+    "\n",
+    "    return qc"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "class Reduced_Initial_circuit(InitialState):\n",
+    "    def __init__(self, G) -> None:\n",
+    "        self.G = G\n",
+    "        self.N_qubits = self.G.number_of_nodes()\n",
+    "\n",
+    "    def create_circuit(self):\n",
+    "        q = QuantumRegister(self.N_qubits)\n",
+    "        self.circuit = QuantumCircuit(q)\n",
+    "        self.circuit.append(Reduced_initial_state_circuit(self.G),q)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "reduced_qaoa = QAOA(\n",
+    "    initialstate=Reduced_Initial_circuit(G), problem=Reduced_MaxCut(G=G), mixer=Reduced_X(G=G)\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "reduced_qaoa.sample_cost_landscape(\n",
+    "    angles={\"gamma\": [0, 2*np.pi , 25], \"beta\": [0, 2*np.pi, 25]}\n",
+    ")\n",
+    "plot_E(reduced_qaoa)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now Compare the result obtained with the initial MaxCut problem and the reduced one and verify that the find the same solution"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Create most resource efficient QAOA for this graph"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "G = nx.Graph()\n",
+    "G.add_nodes_from(np.arange(0, 25, 1))\n",
+    "for a in [0,13]:\n",
+    "    G.add_weighted_edges_from(\n",
+    "        [(a+0, a+1, 1.0), (a+0, a+2, 1.0), (a+0, a+3, 1.0), (a+0, a+4, 1.0), (a+0, a+5, 1.0), (a+0, a+6, 1.0), \n",
+    "         (a+7, a+1, 1.0), (a+8, a+2, 1.0), (a+9, a+3, 1.0), (a+10, a+4, 1.0), (a+11, a+5, 1.0),\n",
+    "         (a+1, a+2, 1.0), (a+2, a+3, 1.0), (a+3, a+4, 1.0), (a+4, a+5, 1.0), (a+5, a+6, 1.0), (a+6, a+1, 1.0), \n",
+    "        ]\n",
+    "    )\n",
+    "    \n",
+    "G.add_weighted_edges_from([(6, 12, 1.0), (12, 6+a, 1.0)])\n",
+    "\n",
+    "pos = nx.spring_layout(G)\n",
+    "nx.draw_networkx(G, pos=pos)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.13"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

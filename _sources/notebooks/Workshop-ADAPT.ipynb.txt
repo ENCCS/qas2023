@@ -1,0 +1,999 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "tags": [
+     "remove_cell"
+    ]
+   },
+   "outputs": [],
+   "source": [
+    "\"\"\"State preparation in Aurora.\"\"\"\n",
+    "\n",
+    "__author__ = \"Anton Nykänen\"\n",
+    "__credit__ = [\"Anton Nykänen\"]\n",
+    "\n",
+    "__copyright__ = \"(c) 2023, Algorithmiq, Ltd.\"\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "tags": [
+     "remove_cell"
+    ]
+   },
+   "source": [
+    "<figure>\n",
+    "  <IMG SRC=\"https://github.com/Algorithmiq/jupyterhub-branding/blob/main/jupyterhub/templates/algo_symbol.png?raw=true\" WIDTH=150 ALIGN=\"right\">\n",
+    "</figure>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Tutorial - Adaptive State Preparation Techniques"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "tags": [
+     "remove_cell"
+    ]
+   },
+   "source": [
+    "<div style=\"background: #efffed;\n",
+    "            border: 1px solid grey;\n",
+    "            margin: 8px 0 8px 0;\n",
+    "            text-align: center;\n",
+    "            padding: 8px; \">\n",
+    "    <div style=\"color:black;font-weight:bold;\">\n",
+    "    To run the selected code cell, hit <pre style=\"background: #efffed\">Shift + Enter</pre>\n",
+    "    </div>\n",
+    "</div>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Active space methods in quantum chemistry\n",
+    "\n",
+    "Most quantum chemistry simulations assume that a single Slater determinant (the _reference_) gives a _qualitatively_ accurate description of the electronic structure of the system. When such as assumption is correct, going beyond a qualitative description can be achieved by adding further Slater determinants. These additional Slater determinants are built systematically by exciting simultaneously one, two, or more electrons from the occupied to the unoccupied (or virtual) molecular orbitals, _i.e._ the optimized one-electron basis functions.  \n",
+    "\n",
+    "<img src=\"img/excitations.png\" style=\"width:300px;display:block;margin-left:auto;margin-right:auto;\"/>\n",
+    "\n",
+    "Including all possible excitation ranks from/to all possible orbitals generates the _full configuration interaction_ (FCI) wavefunction, which is the exact ground state for the given molecular Hamiltonian in the given atomic orbital basis. Clearly, inclusion of all Slater determinants scales exponentially and is feasible only for quite small systems.\n",
+    "\n",
+    "However, it's usually not necessary to resort to FCI. This is because a better qualitative description can be obtained by correlating a _subset_ only of orbitals and electrons, leading to so-called _active space methods_.\n",
+    "\n",
+    "<img src=\"img/CAS.png\" style=\"width:500px;display:block;margin-left:auto;margin-right:auto;\"/>\n",
+    "\n",
+    "The _complete active space_ (CAS) family of methods is the most common. The user selects, usually guided by chemical intuition, relevant subsets of $N$ electrons and $M$ orbitals to correlate. In the jargon, this is a CAS($N$,$M$) calculation. The wavefunction expansion is constructed as a linear combination of all determinants which include all possible excitations within the selected subspace. Further, if the one-particle basis is optimized simultaneously with the expansion coefficients, the methods is called _complete active space self-consistent field_ (CASSCF). Otherwise, it is called _complete active space configuration interaction_ (CASCI)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Adaptive state preparation\n",
+    "\n",
+    "The previous example for $H_2$ started from an _a priori_ fixed structure of the wavefunction ansatz, leaving parameters free for optimization through the joing work of quantum and classical subroutines. While a fixed ansatz structure gives us the tools to bound the requirements on the quantum hardware, both in terms of number of qubits and circuit depth, it might suffer from lack of flexibility and make it difficult to optimize the free parameters in a reasonable number of steps.\n",
+    "\n",
+    "The key feature of ADAPT-VQE is that the circuit is built adaptively for the problem at hand, instead of having a fixed ansatz structure.\n",
+    "\n",
+    "At iteration $n$, the ansatz construction step in ADAPT-VQE adds a unitary operator $e^{\\theta_i P_i}$ to the current circuit $| \\psi^{(n-1)} (\\vec{\\theta}^{(n-1)}) \\rangle$, so that the resulting circuit prepares the state:\n",
+    "\n",
+    "$$| \\psi^{(n)} (\\vec{\\theta}^{(n)})  \\rangle = e^{\\theta_i P_i} | \\psi^{(n-1)} (\\vec{\\theta}^{(n-1)}) \\rangle,$$\n",
+    "\n",
+    "where $\\vec{\\theta}^{(n)}$ indicates the set of $n$ parameters in the ansatz at iteration $n$.\n",
+    "\n",
+    "The operator $P_i$ is chosen from a **pool of operators** that is defined beforehand.\n",
+    "To determine which element should be chosen from the pool, one needs to perform a series of measurements for each of them, which results in the measurement overhead mentioned in the lecture.\n",
+    "\n",
+    "Once the operator is added, the new variational circuit,\n",
+    "\n",
+    "$$\\ket{\\psi^{(n)} (\\vec{\\theta}^{(n)})} = \\prod\\limits_{i = 1}^n e^{\\theta_i P_i} \\ket{\\psi^{(0)}},$$\n",
+    "    \n",
+    "where $| \\psi^{(0)} \\rangle$ is an initial reference state (usually the Hartree-Fock state), is variationally optimised with respect to the set of parameters $\\vec{\\theta}^{(n)}$."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "For more theory, refer to the following articles:\n",
+    "\n",
+    "* Original ADAPT: https://www.nature.com/articles/s41467-019-10988-2\n",
+    "* q-ADAPT: https://link.aps.org/doi/10.1103/PRXQuantum.2.020310\n",
+    "* QEB: https://arxiv.org/abs/2011.10540\n",
+    "* AIM-ADAPT: https://arxiv.org/abs/2212.09719"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In the following, we will use `aurora`, the codebase we're developing at Algorithmiq, to run various flavors of VQE routines.\n",
+    "\n",
+    "The `aurora` codebase uses Python logging to output information during execution. So the first step is to set the logging levels to obtain a reasonable amount of output to understand what is going on."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import logging\n",
+    "\n",
+    "logging.basicConfig(\n",
+    "    format=\"%(asctime)s:%(filename)s:%(levelname)s:%(message)s\", level=logging.WARNING\n",
+    ")\n",
+    "\n",
+    "logger = logging.getLogger(\"aurora\")\n",
+    "logger.setLevel(logging.INFO)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We also need to import relevant modules and functions"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from aurora.chemistry.eos.eos_pyscf import EOSpyscf as eos\n",
+    "from aurora.chemistry.eos.utils import get_qiskit_esp\n",
+    "from aurora.utils import from_qiskit_operator, to_qiskit_operator"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Select molecule and obtain fermionic hamiltonian"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "First we need to choose the molecule and get Hamiltonian. The fermionic hamiltonian is\n",
+    "\n",
+    "$$H = \\sum_{p, q} h_{p q} a_q^{\\dagger} a_p+\\frac{1}{2} \\sum_{p, q, r, s} h_{p q r s} a_p^{\\dagger} a_q^{\\dagger} a_s a_r,$$\n",
+    "\n",
+    "where $a_p^{\\dagger}$ and $a_p$ are the fermionic creation and annihilation operators, $ h_{p q}$ and $h_{p q r s}$ are one- and two-electron integrals, and $p,q,r$ and $s$ are spin-orbital indices. The Hamiltonian can be obtained trough the EOS package in Aurora as shown in the next cell.\n",
+    " \n",
+    "The following function encodes data for a few example molecules."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def get_molecule(\n",
+    "    molecule_name: str = \"H4\", basis: str = \"sto3g\"\n",
+    ") -> tuple[eos, tuple[int, int], int, int]:\n",
+    "    match molecule_name:\n",
+    "        case \"H2\":\n",
+    "            bond_distance = 0.75\n",
+    "\n",
+    "            mymol = eos(\n",
+    "                atoms=f\"H 0 0 0; H 0 0 {bond_distance}\",\n",
+    "                basis=basis,\n",
+    "                charge=0,\n",
+    "                spin=0,\n",
+    "            )\n",
+    "\n",
+    "            num_particles = (1, 1)\n",
+    "            num_active_orbitals = 2\n",
+    "            num_inactive_orbitals = 0\n",
+    "        case \"H4\":\n",
+    "            bond_distance = 1.5\n",
+    "\n",
+    "            mymol = eos(\n",
+    "                atoms=f\"H 0 0 0; H 0 0 {bond_distance}; H 0 0 {bond_distance*2}; H 0 0 {bond_distance*3}\",\n",
+    "                basis=basis,\n",
+    "                charge=0,\n",
+    "                spin=0,\n",
+    "            )\n",
+    "\n",
+    "            num_particles = (2, 2)\n",
+    "            num_active_orbitals = 4\n",
+    "            num_inactive_orbitals = 0\n",
+    "\n",
+    "        case \"H4-square\":\n",
+    "            bond_distance = 2.0\n",
+    "\n",
+    "            mymol = eos(\n",
+    "                atoms=f\"H 0 0 0; H 0 0 {bond_distance}; H 0 {bond_distance} {bond_distance}; H 0 {bond_distance} 0\",\n",
+    "                basis=basis,\n",
+    "                charge=0,\n",
+    "                spin=0,\n",
+    "            )\n",
+    "\n",
+    "            num_particles = (2, 2)\n",
+    "            num_active_orbitals = 4\n",
+    "            num_inactive_orbitals = 0\n",
+    "\n",
+    "        case \"H5\":\n",
+    "            bond_distance = 1.5\n",
+    "\n",
+    "            mymol = eos(\n",
+    "                atoms=f\"H 0 0 0; H 0 0 {bond_distance}; H 0 0 {bond_distance*2}; H 0 0 {bond_distance*3}; H 0 0 {bond_distance*4}\",\n",
+    "                basis=basis,\n",
+    "                charge=0,\n",
+    "                spin=1,\n",
+    "            )\n",
+    "\n",
+    "            num_particles = (3, 2)\n",
+    "            num_active_orbitals = 5\n",
+    "            num_inactive_orbitals = 0\n",
+    "\n",
+    "        case \"LiH\":\n",
+    "            bond_distance = 1.5\n",
+    "\n",
+    "            mymol = eos(\n",
+    "                atoms=f\"Li 0 0 0; H 0 0 {bond_distance}\", basis=basis, charge=0, spin=0\n",
+    "            )\n",
+    "\n",
+    "            num_particles = (2, 2)\n",
+    "            num_active_orbitals = 5\n",
+    "            num_inactive_orbitals = 0\n",
+    "\n",
+    "        case _:\n",
+    "            raise ValueError(f\"Molecule {molecule_name} unrecognized.\")\n",
+    "\n",
+    "    return mymol, num_particles, num_active_orbitals, num_inactive_orbitals\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can just call it with the  desired `molecule_name`. The function will run a calculation to obtain the reference single determinant and the molecular integrals in the corresponding molecular orbital basis."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "mymol, num_particles, num_active_orbitals, num_inactive_orbitals = get_molecule(\n",
+    "    \"H4\", \"sto3g\"\n",
+    ")\n",
+    "# Setup Hartree-Fock problem and run it\n",
+    "mymol.set_scf()\n",
+    "# Get SCF object\n",
+    "myscf = mymol.get_scf()\n",
+    "logger.info(\"Electronic energy: %s\", myscf.energy_elec())\n",
+    "\n",
+    "logger.info(\"Hartree-Fock occupation numbers: %s\", myscf.mo_occ)\n",
+    "\n",
+    "\n",
+    "# Setup CAS problem and run it\n",
+    "\n",
+    "mymol.set_cas(\n",
+    "    myscf,\n",
+    "    nisht=num_inactive_orbitals,\n",
+    "    nasht=num_active_orbitals,\n",
+    "    nalpha=num_particles[0],\n",
+    "    nbeta=num_particles[1],\n",
+    "    optimize_orbitals=False,\n",
+    ")\n",
+    "\n",
+    "\n",
+    "# Run CAS object\n",
+    "mycas = mymol.run_cas()\n",
+    "\n",
+    "prob = get_qiskit_esp(\n",
+    "    mymol.get_active_h1(),\n",
+    "    mymol.get_active_h2(),\n",
+    "    myscf.energy_elec(),\n",
+    "    num_active_orbitals,\n",
+    "    sum(num_particles),\n",
+    ")\n",
+    "\n",
+    "# Get fermionic hamiltonian\n",
+    "qc_ham_qiskit = prob.hamiltonian.second_q_op()\n",
+    "\n",
+    "# Get the exact electronic energy\n",
+    "exact_energy = mymol.get_etot() - mymol.get_ecore()\n",
+    "logger.info(\"Exact energy: %20.14f\", exact_energy)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Choose a qubit converter and map the fermionic Hamiltonian to qubit space"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Once we have obtained the fermionic Hamiltonian, we need to transform it to qubit space. The _fermion to qubit_ (F2Q) mapping is not unique and you can explore different options."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from qiskit_nature.second_q.mappers import (\n",
+    "    JordanWignerMapper,\n",
+    "    QubitConverter,\n",
+    "    BravyiKitaevMapper,\n",
+    ")\n",
+    "from aurora.mappers.neven import NevenMapper\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Mapper options: JordanWignerMapper(), BravyiKitaevMapper(), ParityMapper(), NevenMapper()\n",
+    "qubit_converter = QubitConverter(mapper=JordanWignerMapper())\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Convert fermionic Hamiltonian to qubit space\n",
+    "hamiltonian_qiskit = qubit_converter.convert(qc_ham_qiskit, num_particles=num_particles)\n",
+    "num_qubits = hamiltonian_qiskit.num_qubits\n",
+    "logger.info(\"Number of qubits: %d\", num_qubits)\n",
+    "\n",
+    "# Transform Qiskit operator into an Aurora operator (dictionary)\n",
+    "hamiltonian = from_qiskit_operator(hamiltonian_qiskit)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Initialise additional operators"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "It is possible to consider additional operators in the VQE routines. These are usually added as penalty terms to the Hamiltonian:\n",
+    "\n",
+    "$$\n",
+    "F(\\vec{\\theta}) = \n",
+    "\\left\\langle \\psi(\\vec{\\theta}) \\left| H \\right| \\psi(\\vec{\\theta}) \\right\\rangle\n",
+    "+\n",
+    "\\sum_{i}\\mu_{i} \\left[\\left\\langle \\psi(\\vec{\\theta}) \\left| O_i \\right| \\psi(\\vec{\\theta}) \\right\\rangle - o_i\n",
+    " \\right]^{2},\n",
+    "$$\n",
+    "\n",
+    "such that we can constrain the state to, approximately, be an eigenfunction of the $\\hat{O}_i$ operators with prescribed eigenvalue $o_i$. \n",
+    "This is useful to enforce a given total spin or number of particles. Our ADAPT-VQE class can also simply measure them at each step, to monitor their value during the VQE routine."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from aurora.state.operators import spin2_error_operator, number_error_operator\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Set correct spin-2 and particle number values\n",
+    "spin2_value = 0 # s(s+1)\n",
+    "number_value = 4 # sum(num_particles)\n",
+    "\n",
+    "spin_penalty = spin2_error_operator(\n",
+    "    num_qubits=num_qubits,\n",
+    "    spin2_value=spin2_value,\n",
+    "    qubit_converter=qubit_converter,\n",
+    "    num_particles=num_particles,\n",
+    ")\n",
+    "num_penalty = number_error_operator(\n",
+    "    num_qubits=num_qubits,\n",
+    "    number_value=number_value,\n",
+    "    qubit_converter=qubit_converter,\n",
+    "    num_particles=num_particles,\n",
+    ")\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Choose an operator pool"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "At each iteration, ADAPT-VQE will measure the gradient of the objective function with respect to all operators in the chosen operator pool and add to the Ansatz the operator with largest gradient. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The original ADAPT pool consists of spin-complemented fermionic single and double excitations as follows:\n",
+    "\n",
+    "$$\\mathcal{P} =\n",
+    "\\{ \\tau_{p_{\\alpha}}^{q_{\\alpha}} + \\tau_{p_{\\beta}}^{q_{\\beta}}, \\tau_{r_{\\alpha} s_{\\alpha}}^{p_{\\alpha} q_{\\alpha}} + \\tau_{r_{\\beta} s_{\\beta}}^{p_{\\beta} q_{\\beta}},\n",
+    "\\tau_{r_{\\alpha} s_{\\beta}}^{p_{\\alpha} q_{\\beta}} + \n",
+    "\\tau_{r_{\\beta} s_{\\alpha}}^{p_{\\beta} q_{\\alpha}}\\},\n",
+    "$$\n",
+    "\n",
+    "\n",
+    "where $\\hat{\\tau}_p^q = a_q^{\\dagger} a_p-a_p^{\\dagger} a_q$ and $\\hat{\\tau}_{r s}^{p q} = a_p^{\\dagger} a_q^{\\dagger} a_r a_s-a_s^{\\dagger} a_r^{\\dagger} a_q a_p$ and $\\alpha$ and $\\beta$ indices indicate the spin orientation of the spin-orbital. Spin-complemented operators conserve particle number and spin symmetries, although Trotterisation of the operators can break spin symmetry."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "A spin-dependent version of the fermionic pool is following:\n",
+    "\n",
+    "$$\\mathcal{P}_{spin} =\n",
+    "\\{ \\tau_{p_{\\alpha}}^{q_{\\alpha}}, \\tau_{p_{\\beta}}^{q_{\\beta}}, \\tau_{r_{\\alpha} s_{\\alpha}}^{p_{\\alpha} q_{\\alpha}}, \\tau_{r_{\\beta} s_{\\beta}}^{p_{\\beta} q_{\\beta}},\n",
+    "\\tau_{r_{\\alpha} s_{\\beta}}^{p_{\\alpha} q_{\\beta}},\n",
+    "\\tau_{r_{\\beta} s_{\\alpha}}^{p_{\\beta} q_{\\alpha}}\\},\n",
+    "$$\n",
+    "\n",
+    "This pool conserves $S_z$ and $N$ symmetries but can break the $S^2$ symmetry. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "A Qubit Excitation Based (QEB) pool is a fermionic pool in Jordan-Wigner mapping where the Z-string (that keep track of fermionic anti-symmetries) are removed. It is a more hardware efficient pool for all-to-all connectivity devices, but the Z-string removal does have an increasing effect on the convergence."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "A q-ADAPT pool is formed by mapping a spin-dependent fermionic pool (or QEB pool) into qubit space, $\\tau \\mapsto \\sum_k c_k S_k$, with $\\tau \\in \\mathcal{P}$ and $S_k \\in \\{ \\mathbb{I}, X, Y, Z \\}^{\\otimes N}$, and splitting the resulting operators into separate terms. This creates the qubit-ADAPT pool, defined in qubits space in terms of the operators $P_k = i S_k$. q-ADAPT pool breaks particle number and spin symmetries. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from aurora.state.operators import get_operator_pool\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can test the following operator pools: `'fermionic'`, `'fermionic_spin'`, `'QEB'`, `'q-ADAPT'`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "operator_pool = get_operator_pool(\n",
+    "    operator_type=\"q-ADAPT\",  # Set the operator type here\n",
+    "    num_qubits=num_qubits,\n",
+    "    qubit_converter=qubit_converter,\n",
+    ")\n",
+    "logger.info(\"Num operators: %d\", len(operator_pool))\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Print elements from the operator pool. Each element is a tuple where the 1st element is the operator, represented as a linear combination of Pauli strings, and the 2nd is the corresponding gate."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "operator_pool[25]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Initialize Ansatz"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We need to select an initial state for the ADAPT-VQE procedure, similarly to what was done for the $H_2$ example with a fixed Ansatz. The common thing to do is to start from the Hartree-Fock reference determinant."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from aurora.state.utils import estimate_operator_exact\n",
+    "from aurora.state.constructors import hartree_fock_ansatz\n",
+    "from aurora.state.converters.qiskit_converter import (\n",
+    "    ansatz_to_qiskit_circuit,\n",
+    ")\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Once again, the circuit corresponding to the initial state will depend on the F2Q mapper used."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Initialize in HF state\n",
+    "ansatz = hartree_fock_ansatz(\n",
+    "    num_spatial_orbitals=num_qubits // 2,\n",
+    "    num_particles=num_particles,\n",
+    "    mapper=JordanWignerMapper(),  # BravyiKitaevMapper(), ParityMapper(), NevenMapper()\n",
+    ")\n",
+    "\n",
+    "# Measure HF energy\n",
+    "logger.info(\"Initial energy: %s\", estimate_operator_exact(ansatz, hamiltonian))\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Transpile and draw ansatz"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The generated ansatz has to be _transpiled_ to a circuit, before being executated on quantum hardware or a simulator."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from aurora.state.custom_transpilers import qiskit_transpiler\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "At any point, you can draw the resulting circuit to inspect which gates have been added at each step of the ADAPT procedure."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "transpiler = qiskit_transpiler()\n",
+    "ansatz_to_qiskit_circuit(transpiler.transpile(ansatz)).draw(\"mpl\")\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Choose optimizer method and optimizer object"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The quantum subroutine is complemented by classical optimization to update the free parameters in the circuit gates. In principle, any classical optimization method will do."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from qiskit.algorithms.optimizers import COBYLA, L_BFGS_B, SLSQP, SPSA, GradientDescent\n",
+    "from aurora.state.optimizers import (\n",
+    "    OptimizerStatevector,\n",
+    "    OptimizerPOVMs,\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The classical optimizer will be used within an `Optimizer` object in `aurora`. This object will be responsible for \"translating\" the outcomes from the quantum hardware to values/gradients of the objective function, as understood by the classical optimization routine."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "For example, when using statevector simulations, it is appropriate to use a classical optimization routine with an `OptimizerStatevector` object, which knows how to compute expectation values of the Hamiltonian and the gradients needed in ADAPT-VQE.\n",
+    "\n",
+    "The `OptimizerPOVMs` object is appropriate when using informationally complete (IC) POVM measurements, either with a noisy simulator or with quantum hardware."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Choose the method\n",
+    "\n",
+    "optimizer_method = L_BFGS_B(maxfun=5000, options={\"disp\": False, \"gtol\": 1e-5})\n",
+    "# optimizer_method = \"BFGS\"\n",
+    "# optimizer_method = COBYLA(maxiter=1000, disp=True)\n",
+    "# optimizer_method = SPSA()\n",
+    "# optimizer_method = GradientDescent(maxiter=10)\n",
+    "\n",
+    "# Choose the object\n",
+    "\n",
+    "optimizer = OptimizerStatevector(optimizer=optimizer_method)\n",
+    "# optimizer = OptimizerPOVMs(optimizer=optimizer_method)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Initialize the ADAPT-VQE class"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We're now finally ready to initialize the ADAPT-VQE class, which is called `RiemannianFlow`. The class can handle either statevector simulations or IC-POVM quantum measurements."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from aurora.state.constructors import RiemannianFlow\n",
+    "from aurora.measurement.estimator.local_povm_estimator import LocalPOVMEstimator\n",
+    "from aurora.measurement.povm.local_dilation_povm import LocalDilationPOVM\n",
+    "from aurora.measurement.povm.joint_povm import JointPOVM\n",
+    "import numpy as np"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Initialize `JointPOVM` if working with measurements"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "povm_list = JointPOVM(LocalDilationPOVM(), num_qubits=num_qubits)\n",
+    "estimator = LocalPOVMEstimator(np.array([povm.effects for povm in povm_list]))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Choose statevector or POVM measurements. Input `JointPOVM` and `Estimator` if POVMs are used."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Initialise RiemannianFlow object. Choose measurement type and pass POVMs and Estimator if working with measurements\n",
+    "\n",
+    "riemannian_flow = RiemannianFlow(\n",
+    "    ansatz=ansatz,\n",
+    "    hamiltonian=hamiltonian,\n",
+    "    operator_pool=operator_pool,\n",
+    "    additional_operators=[spin_penalty, num_penalty],\n",
+    "    optimizer=optimizer,\n",
+    "    measurement_type=\"statevector\",\n",
+    "    optimization_type=\"statevector\",\n",
+    "    # povm_list=povm_list,\n",
+    "    # estimator=estimator,\n",
+    ")\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Run ADAPT algorithm"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The operator selection can be done in many ways.\n",
+    "Ideally, the aim is to add gates that have maximum effect in taking the state towards the ground state of the system.\n",
+    "A heuristic to this end is based on the gradient of the energy with respect to the parameter in the unitary generated by operator $P_i$ when the parameter value is set to zero, which can be calculated by evaluating the commutator of $P_i$ with the Hamiltonian,\n",
+    "\n",
+    "$$ \\left.\\frac{\\partial E}{\\partial \\theta_i}\\right|_{\\theta_i=0} =\\left.\\left[\\frac{\\partial}{\\partial \\theta_i}\\left\\langle\\psi^{(n)}\\left|e^{-\\theta_i P_i} H e^{\\theta_i P_i}\\right| \\psi^{(n)}\\right\\rangle\\right]\\right|_{\\theta_i=0} \n",
+    "=\\left\\langle\\psi^{(n)}\\left|\\left[H, P_i\\right]\\right| \\psi^{(n)}\\right\\rangle $$\n",
+    "\n",
+    "Once the gradients for all the operators $P_i$ in the pool have been obtained, the operator with the highest absolute value is added to the ansatz. This selection criterion is named `\"gradient\"`.\n",
+    "\n",
+    "Another alternative is to pick the operator that decreases the energy the most. This selection criterion is named `\"energy\"`."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Running the cell will show a log of the ADAPT-VQE procedure and print the statevector at each iteration."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "riemannian_flow.adaptively_add_gates(\n",
+    "    max_iters=100,  # Max iterations before terminating\n",
+    "    gates_per_iteration=1,  # Gates added per iteration\n",
+    "    optimization_frequency=1,  # How many iterations before optimizing\n",
+    "    selection_criterion=\"gradient\", # You can choose 'gradient' or 'energy' for operator selection criterion\n",
+    "    abort_threshold=1e-5,  # Abort when total gradient of operator pool below this\n",
+    "    reference_abort_threshold=1e-3,  # Abort when this close to reference value\n",
+    "    reference_value=exact_energy,  # The reference value for aborting\n",
+    "    # shots = 2000000, # Shots for executions with povms\n",
+    "    print_statevector=True,  # Print statevector\n",
+    ")\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We can plot the final generated circuit, as we did for the initial state. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "transpiler = qiskit_transpiler()\n",
+    "ansatz_to_qiskit_circuit(transpiler.transpile(ansatz)).draw(\"mpl\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Plot stats from simulation"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import matplotlib.pyplot as plt\n",
+    "import numpy as np\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Energy vs iterations"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plt.plot(np.real(riemannian_flow.energies), label=operator_pool.operator_type)\n",
+    "\n",
+    "plt.axhline(exact_energy, color=\"gray\", linestyle=\"dashed\")\n",
+    "plt.ylabel(\"Energy\")\n",
+    "plt.xlabel(\"Iterations\")\n",
+    "plt.title(mymol.atoms)\n",
+    "plt.grid(color=\"grey\")\n",
+    "plt.legend()\n",
+    "plt.show()\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Error to exact energy vs iterations in log plot"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plt.plot(\n",
+    "    np.abs(riemannian_flow.energies - exact_energy), label=operator_pool.operator_type\n",
+    ")\n",
+    "\n",
+    "plt.yscale(\"log\")\n",
+    "plt.ylim(bottom=1e-4)\n",
+    "plt.ylabel(\"Error\")\n",
+    "plt.xlabel(\"Iterations\")\n",
+    "plt.title(mymol.atoms)\n",
+    "plt.grid(\"grey\")\n",
+    "plt.legend()\n",
+    "plt.show()\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Error vs CNOT count"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plt.plot(\n",
+    "    riemannian_flow.cnot_counts[0],\n",
+    "    np.abs(riemannian_flow.energies - exact_energy),\n",
+    "    label=operator_pool.operator_type,\n",
+    ")\n",
+    "plt.yscale(\"log\")\n",
+    "plt.ylim(bottom=1e-4)\n",
+    "plt.ylabel(\"Error\")\n",
+    "plt.xlabel(\"CNOTs\")\n",
+    "plt.title(mymol.atoms)\n",
+    "plt.grid(\"grey\")\n",
+    "plt.legend()\n",
+    "plt.show()\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "First penalty term (spin-2 error) vs iterations"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plt.plot(\n",
+    "    riemannian_flow.additional_operator_estimations[0],\n",
+    "    label=operator_pool.operator_type,\n",
+    ")\n",
+    "plt.ylabel(\"Spin Error\")\n",
+    "plt.xlabel(\"Iterations\")\n",
+    "plt.title(mymol.atoms)\n",
+    "plt.grid(\"grey\")\n",
+    "plt.legend()\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Second penalty term (number error) vs iterations"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plt.plot(\n",
+    "    riemannian_flow.additional_operator_estimations[1],\n",
+    "    label=operator_pool.operator_type,\n",
+    ")\n",
+    "plt.ylabel(\"Number Error\")\n",
+    "plt.xlabel(\"Iterations\")\n",
+    "plt.title(mymol.atoms)\n",
+    "plt.grid(\"grey\")\n",
+    "plt.legend()\n",
+    "plt.show()\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.6"
+  },
+  "vscode": {
+   "interpreter": {
+    "hash": "f618c04bcde0db9b00399059a751ed1c25f5f4dfd1b57753001e95ea366e7d3d"
+   }
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

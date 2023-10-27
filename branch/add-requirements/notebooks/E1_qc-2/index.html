@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial - Quantum programming II &mdash; Quantum Autumn School 2023  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/togglebutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx_lesson.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sphinx_rtd_theme_ext_color_contrast.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/overrides.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script src="../../_static/minipres.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../../_static/togglebutton.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="Tutorial - Quantum programming III" href="../E1_qc-3/" />
+    <link rel="prev" title="Tutorial - Quantum programming I" href="../E1_qc-1/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../" class="icon icon-home">
+            Quantum Autumn School 2023
+              <img src="../../_static/ENCCS.jpg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../setup/">Setup</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 1</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../qc-overview/">Physical Approaches to Quantum Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../digital-qc/">Introduction to Digital Quantum Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-1/">Tutorial - Quantum programming I</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial - Quantum programming II</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#practice-session-2-two-qubits"><strong>Practice session 2: Two qubits</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#multi-qubit-states"><strong>Multi-qubit states</strong></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#convention"><strong>Convention</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#multi-qubit-circuit"><strong>Multi-qubit circuit</strong></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#visualization-on-the-bloch-sphere"><strong>Visualization on the Bloch sphere</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#multi-qubit-gates"><strong>Multi-qubit gates</strong></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualization-of-entangled-states"><strong>Visualization of entangled states</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#summary"><strong>Summary</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../E1_qc-3/">Tutorial - Quantum programming III</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 2</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../hpc-qc/">HPC-QC integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software-stack/">QC software stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-classical-quantum/">Hybrid Classical/Quantum Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro-to-helmi-qiskit/">Tutorial - Introduction to Helmi with qiskit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Qubit_Spectroscopy_Analysis/">Qubit Spectroscopy Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Notebook_maxcut_Qas2023/">Tutorial - Quantum Alternating Operator Ansatz</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Day 3</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-quantum-chemistry/">Hybrid Algorithms - Use Cases for Quantum Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-finance/">Hybrid Algorithms - Use Cases for Quantum Finance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hybrid-life-science/">Hybrid Algorithms - Use Cases for Quantum Life Science</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial-4/">Tutorial - Quantum Chemistry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial-5/">Tutorial - Quantum Finance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial-life-science/">Tutorial - Protein Folding with QAOA</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://enccs.se/lessons/">All ENCCS lessons</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://enccs.se/">About ENCCS</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../">Quantum Autumn School 2023</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tutorial - Quantum programming II</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/qas2023/blob/main/content/notebooks/E1_qc-2.ipynb" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="tutorial-quantum-programming-ii">
+<h1>Tutorial - Quantum programming II<a class="headerlink" href="#tutorial-quantum-programming-ii" title="Permalink to this heading"></a></h1>
+<p><span class="math notranslate nohighlight">\(\renewcommand{\bra}[1]{\langle#1|}\)</span>
+<span class="math notranslate nohighlight">\(\renewcommand{\ket}[1]{|#1\rangle}\)</span></p>
+<section id="practice-session-2-two-qubits">
+<h2><strong>Practice session 2: Two qubits</strong><a class="headerlink" href="#practice-session-2-two-qubits" title="Permalink to this heading"></a></h2>
+<p>We have seen quantum computation with a single qubit. However, to make quantum computation useful, we clearly need to be able to use more qubits. In this session we will learn to manipulation circuits involving multiple qubits.</p>
+<section id="multi-qubit-states">
+<h3><strong>Multi-qubit states</strong><a class="headerlink" href="#multi-qubit-states" title="Permalink to this heading"></a></h3>
+<p>Single qubit states were represented as linear combinations of basis qubits <span class="math notranslate nohighlight">\(\ket{0}\)</span> and <span class="math notranslate nohighlight">\(\ket{1}\)</span>. We represent multi-qubits in a similar way, we just need to “make our basis qubits larger”: each basis element will consist of more qubits. And there will be more basis elements.</p>
+<p>For example, a two qubit basis is <span class="math notranslate nohighlight">\(\ket{00}, \ket{01}, \ket{10}\)</span> and <span class="math notranslate nohighlight">\(\ket{11}\)</span>. A generic qubit state is again a linear combination, but we have four terms instead of two:</p>
+<div class="math notranslate nohighlight">
+\[
+\ket{\psi} = \alpha_{00} \ket{00} + \alpha_{01} \ket{01} + \alpha_{10} \ket{10} + \alpha_{11} \ket{11}.
+\]</div>
+<p>The notation <span class="math notranslate nohighlight">\(\ket{00}\)</span>, and sometimes <span class="math notranslate nohighlight">\(\ket{0}\ket{0}\)</span>, are used as shorthand for the tensor product <span class="math notranslate nohighlight">\(\ket{0} \otimes \ket{0}\)</span>, a state in the space <span class="math notranslate nohighlight">\(\mathbb{C}^2 \otimes \mathbb{C}^2\)</span>. Using matrices, we can represent <span class="math notranslate nohighlight">\(\ket{\psi}\)</span> as a column vector of coefficients</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\ket{\psi} = 
+\begin{bmatrix}
+\alpha_{00} \\ \alpha_{01} \\ \alpha_{10} \\ \alpha_{11}
+\end{bmatrix}.
+\end{split}\]</div>
+<p>For three qubits the basis states consist of all combinations of <span class="math notranslate nohighlight">\(0\)</span>-s and <span class="math notranslate nohighlight">\(1\)</span>-s in three slots. All in all there are eight basis states,</p>
+<div class="math notranslate nohighlight">
+\[
+\ket{000},\, \ket{001},\, \ket{010},\, \ket{011},\, \ket{100},\, \ket{101},\, \ket{110},\, \ket{111}.
+\]</div>
+<p>A general multi-qubit state in a three qubit state space <span class="math notranslate nohighlight">\(\mathbb{C}^2 \otimes \mathbb{C}^2 \otimes \mathbb{C}^2\)</span> is a linear combination of basis qubits with coefficients <span class="math notranslate nohighlight">\(\alpha_i\)</span>, <span class="math notranslate nohighlight">\(i = 1, \ldots, 8.\)</span></p>
+<p>In general, for <span class="math notranslate nohighlight">\(N\)</span> qubits the number of basis states (or the dimension of qubit state space) grows as <span class="math notranslate nohighlight">\(2^N\)</span>—this is the number of elements in the vector of coefficients <span class="math notranslate nohighlight">\(\alpha_i\)</span>.</p>
+<section id="convention">
+<h4><strong>Convention</strong><a class="headerlink" href="#convention" title="Permalink to this heading"></a></h4>
+<p>Given qubits <span class="math notranslate nohighlight">\(\ket{q_0}, \ket{q_1}, \ldots, \ket{q_N}\)</span> we will follow the Qiskit convention and write the least significant qubit as the rightmost one:</p>
+<div class="math notranslate nohighlight">
+\[
+\ket{q_N \ldots q_1 q_0}.
+\]</div>
+<p>Beware that oftentimes the opposite convention is used.</p>
+</section>
+</section>
+<section id="multi-qubit-circuit">
+<h3><strong>Multi-qubit circuit</strong><a class="headerlink" href="#multi-qubit-circuit" title="Permalink to this heading"></a></h3>
+<p>Creating a multi-qubit circuit follows the same pattern as in the single qubit circuit. We will use the same template except the number of qubits will be larger. In the following example we will create a three qubit circuit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Aer</span>
+<span class="kn">from</span> <span class="nn">qiskit.visualization</span> <span class="kn">import</span> <span class="n">plot_histogram</span>
+
+<span class="c1"># create quantum circuit</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>                          <span class="c1"># apply gate X to the first qubit</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>                          <span class="c1"># . . . to the 2nd qubit</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>                          <span class="c1"># . . . to the 3rd qubit</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>                 <span class="c1"># finally measure all</span>
+
+<span class="c1"># run</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>  <span class="c1"># run circuit, get results</span>
+
+<span class="c1"># output statistics</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>     <span class="c1"># extract statistics from results</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;111&#39;: 1024}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let us draw the circuit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s2">&quot;mpl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/170d8fb6f86c57eceb24e65ebca6d6d31af971dcb66c0c12d3501828eeb601b7.png" src="../../_images/170d8fb6f86c57eceb24e65ebca6d6d31af971dcb66c0c12d3501828eeb601b7.png" />
+</div>
+</div>
+<p>Let us analyze the circuit. The gates <span class="math notranslate nohighlight">\(X\)</span> were applied to each single qubit separately, without touching the neighbouring qubit. Mathematically, we can describe the action of gates as follows</p>
+<div class="math notranslate nohighlight">
+\[
+\left( X \otimes X \otimes X \right) \ket{000} = X\ket{0} \otimes X\ket{0} \otimes X\ket{0} = \ket{111}
+\]</div>
+<p>where for clarity we have explicitly written tensor products. The state <span class="math notranslate nohighlight">\(\ket{111}\)</span> is exactly what we see in the <code class="docutils literal notranslate"><span class="pre">counts</span></code> output above: after running the circuit we get <span class="math notranslate nohighlight">\(111\)</span> with probability 1. Let’s plot the histogram too.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_histogram</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/3aa666511ed0accb65678c604a5edbaca684d3ca428df1a1de6fc0fab1e81c86.png" src="../../_images/3aa666511ed0accb65678c604a5edbaca684d3ca428df1a1de6fc0fab1e81c86.png" />
+</div>
+</div>
+<p>So far it looks very similar to classical computing.</p>
+<p>However, let us now change the <span class="math notranslate nohighlight">\(X\)</span> gates to Hadamard gates, and add the number of shots for clarity.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">assemble</span><span class="p">,</span> <span class="n">Aer</span>
+<span class="kn">from</span> <span class="nn">qiskit.visualization</span> <span class="kn">import</span> <span class="n">plot_histogram</span>
+
+<span class="c1"># create quantum circuit</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>                          <span class="c1"># apply gate X to the first qubit</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>                          <span class="c1"># . . . to the 2nd qubit</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>                          <span class="c1"># . . . to the 3rd qubit</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>                 <span class="c1"># finally measure all</span>
+
+<span class="c1"># run</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>  <span class="c1"># run circuit, get results</span>
+
+<span class="c1"># output statistics</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>     <span class="c1"># extract statistics from results</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;100&#39;: 6, &#39;101&#39;: 19, &#39;111&#39;: 8, &#39;011&#39;: 14, &#39;001&#39;: 15, &#39;010&#39;: 12, &#39;000&#39;: 12, &#39;110&#39;: 14}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_histogram</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/8e7734f8776dce78f5e4bfdfb2a6e61d2e2d6baf7bc92fd69b84599817d0299f.png" src="../../_images/8e7734f8776dce78f5e4bfdfb2a6e61d2e2d6baf7bc92fd69b84599817d0299f.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s2">&quot;mpl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/dd7a540ccd0d3bafa669e1b01254e7223dd5ade62f54550ac0277f1cb2dee566.png" src="../../_images/dd7a540ccd0d3bafa669e1b01254e7223dd5ade62f54550ac0277f1cb2dee566.png" />
+</div>
+</div>
+<p>Now we get a result which is clearly different from classical computing. In the above circuit, we ran the circuit a hundred times (<code class="docutils literal notranslate"><span class="pre">shots=100</span></code>), each time getting a different state as a result of measurement. The <code class="docutils literal notranslate"><span class="pre">counts</span></code> above shows the number of each outcome occurring. The probabilities in the histogram are again just relative occurrences of each outcome, i.e. each basis state.</p>
+<p>Note that the structure of the circuit is similar as before: we operate on each qubit separately. This time, however, the final state <em>before measurement</em> is a linear combination of all basis states.</p>
+<div class="amsmath math notranslate nohighlight" id="equation-a3d6b218-9910-47b6-a466-11b8f000b880">
+<span class="eqno">(1)<a class="headerlink" href="#equation-a3d6b218-9910-47b6-a466-11b8f000b880" title="Permalink to this equation"></a></span>\[\begin{align}
+\ket{\psi} &amp;= \left( H \otimes H \otimes H \right) \ket{000} = H\ket{0} \otimes H\ket{0} \otimes H\ket{0}\\
+&amp;= \frac{\ket{0} + \ket{1}}{\sqrt{2}} \otimes \frac{\ket{0} + \ket{1}}{\sqrt{2}} \otimes \frac{\ket{0} + \ket{1}}{\sqrt{2}} \\
+&amp;= \frac{1}{\sqrt{8}} \left[ \left( \ket{0} + \ket{1} \right) \otimes \left( \ket{0} + \ket{1} \right) \otimes \left( \ket{0} + \ket{1} \right) \right] \\
+&amp;= \frac{1}{\sqrt{8}} \left[ \left( \ket{00} + \ket{01} + \ket{10} + \ket{11} \right) \otimes \left( \ket{0} + \ket{1} \right) \right] \\
+&amp;= \frac{1}{\sqrt{8}} \left( \ket{000} + \ket{001} + \ket{010} + \ket{011} + \ket{100} + \ket{101} + \ket{110} + \ket{111} \right).
+\end{align}\]</div>
+<p>We see that the amplitude for each basis state is <span class="math notranslate nohighlight">\(1 / \sqrt{8}\)</span>. In matrix notation,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\ket{\psi} = 
+\begin{bmatrix}
+\frac{1}{\sqrt{8}} \\ \frac{1}{\sqrt{8}} \\ \frac{1}{\sqrt{8}} \\ \frac{1}{\sqrt{8}} \\ \frac{1}{\sqrt{8}} \\ \frac{1}{\sqrt{8}} \\ \frac{1}{\sqrt{8}} \\ \frac{1}{\sqrt{8}}
+\end{bmatrix}
+\end{split}\]</div>
+<p>Let’s print out the state to check this is the case. To this end, we need to remove measurement, or else the superposition state <span class="math notranslate nohighlight">\(\ket{\psi}\)</span> will collapse into <em>one</em> of the basis states.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Aer</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># create quantum circuit</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>                          <span class="c1"># apply gate X to the first qubit</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>                          <span class="c1"># . . . to the 2nd qubit</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>                          <span class="c1"># . . . to the 3rd qubit</span>
+
+<span class="c1"># run</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">save_statevector</span><span class="p">()</span> 
+<span class="n">result</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>  <span class="c1"># run circuit, get results</span>
+
+<span class="c1"># get state</span>
+<span class="n">final_state</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">final_state</span><span class="p">)</span>
+
+<span class="c1"># check</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1 / sqrt(8) =&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Statevector([0.35355339+0.j, 0.35355339+0.j, 0.35355339+0.j,
+             0.35355339+0.j, 0.35355339+0.j, 0.35355339+0.j,
+             0.35355339+0.j, 0.35355339+0.j],
+            dims=(2, 2, 2))
+
+1 / sqrt(8) = 0.35355339059327373
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s2">&quot;mpl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/73bdcfc1ee9e17d130f0347926857c24512c16369fdd1f24156f99266a93aab7.png" src="../../_images/73bdcfc1ee9e17d130f0347926857c24512c16369fdd1f24156f99266a93aab7.png" />
+</div>
+</div>
+<section id="visualization-on-the-bloch-sphere">
+<h4><strong>Visualization on the Bloch sphere</strong><a class="headerlink" href="#visualization-on-the-bloch-sphere" title="Permalink to this heading"></a></h4>
+<p>Let us use <code class="docutils literal notranslate"><span class="pre">plot_bloch_multivector()</span></code> to visualize the above multi-qubit state on the Bloch sphere.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Aer</span>
+<span class="kn">from</span> <span class="nn">qiskit.visualization</span> <span class="kn">import</span> <span class="n">plot_bloch_multivector</span>
+
+<span class="c1"># create quantum circuit</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>                          <span class="c1"># apply gate X to the first qubit</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>                          <span class="c1"># . . . to the 2nd qubit</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>                          <span class="c1"># . . . to the 3rd qubit</span>
+
+<span class="c1"># run</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">save_statevector</span><span class="p">()</span> 
+<span class="n">result</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>  <span class="c1"># run circuit, get results</span>
+
+<span class="c1"># get state</span>
+<span class="n">final_state</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">final_state</span><span class="p">)</span>
+
+<span class="c1"># visualize</span>
+<span class="n">plot_bloch_multivector</span><span class="p">(</span><span class="n">final_state</span><span class="p">)</span>     <span class="c1"># display final state directly on Bloch sphere</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Statevector([0.35355339+0.j, 0.35355339+0.j, 0.35355339+0.j,
+             0.35355339+0.j, 0.35355339+0.j, 0.35355339+0.j,
+             0.35355339+0.j, 0.35355339+0.j],
+            dims=(2, 2, 2))
+</pre></div>
+</div>
+<img alt="../../_images/e9ed8b503b03af2719b2881da2aff9c2a71d7b2b03485615eb5b4f12da640e16.png" src="../../_images/e9ed8b503b03af2719b2881da2aff9c2a71d7b2b03485615eb5b4f12da640e16.png" />
+</div>
+</div>
+<p>This confirms what we know from the single state session: initially the states of all qubits are <span class="math notranslate nohighlight">\(\ket{0}\)</span>, then applying <span class="math notranslate nohighlight">\(H\)</span> to each one brings the state to the <span class="math notranslate nohighlight">\(X\)</span> basis state as shown on the Bloch spheres.</p>
+<p>In general, in the multi-qubit setting, there can be any combination of single gates operating on qubits. In the following exercise you are asked to experiment with the above circuit.</p>
+<blockquote>
+<div><p><strong>Exercise 1</strong>. Experiment with the above circuit, changing the number of gates that are applied to qubits. In each case, print and visualize the final state on the Bloch sphere. Also draw the respective circuit.</p>
+</div></blockquote>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Apply <span class="math notranslate nohighlight">\(H\)</span> only to the second qubit, comment out or delete the rest of the gates.</p></li>
+</ol>
+</div></blockquote>
+<blockquote>
+<div><ol class="arabic simple" start="2">
+<li><p>Apply <span class="math notranslate nohighlight">\(X\)</span> to the first and <span class="math notranslate nohighlight">\(H\)</span> to the third qubit. No gate on the second qubit.</p></li>
+</ol>
+</div></blockquote>
+<blockquote>
+<div><ol class="arabic simple" start="3">
+<li><p>Apply the gates <span class="math notranslate nohighlight">\(H, Z, H\)</span> to the first qubit, and <span class="math notranslate nohighlight">\(X\)</span> to the third qubit. No gate on the second qubit.</p></li>
+</ol>
+</div></blockquote>
+</section>
+</section>
+<section id="multi-qubit-gates">
+<h3><strong>Multi-qubit gates</strong><a class="headerlink" href="#multi-qubit-gates" title="Permalink to this heading"></a></h3>
+<p>So far we have been acting on each qubit separately. That is, although we act on multi-qubit states, each gate acted on a <em>single qubit at a time</em>. We now turn to a situation where a gate acts on <em>two qubits at the same time</em>.</p>
+<p>The most important example is the CNOT or Controlled NOT gate. It has two input qubits, the control qubit and the target qubit. If the control qubit is <span class="math notranslate nohighlight">\(\ket{0}\)</span>, the target qubit remains the same. If we set the control qubit to <span class="math notranslate nohighlight">\(\ket{1}\)</span>, then the target qubit is flipped. Assuming qubit 0 is control and qubit 1 is target, i.e. <span class="math notranslate nohighlight">\(\ket{t \, c}\)</span>, we can express this symbolically:</p>
+<div class="math notranslate nohighlight">
+\[
+\ket{00} \mapsto \ket{00}, \quad
+\ket{01} \mapsto \ket{11}, \quad
+\ket{10} \mapsto \ket{10}, \quad
+\ket{11} \mapsto \ket{01}.
+\]</div>
+<p>In other words, if the control qubit is <span class="math notranslate nohighlight">\(\ket{1}\)</span>, we apply <span class="math notranslate nohighlight">\(X\)</span> gate to the target.</p>
+<p>Let’s examine the following circuit for two qubits.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Aer</span>
+
+<span class="c1"># create quantum circuit</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                      <span class="c1"># apply CNOT, control_qubit=0, target_qubit=1</span>
+                                 <span class="c1"># cx(control_qubit, target_qubit)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+
+<span class="c1"># run</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>  <span class="c1"># run circuit, get results</span>
+
+<span class="c1"># output statistics</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>     <span class="c1"># extract statistics from results</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;00&#39;: 1024}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s2">&quot;mpl&quot;</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/29dc3f07bff9074c8c34ca63d805b061e5155049c902eca065dfb857a5af71cb.png" src="../../_images/29dc3f07bff9074c8c34ca63d805b061e5155049c902eca065dfb857a5af71cb.png" />
+</div>
+</div>
+<p>As expected, the result <span class="math notranslate nohighlight">\(00\)</span> indicates that the final state is <span class="math notranslate nohighlight">\(\ket{00}\)</span>.</p>
+<blockquote>
+<div><p><strong>Exercise 2</strong>. Change the control and target qubits, observe how the final state changes:</p>
+</div></blockquote>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Set the target qubit to <span class="math notranslate nohighlight">\(\ket{1}\)</span> by e.g. adding the <code class="docutils literal notranslate"><span class="pre">x()</span></code> gate to qubit 1. Verify that the outcome is what you expect.</p></li>
+</ol>
+</div></blockquote>
+<blockquote>
+<div><ol class="arabic simple" start="2">
+<li><p>Similarly, set the control qubit to <span class="math notranslate nohighlight">\(\ket{1}\)</span>, verify that the outcome is what you expect.</p></li>
+</ol>
+</div></blockquote>
+<p>So far the circuit involving CNOT has displayed the same control-target behavior as a classical circuit. In the quantum world, however, we can use superposition (or linear combination) of states. Let us put the control qubit in a superposition using the <span class="math notranslate nohighlight">\(H\)</span> gate.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Aer</span>
+
+<span class="c1"># create quantum circuit</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                      <span class="c1"># apply CNOT, control=0, target=1</span>
+
+<span class="c1"># run</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">save_statevector</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>  <span class="c1"># run circuit, get results</span>
+
+<span class="c1"># output statistics</span>
+<span class="n">final_state</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">()</span>     <span class="c1"># extract statistics from results</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">final_state</span><span class="p">)</span>
+
+<span class="c1"># nice latex output</span>
+<span class="kn">from</span> <span class="nn">qiskit.visualization</span> <span class="kn">import</span> <span class="n">array_to_latex</span>
+<span class="n">array_to_latex</span><span class="p">(</span><span class="n">final_state</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">text</span><span class="si">{Statevector}</span><span class="s2"> = &quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Statevector([0.70710678+0.j, 0.        +0.j, 0.        +0.j,
+             0.70710678+0.j],
+            dims=(2, 2))
+</pre></div>
+</div>
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}
+\text{Statevector} = 
+\begin{bmatrix}
+\frac{\sqrt{2}}{2} &amp; 0 &amp; 0 &amp; \frac{\sqrt{2}}{2}  \\
+ \end{bmatrix}
+\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s2">&quot;mpl&quot;</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/f575259dd6c719eac2176e89b8a3c60684dc8edb5099aa3becdf12cd77e41ada.png" src="../../_images/f575259dd6c719eac2176e89b8a3c60684dc8edb5099aa3becdf12cd77e41ada.png" />
+</div>
+</div>
+<p>The final state vector is a sum of <span class="math notranslate nohighlight">\(\ket{00}\)</span> and <span class="math notranslate nohighlight">\(\ket{11}\)</span> with equal amplitudes. Check the first two equations of the session to convince yourself this is the case,</p>
+<div class="math notranslate nohighlight">
+\[
+\ket{\beta_{00}} = \frac{\ket{00} + \ket{11}}{\sqrt{2}}.
+\]</div>
+<p>This is an example of an <strong>entangled</strong> state—a state that cannot be written as a tensor product of two qubit states, <span class="math notranslate nohighlight">\(\ket{\psi_1} \otimes \ket{\psi_2}\)</span>. The particular state is called a <em>Bell state</em> or an <em>EPR state</em>. The other Bell states are</p>
+<div class="math notranslate nohighlight">
+\[
+\ket{\beta_{01}} = \frac{\ket{01} + \ket{10}}{\sqrt{2}}, \quad
+\ket{\beta_{10}} = \frac{\ket{00} - \ket{11}}{\sqrt{2}}, \quad
+\ket{\beta_{11}} = \frac{\ket{01} - \ket{10}}{\sqrt{2}}.
+\]</div>
+<p>Quantum entanglement is one of the reasons quantum computers are more powerful than classical computers at performing certain tasks. In quantum communication, entanglement is seen as resource that enables to carry out protocols that are impossible from classical point of view. In the next session we will see how entanglement allows to teleport a quantum state.</p>
+<blockquote>
+<div><p><strong>Exercise 3</strong>. By applying an <span class="math notranslate nohighlight">\(X\)</span> gate as the very first gate to qubit 0 or qubit 1, one can effectively change the input state of the circuit to <span class="math notranslate nohighlight">\(\ket{01}, \ket{10}\)</span> or <span class="math notranslate nohighlight">\(\ket{11}\)</span>. Using the above code, investigate what are the respective final states.</p>
+</div></blockquote>
+<p>Let’s add measurement to the circuit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Aer</span>
+
+<span class="c1"># create quantum circuit</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                      <span class="c1"># apply CNOT, control=0, target=1</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+
+<span class="c1"># run</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>  <span class="c1"># run circuit, get results</span>
+
+<span class="c1"># output statistics</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>     <span class="c1"># extract statistics from results</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;00&#39;: 535, &#39;11&#39;: 489}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s2">&quot;mpl&quot;</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/af10be81411f07af88d5436c2d35cdd33dd2576891584be49352ce92ef82ad8f.png" src="../../_images/af10be81411f07af88d5436c2d35cdd33dd2576891584be49352ce92ef82ad8f.png" />
+</div>
+</div>
+<blockquote>
+<div><p><strong>Exercise 4</strong>. In the above code, change the input so the output state is <span class="math notranslate nohighlight">\(\ket{\beta_{10}}\)</span>. Does this change the measurement result?</p>
+</div></blockquote>
+</section>
+<section id="visualization-of-entangled-states">
+<h3><strong>Visualization of entangled states</strong><a class="headerlink" href="#visualization-of-entangled-states" title="Permalink to this heading"></a></h3>
+<p>When we visualized states above, the output was intuitively what we would expect: the state of each qubit was shown in its “own” Bloch sphere. This feature is not generic for multi-qubit states. Such nice visualization is only possible if the state is not entangled. In this case, we can associate each system with its “own” state.</p>
+<p>Let us see what happens when we visualize an entangled state, a Bell state.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Aer</span>
+
+<span class="c1"># create quantum circuit</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>                      <span class="c1"># apply CNOT, control=0, target=1</span>
+
+<span class="c1"># run</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">Aer</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;aer_simulator&#39;</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">save_statevector</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>  <span class="c1"># run circuit, get results</span>
+
+<span class="c1"># output statistics</span>
+<span class="n">final_state</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_statevector</span><span class="p">()</span>     <span class="c1"># extract statistics from results</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">final_state</span><span class="p">)</span>
+
+<span class="c1"># visualize</span>
+<span class="n">plot_bloch_multivector</span><span class="p">(</span><span class="n">final_state</span><span class="p">)</span>        <span class="c1"># display final state directly on Bloch sphere</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Statevector([0.70710678+0.j, 0.        +0.j, 0.        +0.j,
+             0.70710678+0.j],
+            dims=(2, 2))
+</pre></div>
+</div>
+<img alt="../../_images/94c03144ca55473c06fca89dac53956eb2eb13d24b249063f16b7d97ecb8d789.png" src="../../_images/94c03144ca55473c06fca89dac53956eb2eb13d24b249063f16b7d97ecb8d789.png" />
+</div>
+</div>
+<p>In each case, the state is shown as a dot at the center of the Bloch sphere. The reason is that if the state is entangled, we cannot assign each qubit their “own” state <em>in the sense of a vector</em>. In an entangled state, the systems are correlated in the specifically quantum manner. When we try to extract the state of a single qubit from the total state of the system, some information is lost. This is why the reduced state of a single qubit is given by a point at the center, which is mathematically a matrix of the form</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{bmatrix}
+\frac{1}{2} &amp; 0 \\
+0           &amp; \frac{1}{2}
+\end{bmatrix}.
+\end{split}\]</div>
+</section>
+</section>
+<section id="summary">
+<h2><strong>Summary</strong><a class="headerlink" href="#summary" title="Permalink to this heading"></a></h2>
+<p>In this session we learned how to manipulate multiple qubits. We saw how to apply single qubit gates to multiple qubits, as well as how to apply multi-qubit gates to qubits. The set of all single qubit gates and an entangling multi-qubit gate is enough to perform all possible operations on multi-qubit states.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../E1_qc-1/" class="btn btn-neutral float-left" title="Tutorial - Quantum programming I" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../E1_qc-3/" class="btn btn-neutral float-right" title="Tutorial - Quantum programming III" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, The contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
