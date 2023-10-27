@@ -54,7 +54,7 @@ NordΙQuEst brings together a consortium of seven partners from five Nordic and 
    notebooks/E2_VQE-H2.ipynb
    notebooks/Workshop-ADAPT.ipynb
    notebooks/QF.ipynb
-   tutorial-life-science
+   notebooks/Tutotial_HPCoordinateBasedLattice_noDependencies.ipynb
 
 .. toctree::
    :maxdepth: 1
